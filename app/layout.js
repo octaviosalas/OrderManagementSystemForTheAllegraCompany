@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
 				<Providers>
 					<header className="flex bg-gray-100 justify-between px-8 py-4">
 						<div>
-							<Link href="/">
+							<Link href="/HomePage">
 								<img className="w-20" src="/allegra-store-logo.jpg" alt="" />
 							</Link>
 						</div>
