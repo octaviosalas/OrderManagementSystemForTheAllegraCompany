@@ -22,16 +22,12 @@ const MyModal = ({ title }) => {
 
     const openModal = () => {
       setModalIsOpen(true);
-      if (isOpen) {
-        onClose();
-      }
+      
     };
   
     const closeModal = () => {
       setModalIsOpen(false);
-      if (isOpen) {
-        onClose();
-      }
+     
     };
 
   return (
