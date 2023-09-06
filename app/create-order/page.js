@@ -393,7 +393,17 @@ export default function CreateOrder() {
 	}; 
 
 	
-	
+	const resetFormNow = () => { 
+		setBusinessName("")
+		setEmail("")
+		setCuit("")
+		setContact("")
+		setPhoneNumber("")
+		setDirection("")
+		setPostalCode("")
+		setTownProvince("")
+	}
+
 
 
 	return (
@@ -417,6 +427,7 @@ export default function CreateOrder() {
 							variant="faded"
 							defaultValue=""
 							autoComplete="off"
+							value={businessName}
 							onChange={(e) => setBusinessName(e.target.value)}
 						/>
 						<Input
@@ -425,7 +436,7 @@ export default function CreateOrder() {
 							type="text"
 							size="sm"
 							variant="faded"
-							
+							value={cuit}
 							onChange={(e) => setCuit(e.target.value)}
 						/>
 						<Input 
@@ -435,7 +446,7 @@ export default function CreateOrder() {
 							size="sm"
 							variant="faded"
 							defaultValue=""
-							
+							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 						/>
 						<Input
@@ -444,6 +455,7 @@ export default function CreateOrder() {
 							type="text"
 							size="sm"
 							variant="faded"
+							value={townProvince}
 							onChange={(e) => setTownProvince(e.target.value)}
 						/>
 						<Input
@@ -452,6 +464,7 @@ export default function CreateOrder() {
 							type="text"
 							size="sm"
 							variant="faded"
+							value={contact}
 							onChange={(e) => setContact(e.target.value)}
 						/>
 						<Input
@@ -460,6 +473,7 @@ export default function CreateOrder() {
 							type="text"
 							size="sm"
 							variant="faded"
+							value={phoneNumber}
 							onChange={(e) => setPhoneNumber(e.target.value)}
 						/>
 						<Input
@@ -468,6 +482,7 @@ export default function CreateOrder() {
 							type="text"
 							size="sm"
 							variant="faded"
+							value={direction}
 							onChange={(e) => setDirection(e.target.value)}
 						/>
 						<Input
@@ -476,6 +491,7 @@ export default function CreateOrder() {
 							type="text"
 							size="sm"
 							variant="faded"
+							value={postalCode}
 							onChange={(e) => setPostalCode(e.target.value)}
 						/>
 					</CardBody>
@@ -629,7 +645,7 @@ export default function CreateOrder() {
 					isBlurred
 					className="fixed bottom-0 bg-default-100/10 flex left-0 w-full justify-end rounded-none z-60">
 					<CardBody className="flex-row gap-2">
-						<Button className="w-full bg-red-500" color="primary" >
+						<Button className="w-full bg-red-500" color="primary" onClick={() => resetFormNow()}>
 							Reiniciar pedido
 						</Button>
 						<Button
