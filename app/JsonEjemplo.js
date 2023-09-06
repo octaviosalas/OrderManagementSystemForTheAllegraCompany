@@ -15,8 +15,9 @@ import {
     TableCell,
   } from "@nextui-org/react";
 
+
   
-const MyModal = ({ title }) => {
+const MyModal = ({ codigoProducto, producto, atributos, cantidad, precio }) => {
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -32,25 +33,46 @@ const MyModal = ({ title }) => {
 
   return (
     <>
-      <Button onPress={openModal}>Editar</Button>
+      <Button onPress={openModal} className="text-white bg-blue-500 hover:text-black hover:bg-white">Editar</Button>
       <Modal isOpen={modalIsOpen} onOpenChange={closeModal}>
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">{title}</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1 items-center jusitify-center">Estas por editar el pedido</ModalHeader>
               <ModalBody>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Nullam pulvinar risus non risus hendrerit venenatis.
-                  Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                </p>
+                <div className="justify-center items-center">
+                    <div className="flex flex-col items-center">
+                        <label className="text-sm mt-4">Codigo del producto</label>
+                        <input type="text" placeholder={codigoProducto} className="text-center mt-2 h-6 bg-gray-300 text-black font-bold text-sm rounded-lg"/>
+                    </div>
+
+                    <div className="flex flex-col items-center">
+                        <label className="text-sm mt-4">Producto</label>
+                        <input type="text" placeholder={producto} className="text-center mt-2 h-6 bg-gray-300 text-black font-bold text-sm rounded-lg"/>
+                    </div>
+
+                    <div className="flex flex-col items-center">
+                        <label className="text-sm mt-4">Atributos</label>
+                        <input type="text" placeholder={atributos} className="text-center mt-2 h-6 bg-gray-300 text-black font-bold text-sm rounded-lg"/>
+                    </div>
+
+                    <div className="flex flex-col items-center">
+                        <label className="text-sm mt-4">Cantidad</label>
+                        <input type="text" placeholder={cantidad} className="text-center mt-2 h-6 bg-gray-300 text-black font-bold text-sm rounded-lg"/>
+                    </div>
+
+                    <div className="flex flex-col items-center">
+                        <label className="text-sm mt-4">Precio</label>
+                        <input type="text" placeholder={`${precio} $`} className="text-center mt-2 h-6 bg-gray-300 text-black font-bold text-sm rounded-lg"/>
+                    </div>
+                </div>
               </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+              <ModalFooter className="justify-center ">
+                <Button color="danger" className="bg-red-500 text-white" variant="light" onPress={onClose}>
                   Cancelar
                 </Button>
                 <Button color="primary" onPress={onClose}>
-                  Guardar Cambios
+                  Guardar 
                 </Button>
               </ModalFooter>
             </>
@@ -63,58 +85,63 @@ const MyModal = ({ title }) => {
 
 
 
-const pedidosConfirmados = [ 
-          { 
+  
+const apiData = [
+  { 
             key: "1",
-            CodProd: "Tony Reichert",
+            CodProd: "100",
             Producto: "CEO",
             Atributos: "Active",
             Cantidad: 2,
-            Precio: 100,
-            Eliminar: <Button  className="bg-red-500 text-white hover:bg-white hover:text-red-500">Eliminar</Button>,
-            Editar: <MyModal title={"Tony"}/>
+            Precio: 2900,
          },
          { 
             key: "1",
-            CodProd: "Tony Reichert",
+            CodProd: "200",
             Producto: "CEO",
             Atributos: "Active",
-            Cantidad: 2,
-            Precio: 100,
-            Eliminar: <Button  className="bg-red-500 text-white hover:bg-white hover:text-red-500">Eliminar</Button>,
-            Editar: <MyModal />
+            Cantidad: 5,
+            Precio: 5600,          
          },
          { 
             key: "1",
-            CodProd: "Tony Reichert",
+            CodProd: "300",
             Producto: "CEO",
             Atributos: "Active",
-            Cantidad: 2,
-            Precio: 100,
-            Eliminar: <Button  className="bg-red-500 text-white hover:bg-white hover:text-red-500">Eliminar</Button>,
-            Editar: <MyModal />
+            Cantidad: 11,
+            Precio: 11900,         
          },
          { 
             key: "1",
-            CodProd: "Tony Reichert",
+            CodProd: "500",
             Producto: "CEO",
             Atributos: "Active",
-            Cantidad: 2,
-            Precio: 100,
-            Eliminar: <Button  className="bg-red-500 text-white hover:bg-white hover:text-red-500">Eliminar</Button>,
-            Editar: <MyModal />
+            Cantidad: 26,
+            Precio: 21100,          
          },
          { 
             key: "1",
-            CodProd: "Tony Reichert",
+            CodProd: "600",
             Producto: "CEO",
             Atributos: "Active",
-            Cantidad: 2,
-            Precio: 100,
-            Eliminar: <Button  className="bg-red-500 text-white hover:bg-white hover:text-red-500">Eliminar</Button>,
-            Editar: <MyModal />
+            Cantidad: 9,
+            Precio: 2800,         
          }
-]
+];
+
+const pedidosConfirmados = apiData.map(item => ({
+  key: item.key,
+  CodProd: item.CodProd,
+  Producto: item.Producto,
+  Atributos: item.Atributos,
+  Cantidad: item.Cantidad,
+  Precio: item.Precio,
+  Eliminar: <Button className="bg-red-500 text-white hover:bg-white hover:text-red-500">Eliminar</Button>,
+  Editar: <MyModal codigoProducto={item.CodProd} producto={item.Producto} atributos={item.Precio} cantidad={item.Cantidad} precio={item.Precio}/>
+}));
 
 
+  
 export default pedidosConfirmados
+
+
