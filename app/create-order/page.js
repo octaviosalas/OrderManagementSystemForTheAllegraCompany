@@ -108,15 +108,7 @@ export default function CreateOrder() {
 
 	const formRef = useRef(null);
 
-	// useEffect(() => {
-	// 	if (attributeGroupsArray.length != 0) {
-	// 		console.log('Effect ejecutado');
-	// 		setAttributeGroups(attributeGroupsArray);
-	// 	}
-	// 	// return () => {
-	// 	// 	cleanup
-	// 	// };
-	// }, [attributeGroups]);
+	
 
 	const addProduct = (e) => {
 		console.log("me ejecuto");
@@ -125,11 +117,11 @@ export default function CreateOrder() {
 
 		console.log(productCode);
 		console.log(product);
-		// console.log(attributes);
+		
 		console.log(quantity);
 
 		let productKey = generateUid();
-		// const stringAttributes = formattedAttributes.map((attribute) => {});
+		
 		setProductsToOrder([
 			...productsToOrder,
 			{
@@ -183,16 +175,7 @@ export default function CreateOrder() {
 		console.log(order);
 		console.log("post to backedn");
 
-		// let response = await fetch(`${process.env.API_URL}/api/create-order`, {
-		// 	method: "POST",
-		// 	headers: {
-		// 		"Content-Type": "application/json",
-		// 	},
-		// 	body: JSON.stringify(order),
-		// });
-
-		// console.log(response);
-		// setOrderNumber(response.data.order.id);
+		
 	};
 
 	const getProductsCode = (e) => {
@@ -301,9 +284,7 @@ export default function CreateOrder() {
 		attributesData.product_option_values.forEach((attribute) => {
 			attributes.push({
 				key: attribute.id,
-				// [attribute.id_attribute_group]: {
-				// 	label: attribute.name,
-				// },
+				
 				label: attribute.name,
 				group: attribute.id_attribute_group,
 			});
@@ -362,7 +343,7 @@ export default function CreateOrder() {
 
 		setTimeout(() => {
 			setAttributeGroups(attributeGroupsArray);
-			// setAttributeGroups(attributeGroupsArray);
+			
 		}, 500);
 	};
 
@@ -378,10 +359,7 @@ export default function CreateOrder() {
 		);
 
 		const combinationAttributes = [];
-		// attributes.forEach(({ attribute }) => {
-		// 	console.log("attribute");
-		// 	console.log(attribute);
-		// });
+		
 
 		console.log('formattedAttributes');
 		console.log(formattedAttributes);
@@ -417,13 +395,6 @@ export default function CreateOrder() {
 	
 	
 
-
-
-	  
-
-	
-
-	
 
 	return (
 		<>
