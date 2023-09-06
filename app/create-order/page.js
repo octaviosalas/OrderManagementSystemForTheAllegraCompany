@@ -1,4 +1,6 @@
 "use client";
+import React, { useRef } from 'react';
+
 
 import {
 	Button,
@@ -22,6 +24,7 @@ import { useState, useEffect } from "react";
 import InputAutocomplete from "./inputAutocomplete";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import InputSelect from "./inputSelect";
+import { faBusSimple } from "@fortawesome/free-solid-svg-icons";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const columns = [
@@ -102,6 +105,8 @@ export default function CreateOrder() {
 	const [attributeGroups, setAttributeGroups] = useState([]);
 	const [attribute, setAttribute] = useState([]);
 	const [productCombinationsIds, setProductCombinationsIds] = useState([]);
+
+	const formRef = useRef(null);
 
 	// useEffect(() => {
 	// 	if (attributeGroupsArray.length != 0) {
@@ -407,7 +412,18 @@ export default function CreateOrder() {
 
 	const generateUid = () => {
 		return Date.now().toString(36) + Math.random().toString(36).substr(2);
-	};
+	}; 
+
+	
+	
+
+
+
+	  
+
+	
+
+	
 
 	return (
 		<>
@@ -415,18 +431,21 @@ export default function CreateOrder() {
 				<p>Pedido Nro {orderNumber}</p>
 				<p>Fecha: {getCurrentDate()}</p>
 			</div>
-			<form className="mt-5">
+			<form className="mt-5" >
 				<Card
 					classNames={{
 						base: "flex flex-wrap gap-x-2.5 gap-y-4 rounded-md",
 					}}>
 					<CardBody className="bg-slate-300 flex-wrap flex-row gap-x-2.5 gap-y-4">
 						<Input
+					    	
 							className="grow w-auto"
 							label="Razón Social"
 							type="text"
 							size="sm"
 							variant="faded"
+							defaultValue=""
+							autoComplete="off"
 							onChange={(e) => setBusinessName(e.target.value)}
 						/>
 						<Input
@@ -435,14 +454,17 @@ export default function CreateOrder() {
 							type="text"
 							size="sm"
 							variant="faded"
+							
 							onChange={(e) => setCuit(e.target.value)}
 						/>
-						<Input
+						<Input 
 							className="grow w-auto"
 							label="E-mail"
 							type="text"
 							size="sm"
 							variant="faded"
+							defaultValue=""
+							
 							onChange={(e) => setEmail(e.target.value)}
 						/>
 						<Input
@@ -488,8 +510,12 @@ export default function CreateOrder() {
 					</CardBody>
 				</Card>
 			</form>
+
+
+
+
 			<hr className="my-4" />
-			<form id="product-form" className="">
+			<form id="product-form" className="" >
 				<Card
 					classNames={{
 						base: "flex flex-wrap gap-x-2.5 gap-y-4 rounded-md overflow-visible",
@@ -632,7 +658,7 @@ export default function CreateOrder() {
 					isBlurred
 					className="fixed bottom-0 bg-default-100/10 flex left-0 w-full justify-end rounded-none z-60">
 					<CardBody className="flex-row gap-2">
-						<Button className="w-full bg-red-500" color="primary">
+						<Button className="w-full bg-red-500" color="primary" >
 							Reiniciar pedido
 						</Button>
 						<Button
