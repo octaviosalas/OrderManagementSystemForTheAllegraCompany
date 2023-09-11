@@ -33,7 +33,7 @@ const MyModal = ({ codigoProducto, producto, atributos, cantidad, precio }) => {
 
   return (
     <>
-      <Button onPress={openModal} className="text-white bg-blue-500 hover:text-black hover:bg-white">Editar</Button>
+      <Button onPress={openModal} className="text-white bg-blue-500 hover:text-black hover:bg-white h-8 w-6">Editar</Button>
       <Modal isOpen={modalIsOpen} onOpenChange={closeModal}>
         <ModalContent>
           {(onClose) => (
@@ -136,7 +136,7 @@ const pedidosConfirmados = apiData.map(item => ({
   Atributos: item.Atributos,
   Cantidad: item.Cantidad,
   Precio: item.Precio,
-  Eliminar: <Button className="bg-red-500 text-white hover:bg-white hover:text-red-500">Eliminar</Button>,
+  Eliminar: <Button className="bg-red-500 text-white hover:bg-white hover:text-red-500 h-8 mr-2">Eliminar</Button>,
   Editar: <MyModal codigoProducto={item.CodProd} producto={item.Producto} atributos={item.Precio} cantidad={item.Cantidad} precio={item.Precio}/>
 }));
 

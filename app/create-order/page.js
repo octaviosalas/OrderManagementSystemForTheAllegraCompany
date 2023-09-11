@@ -1,5 +1,8 @@
 "use client";
 import React, { useRef } from 'react';
+import dotenv from "dotenv"
+
+dotenv.config()
 
 
 import {
@@ -67,6 +70,9 @@ const columns = [
 let productCodeTimeout = null;
 
 export default function CreateOrder() {
+
+
+
 	const endpoint_url = process.env.PS_API_URL;
 	const api_token = process.env.PS_API_TOKEN;
 	const json_format = "output_format=JSON";
@@ -87,20 +93,16 @@ export default function CreateOrder() {
 	const [quantity, setQuantity] = useState(0);
 	const [combination, setCombination] = useState("");
 	const [combinationPrice, setCombinationPrice] = useState(0);
-
 	const [businessName, setBusinessName] = useState("");
 	const [cuit, setCuit] = useState("");
 	const [email, setEmail] = useState("");
 	const [townProvince, setTownProvince] = useState("");
 	const [contact, setContact] = useState("");
-	const [phoneNumber, setPhoneNumber] = useState(0);
+	const [phoneNumber, setPhoneNumber] = useState("");
 	const [direction, setDirection] = useState("");
 	const [postalCode, setPostalCode] = useState("");
-
 	const [productsToOrder, setProductsToOrder] = useState([]);
-
 	const [orderNumber, setOrderNumber] = useState("0001");
-
 	const [formattedAttributes, setFormattedAttributes] = useState([]);
 	const [attributeGroups, setAttributeGroups] = useState([]);
 	const [attribute, setAttribute] = useState([]);
@@ -109,7 +111,7 @@ export default function CreateOrder() {
 	const formRef = useRef(null);
 
 	
-
+     //FUNCION QUE AGREGA EL PRODUCTO
 	const addProduct = (e) => {
 		console.log("me ejecuto");
 		console.log(productsToOrder);
@@ -117,12 +119,13 @@ export default function CreateOrder() {
 
 		console.log(productCode);
 		console.log(product);
-		
+		console.log(combination)
+		console.log(estAttribute)
 		console.log(quantity);
 
 		let productKey = generateUid();
 		
-		setProductsToOrder([
+	/*	setProductsToOrder([
 			...productsToOrder,
 			{
 				key: productKey,
@@ -140,9 +143,10 @@ export default function CreateOrder() {
 					</Button>
 				),
 			},
-		]);
+		]);*/
 	};
 
+	
 	const removeProductItem = (e) => {
 		let product_key = e.target.dataset.item_key;
 
@@ -189,28 +193,31 @@ export default function CreateOrder() {
 
 		clearTimeout(productCodeTimeout);
 
-		productCodeTimeout = setTimeout(async () => {
+		productCodeTimeout = setTimeout(async () => { //PRIMER INPUT CODIGORPODUCTO
 			console.log("obtenemos datos");
 			// https://allegrastore.com.ar/api/combinations?output_format=JSON&display=full&limit=20&filter[id]=%[3535]%
 
 			let result = await fetch(
-				`${endpoint_url}/products?${json_format}&${language}&display=[id]&limit=15&filter[id]=%[${memProductCode}]%`,
+				`${endpoint_url}/products?${json_format}&${language}&display=[id, name]&limit=15&filter[id]=%[${memProductCode}]%`,
 				{ headers: defaultHeaders }
 			);
 
+			
 			result.json().then((data) => {
+				console.log(data) // Luego de ingresar el valor del input del codigo, los ID que devuelve el backend se guardan en FormatedData. Luego "ProductsCodePossibilities" es formattedData, Osea es los inputs
 				let formattedData = [];
 				data.products.map(({ id }) => {
 					formattedData.push({
 						key: id,
-						label: id,
+						label: id
 					});
 				});
 
 				setProductsCodePossibilities(formattedData);
+				console.log(productsCodePossibilities)
 			});
 
-			// setProductsCodePossibilities();
+		
 		}, 800);
 	};
 
@@ -224,7 +231,7 @@ export default function CreateOrder() {
 		if (memProductName.length > 3) {
 			productCodeTimeout = setTimeout(async () => {
 				console.log("obtenemos datos");
-				// https://allegrastore.com.ar/api/combinations?output_format=JSON&display=full&limit=20&filter[id]=%[3535]%
+				
 
 				let result = await fetch(
 					`${endpoint_url}/products?${json_format}&${language}&display=full&limit=15&filter[name]=%[${memProductName}]%`,
@@ -235,6 +242,7 @@ export default function CreateOrder() {
 					let formattedData = [];
 					let combinationsIds = [];
 					data.products.map(({ id, name, associations }) => {
+						console.log(name)
 						formattedData.push({
 							key: id,
 							label: name,
@@ -280,8 +288,16 @@ export default function CreateOrder() {
 
 		console.log(attributesData);
 
+		let getName = await fetch(
+			`${endpoint_url}/product_option_values?${json_format}&${language}&display=full&filter[name]=[${optionValuesStr}]`,
+			{ headers: defaultHeaders }
+		);
+
+		let theName = await getName.json()
+		console.log(theName)
+
 		const attributes = [];
-		attributesData.product_option_values.forEach((attribute) => {
+		attributesData.product_option_values.forEach((attribute) => { //Los atributos posibles se ponen en el input como opciones
 			attributes.push({
 				key: attribute.id,
 				
@@ -391,6 +407,11 @@ export default function CreateOrder() {
 	const generateUid = () => {
 		return Date.now().toString(36) + Math.random().toString(36).substr(2);
 	}; 
+
+	
+
+
+
 
 	
 	const resetFormNow = () => { 
@@ -601,6 +622,7 @@ export default function CreateOrder() {
 							type="text"
 							size="sm"
 							variant="faded"
+							value={estAttribute}
 							onChange={(e) => setEstAttribute(e.target.value)}
 						/>
 						<Input
