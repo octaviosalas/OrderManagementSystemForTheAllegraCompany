@@ -223,6 +223,7 @@ export default function CreateOrder() {
 
 	const getProductName = (e) => {
 		let memProductName = e.target.value;
+		console.log(memProductName)
 
 		setProduct(memProductName);
 
@@ -407,11 +408,6 @@ export default function CreateOrder() {
 	const generateUid = () => {
 		return Date.now().toString(36) + Math.random().toString(36).substr(2);
 	}; 
-
-	
-
-
-
 
 	
 	const resetFormNow = () => { 
