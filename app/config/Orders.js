@@ -41,5 +41,31 @@ const customerFormData = [
     }
   ]
   
+const OrderTableColumns = [
+	{
+		key: "productCode",
+		label: "Cod Prod",
+	},
+	{
+		key: "product",
+		label: "Producto",
+	},
+	{
+		key: "attributes",
+		label: "Atributos (Med-Color-Est)",
+	},
+	{
+		key: "quantity",
+		label: "Cantidad",
+	},
+	{
+		key: "price",
+		label: "Precio",
+	},
+	{
+		key: "delete",
+		label: "Eliminar",
+	},
+];
 
-export { customerFormData };
+export { customerFormData, OrderTableColumns };
