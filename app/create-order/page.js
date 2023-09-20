@@ -22,6 +22,9 @@ import { useState, useEffect } from "react";
 import InputAutocomplete from "./inputAutocomplete";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import InputSelect from "./inputSelect";
+import TableList from "./components/TableList";
+import GetCurrentDate from "./helpers/GetCurrentDate";
+import { customerFormData } from "../config/Orders";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const columns = [
@@ -103,16 +106,6 @@ export default function CreateOrder() {
 	const [attribute, setAttribute] = useState([]);
 	const [productCombinationsIds, setProductCombinationsIds] = useState([]);
 
-	// useEffect(() => {
-	// 	if (attributeGroupsArray.length != 0) {
-	// 		console.log('Effect ejecutado');
-	// 		setAttributeGroups(attributeGroupsArray);
-	// 	}
-	// 	// return () => {
-	// 	// 	cleanup
-	// 	// };
-	// }, [attributeGroups]);
-
 	const addProduct = (e) => {
 		console.log("me ejecuto");
 		console.log(productsToOrder);
@@ -154,10 +147,6 @@ export default function CreateOrder() {
 
 			return prevProducts.filter((product) => product.key !== product_key);
 		});
-	};
-
-	const getCurrentDate = () => {
-		return new Date().toLocaleDateString("es-AR");
 	};
 
 	const createOrder = async () => {
@@ -363,7 +352,7 @@ export default function CreateOrder() {
 
 	const getCombination = async (attributes) => {
 		console.log(attributes);
-		setFormattedAttributes([...formattedAttributes, attributes])
+		setFormattedAttributes([...formattedAttributes, attributes]);
 
 		const optionsValuesToSearch = productCombinationsIds.join("|");
 
@@ -378,7 +367,7 @@ export default function CreateOrder() {
 		// 	console.log(attribute);
 		// });
 
-		console.log('formattedAttributes');
+		console.log("formattedAttributes");
 		console.log(formattedAttributes);
 
 		const combinationsData = await combinationsResult.json();
@@ -386,20 +375,21 @@ export default function CreateOrder() {
 		console.log(combinationsData);
 
 		combinationsData.combinations.map((combination) => {
-			const combinationHasAllAttributes = combination.associations.product_option_values.every(({ id }) => {
-				return combinationAttributes.includes(id)
-			})
+			const combinationHasAllAttributes =
+				combination.associations.product_option_values.every(({ id }) => {
+					return combinationAttributes.includes(id);
+				});
 
 			// console.log("combination");
 			// console.log(combination);
 			if (combinationHasAllAttributes) {
-				setCombinationPrice(combination.price)
+				setCombinationPrice(combination.price);
 				const combinationName = `${combination.reference}`;
 
 				setCombination(combinationName);
 			}
 
-			console.log('no combination found');
+			console.log("no combination found");
 		});
 
 		setCombination("No se encontró combinación");
@@ -413,7 +403,7 @@ export default function CreateOrder() {
 		<>
 			<div className="mt-5">
 				<p>Pedido Nro {orderNumber}</p>
-				<p>Fecha: {getCurrentDate()}</p>
+				<p>Fecha: {GetCurrentDate()}</p>
 			</div>
 			<form className="mt-5">
 				<Card
@@ -421,70 +411,16 @@ export default function CreateOrder() {
 						base: "flex flex-wrap gap-x-2.5 gap-y-4 rounded-md",
 					}}>
 					<CardBody className="bg-slate-300 flex-wrap flex-row gap-x-2.5 gap-y-4">
-						<Input
-							className="grow w-auto"
-							label="Razón Social"
-							type="text"
-							size="sm"
-							variant="faded"
-							onChange={(e) => setBusinessName(e.target.value)}
-						/>
-						<Input
-							className="grow w-auto"
-							label="CUIT"
-							type="text"
-							size="sm"
-							variant="faded"
-							onChange={(e) => setCuit(e.target.value)}
-						/>
-						<Input
-							className="grow w-auto"
-							label="E-mail"
-							type="text"
-							size="sm"
-							variant="faded"
-							onChange={(e) => setEmail(e.target.value)}
-						/>
-						<Input
-							className="grow w-auto"
-							label="Localidad - Provincia"
-							type="text"
-							size="sm"
-							variant="faded"
-							onChange={(e) => setTownProvince(e.target.value)}
-						/>
-						<Input
-							className="grow w-auto"
-							label="Contacto"
-							type="text"
-							size="sm"
-							variant="faded"
-							onChange={(e) => setContact(e.target.value)}
-						/>
-						<Input
-							className="grow w-auto"
-							label="Telefono"
-							type="text"
-							size="sm"
-							variant="faded"
-							onChange={(e) => setPhoneNumber(e.target.value)}
-						/>
-						<Input
-							className="grow w-auto"
-							label="Domicilio"
-							type="text"
-							size="sm"
-							variant="faded"
-							onChange={(e) => setDirection(e.target.value)}
-						/>
-						<Input
-							className="grow w-auto"
-							label="Código Postal"
-							type="text"
-							size="sm"
-							variant="faded"
-							onChange={(e) => setPostalCode(e.target.value)}
-						/>
+						{customerFormData.map(({label, type, size, variant, onChange}) => (
+							<Input
+								className="grow w-auto"
+								label={label}
+								type={type ?? "text"}
+								size={size ?? "sm"}
+								variant={variant ?? "faded"}
+								onChange={onChange}
+							/>
+						))}
 					</CardBody>
 				</Card>
 			</form>
@@ -534,42 +470,9 @@ export default function CreateOrder() {
 							getProductById={getProductById}
 						/>
 
-						{/* <Input
-							className="grow w-auto"
-							label="Atributo - Med"
-							type="select"
-							size="sm"
-							variant="faded"
-							onChange={(e) => setMedAttribute(e.target.value)}
-						/> */}
-
-						{/* <Input
-							className="grow w-auto"
-							// label="Selleciona Med"
-							// placeholder="value"
-							value='test'
-							type="select"
-							size="sm"
-							variant="faded"
-							readOnly
-							// onChange={(e) => setMedAttribute(e.target.value)}
-						/> */}
-
-						{/* <InputSelect inputName="Med" itemList={attributes} /> */}
-
 						{attributeGroups.length >= 1
 							? attributeGroups.map((attributeGroup) => attributeGroup.input)
 							: null}
-
-						{/* <div className="group flex flex-col grow w-auto">
-							<select
-								// name="cars"
-								// id="cars"
-								// form="carform"
-								className="w-full shadow-sm bg-default-100 border-medium border-default-200 data-[hover=true]:border-default-400 rounded-small justify-center h-12 !duration-150 transition-colors motion-reduce:transition-none outline-none group-data-[focus-visible=true]:z-10 group-data-[focus-visible=true]:ring-2 group-data-[focus-visible=true]:ring-focus group-data-[focus-visible=true]:ring-offset-2 group-data-[focus-visible=true]:ring-offset-background py-1.5 px-3 group">
-								<option className="h-10" value="select">Select an item</option>
-							</select>
-						</div> */}
 
 						<Input
 							className="grow w-auto"
@@ -610,22 +513,7 @@ export default function CreateOrder() {
 				</Button>
 			</form>
 
-			<Table aria-label="List of products">
-				<TableHeader columns={columns}>
-					{(column) => (
-						<TableColumn key={column.key}>{column.label}</TableColumn>
-					)}
-				</TableHeader>
-				<TableBody items={productsToOrder}>
-					{(item) => (
-						<TableRow key={item.key}>
-							{(columnKey) => (
-								<TableCell>{getKeyValue(item, columnKey)}</TableCell>
-							)}
-						</TableRow>
-					)}
-				</TableBody>
-			</Table>
+			<TableList columns={columns} productsToOrder={productsToOrder} />
 
 			<footer>
 				<Card
