@@ -6,7 +6,7 @@ export default function InputSelect({
 	itemList,
 	setValues = null,
 	values = null,
-	getCombination = null,
+	setCombinationAttribute = null,
 }) {
 	return (
 		<div key={inputName} className="group flex flex-col grow w-auto">
@@ -36,26 +36,7 @@ export default function InputSelect({
                         px-3
                         group"
 				onChange={(e) => {
-					let newValues = [
-						...values,
-						{
-							attribute: {
-								id: e.target.options[e.target.selectedIndex].dataset.id,
-								label: e.target.value,
-							},
-							group: {
-								id: inputId,
-								label: inputName,
-							},
-						},
-					];
-
-					// setValues(newValues);
-
-					// console.log("values");
-					// console.log(values);
-
-					getCombination({
+					setCombinationAttribute({
 						attribute: {
 							id: e.target.options[e.target.selectedIndex].dataset.id,
 							label: e.target.value,

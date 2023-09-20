@@ -24,36 +24,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import InputSelect from "./inputSelect";
 import TableList from "./components/TableList";
 import GetCurrentDate from "./helpers/GetCurrentDate";
-import { customerFormData } from "../config/Orders";
+import { OrderTableColumns, customerFormData } from "../config/Orders";
 import GenerateUid from "./helpers/GenerateUid";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
-const columns = [
-	{
-		key: "productCode",
-		label: "Cod Prod",
-	},
-	{
-		key: "product",
-		label: "Producto",
-	},
-	{
-		key: "attributes",
-		label: "Atributos (Med-Color-Est)",
-	},
-	{
-		key: "quantity",
-		label: "Cantidad",
-	},
-	{
-		key: "price",
-		label: "Precio",
-	},
-	{
-		key: "delete",
-		label: "Eliminar",
-	},
-];
 
 // const product_order_fields = [
 // 	{
@@ -89,6 +62,8 @@ export default function CreateOrder() {
 	const [combination, setCombination] = useState("");
 	const [combinationPrice, setCombinationPrice] = useState(0);
 
+	// @TODO -> Use a single state and handle change function
+	// pluralsight.com/guides/handling-multiple-inputs-with-single-onchange-handler-react
 	const [businessName, setBusinessName] = useState("");
 	const [cuit, setCuit] = useState("");
 	const [email, setEmail] = useState("");
@@ -106,6 +81,8 @@ export default function CreateOrder() {
 	const [attributeGroups, setAttributeGroups] = useState([]);
 	const [attribute, setAttribute] = useState([]);
 	const [productCombinationsIds, setProductCombinationsIds] = useState([]);
+
+	// const [combinationAttributes, setCombinationAttributes] = useState([]);
 
 	const addProduct = (e) => {
 		console.log("me ejecuto");
@@ -128,6 +105,7 @@ export default function CreateOrder() {
 				attributes: `${medAttribute}-${colorAttribute}-${estAttribute}`,
 				attributesObj: formattedAttributes,
 				quantity: quantity,
+				// price: price
 				delete: (
 					<Button
 						color="danger"
@@ -196,13 +174,17 @@ export default function CreateOrder() {
 			// https://allegrastore.com.ar/api/combinations?output_format=JSON&display=full&limit=20&filter[id]=%[3535]%
 
 			let result = await fetch(
-				`${endpoint_url}/products?${json_format}&${language}&display=[id]&limit=15&filter[id]=%[${memProductCode}]%`,
+				`${endpoint_url}/products?${json_format}&${language}&display=[id,name]&limit=15&filter[id]=%[${memProductCode}]%`,
 				{ headers: defaultHeaders }
 			);
 
 			result.json().then((data) => {
+				console.log(data);
+
+				// levantas el nombre del producto
+
 				let formattedData = [];
-				data.products.map(({ id }) => {
+				data.products.map(({ id, name }) => {
 					formattedData.push({
 						key: id,
 						label: id,
@@ -336,8 +318,8 @@ export default function CreateOrder() {
 								inputId={attributeGroup.id}
 								itemList={attributesListForAttributeGroup}
 								setValues={setFormattedAttributes}
-								values={formattedAttributes}
-								getCombination={getCombination}
+								// values={combinationAttributes}
+								setCombinationAttribute={setCombinationAttribute}
 							/>
 						),
 					});
@@ -351,7 +333,41 @@ export default function CreateOrder() {
 		}, 500);
 	};
 
+	// const setCombionationAttributes = (attributes) => {
+
+	// }
+	const combinationAttributes = [];
+	const setCombinationAttribute = (attribute) => {
+		console.log('triggered');
+		let updateExistingAttribute = false;
+		if (combinationAttributes.length > 0) {
+			combinationAttributes.forEach((combinationAttribute) => {
+				console.log("entramos");
+
+				if (attribute.group.id === combinationAttribute.group.id) {
+					combinationAttribute.attribute.label = attribute.attribute.label;
+					combinationAttribute.attribute.id = attribute.attribute.id;
+
+					updateExistingAttribute = true;
+				}
+			});
+		}
+
+		if (!updateExistingAttribute) {
+			combinationAttributes.push(attribute);
+		};
+
+		console.log(combinationAttributes);
+		// setCombinationAttributes([...combinationAttributes, attribute]);
+
+		console.log(combinationAttributes.length, attributeGroups.length);
+		if (combinationAttributes.length >= 2) {
+			getCombination(combinationAttributes);
+		}
+	};
+
 	const getCombination = async (attributes) => {
+		console.log("attributes from get combination");
 		console.log(attributes);
 		setFormattedAttributes([...formattedAttributes, attributes]);
 
@@ -362,7 +378,9 @@ export default function CreateOrder() {
 			{ headers: defaultHeaders }
 		);
 
-		const combinationAttributes = [];
+		// @TODO -> Sacar el combination ID a partir de los atributos que tenemos
+
+		// const combinationAttributes = [];
 		// attributes.forEach(({ attribute }) => {
 		// 	console.log("attribute");
 		// 	console.log(attribute);
@@ -373,17 +391,23 @@ export default function CreateOrder() {
 
 		const combinationsData = await combinationsResult.json();
 
+		console.log('combinationsData');
 		console.log(combinationsData);
 
 		combinationsData.combinations.map((combination) => {
 			const combinationHasAllAttributes =
 				combination.associations.product_option_values.every(({ id }) => {
-					return combinationAttributes.includes(id);
+					return attributes.includes(id);
 				});
+
+			console.log('combinationHasAllAttributes');
+			console.log(combinationHasAllAttributes);
 
 			// console.log("combination");
 			// console.log(combination);
 			if (combinationHasAllAttributes) {
+				console.log('combination with all attributes');
+				console.log(combination);
 				setCombinationPrice(combination.price);
 				const combinationName = `${combination.reference}`;
 
@@ -408,16 +432,18 @@ export default function CreateOrder() {
 						base: "flex flex-wrap gap-x-2.5 gap-y-4 rounded-md",
 					}}>
 					<CardBody className="bg-slate-300 flex-wrap flex-row gap-x-2.5 gap-y-4">
-						{customerFormData.map(({label, type, size, variant, onChange}) => (
-							<Input
-								className="grow w-auto"
-								label={label}
-								type={type ?? "text"}
-								size={size ?? "sm"}
-								variant={variant ?? "faded"}
-								onChange={onChange}
-							/>
-						))}
+						{customerFormData.map(
+							({ label, type, size, variant, onChange }) => (
+								<Input
+									className="grow w-auto"
+									label={label}
+									type={type ?? "text"}
+									size={size ?? "sm"}
+									variant={variant ?? "faded"}
+									onChange={onChange}
+								/>
+							)
+						)}
 					</CardBody>
 				</Card>
 			</form>
@@ -510,7 +536,10 @@ export default function CreateOrder() {
 				</Button>
 			</form>
 
-			<TableList columns={columns} productsToOrder={productsToOrder} />
+			<TableList
+				columns={OrderTableColumns}
+				productsToOrder={productsToOrder}
+			/>
 
 			<footer>
 				<Card
