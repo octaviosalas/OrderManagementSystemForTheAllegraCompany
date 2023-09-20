@@ -27,35 +27,11 @@ import { useState, useEffect } from "react";
 import InputAutocomplete from "./inputAutocomplete";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import InputSelect from "./inputSelect";
-import { faBusSimple } from "@fortawesome/free-solid-svg-icons";
+import TableList from "./components/TableList";
+import GetCurrentDate from "./helpers/GetCurrentDate";
+import { OrderTableColumns, customerFormData } from "../config/Orders";
+import GenerateUid from "./helpers/GenerateUid";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
-const columns = [
-	{
-		key: "productCode",
-		label: "Cod Prod",
-	},
-	{
-		key: "product",
-		label: "Producto",
-	},
-	{
-		key: "attributes",
-		label: "Atributos (Med-Color-Est)",
-	},
-	{
-		key: "quantity",
-		label: "Cantidad",
-	},
-	{
-		key: "price",
-		label: "Precio",
-	},
-	{
-		key: "delete",
-		label: "Eliminar",
-	},
-];
 
 // const product_order_fields = [
 // 	{
@@ -93,6 +69,9 @@ export default function CreateOrder() {
 	const [quantity, setQuantity] = useState(0);
 	const [combination, setCombination] = useState("");
 	const [combinationPrice, setCombinationPrice] = useState(0);
+
+	// @TODO -> Use a single state and handle change function
+	// pluralsight.com/guides/handling-multiple-inputs-with-single-onchange-handler-react
 	const [businessName, setBusinessName] = useState("");
 	const [cuit, setCuit] = useState("");
 	const [email, setEmail] = useState("");
@@ -108,7 +87,7 @@ export default function CreateOrder() {
 	const [attribute, setAttribute] = useState([]);
 	const [productCombinationsIds, setProductCombinationsIds] = useState([]);
 
-	const formRef = useRef(null);
+	// const [combinationAttributes, setCombinationAttributes] = useState([]);
 
 	
      //FUNCION QUE AGREGA EL PRODUCTO
@@ -123,9 +102,9 @@ export default function CreateOrder() {
 		console.log(estAttribute)
 		console.log(quantity);
 
-		let productKey = generateUid();
-		
-	/*	setProductsToOrder([
+		let productKey = GenerateUid();
+		// const stringAttributes = formattedAttributes.map((attribute) => {});
+		setProductsToOrder([
 			...productsToOrder,
 			{
 				key: productKey,
@@ -134,6 +113,7 @@ export default function CreateOrder() {
 				attributes: `${medAttribute}-${colorAttribute}-${estAttribute}`,
 				attributesObj: formattedAttributes,
 				quantity: quantity,
+				// price: price
 				delete: (
 					<Button
 						color="danger"
@@ -143,7 +123,7 @@ export default function CreateOrder() {
 					</Button>
 				),
 			},
-		]);*/
+		]);
 	};
 
 	
@@ -155,10 +135,6 @@ export default function CreateOrder() {
 
 			return prevProducts.filter((product) => product.key !== product_key);
 		});
-	};
-
-	const getCurrentDate = () => {
-		return new Date().toLocaleDateString("es-AR");
 	};
 
 	const createOrder = async () => {
@@ -198,15 +174,18 @@ export default function CreateOrder() {
 			// https://allegrastore.com.ar/api/combinations?output_format=JSON&display=full&limit=20&filter[id]=%[3535]%
 
 			let result = await fetch(
-				`${endpoint_url}/products?${json_format}&${language}&display=[id, name]&limit=15&filter[id]=%[${memProductCode}]%`,
+				`${endpoint_url}/products?${json_format}&${language}&display=[id,name]&limit=15&filter[id]=%[${memProductCode}]%`,
 				{ headers: defaultHeaders }
 			);
 
 			
 			result.json().then((data) => {
-				console.log(data) // Luego de ingresar el valor del input del codigo, los ID que devuelve el backend se guardan en FormatedData. Luego "ProductsCodePossibilities" es formattedData, Osea es los inputs
+				console.log(data);
+
+				// levantas el nombre del producto
+
 				let formattedData = [];
-				data.products.map(({ id }) => {
+				data.products.map(({ id, name }) => {
 					formattedData.push({
 						key: id,
 						label: id
@@ -349,8 +328,8 @@ export default function CreateOrder() {
 								inputId={attributeGroup.id}
 								itemList={attributesListForAttributeGroup}
 								setValues={setFormattedAttributes}
-								values={formattedAttributes}
-								getCombination={getCombination}
+								// values={combinationAttributes}
+								setCombinationAttribute={setCombinationAttribute}
 							/>
 						),
 					});
@@ -364,9 +343,43 @@ export default function CreateOrder() {
 		}, 500);
 	};
 
+	// const setCombionationAttributes = (attributes) => {
+
+	// }
+	const combinationAttributes = [];
+	const setCombinationAttribute = (attribute) => {
+		console.log('triggered');
+		let updateExistingAttribute = false;
+		if (combinationAttributes.length > 0) {
+			combinationAttributes.forEach((combinationAttribute) => {
+				console.log("entramos");
+
+				if (attribute.group.id === combinationAttribute.group.id) {
+					combinationAttribute.attribute.label = attribute.attribute.label;
+					combinationAttribute.attribute.id = attribute.attribute.id;
+
+					updateExistingAttribute = true;
+				}
+			});
+		}
+
+		if (!updateExistingAttribute) {
+			combinationAttributes.push(attribute);
+		};
+
+		console.log(combinationAttributes);
+		// setCombinationAttributes([...combinationAttributes, attribute]);
+
+		console.log(combinationAttributes.length, attributeGroups.length);
+		if (combinationAttributes.length >= 2) {
+			getCombination(combinationAttributes);
+		}
+	};
+
 	const getCombination = async (attributes) => {
+		console.log("attributes from get combination");
 		console.log(attributes);
-		setFormattedAttributes([...formattedAttributes, attributes])
+		setFormattedAttributes([...formattedAttributes, attributes]);
 
 		const optionsValuesToSearch = productCombinationsIds.join("|");
 
@@ -375,40 +388,49 @@ export default function CreateOrder() {
 			{ headers: defaultHeaders }
 		);
 
-		const combinationAttributes = [];
-		
+		// @TODO -> Sacar el combination ID a partir de los atributos que tenemos
 
-		console.log('formattedAttributes');
+		// const combinationAttributes = [];
+		// attributes.forEach(({ attribute }) => {
+		// 	console.log("attribute");
+		// 	console.log(attribute);
+		// });
+
+		console.log("formattedAttributes");
 		console.log(formattedAttributes);
 
 		const combinationsData = await combinationsResult.json();
 
+		console.log('combinationsData');
 		console.log(combinationsData);
 
 		combinationsData.combinations.map((combination) => {
-			const combinationHasAllAttributes = combination.associations.product_option_values.every(({ id }) => {
-				return combinationAttributes.includes(id)
-			})
+			const combinationHasAllAttributes =
+				combination.associations.product_option_values.every(({ id }) => {
+					return attributes.includes(id);
+				});
+
+			console.log('combinationHasAllAttributes');
+			console.log(combinationHasAllAttributes);
 
 			// console.log("combination");
 			// console.log(combination);
 			if (combinationHasAllAttributes) {
-				setCombinationPrice(combination.price)
+				console.log('combination with all attributes');
+				console.log(combination);
+				setCombinationPrice(combination.price);
 				const combinationName = `${combination.reference}`;
 
 				setCombination(combinationName);
 			}
 
-			console.log('no combination found');
+			console.log("no combination found");
 		});
 
 		setCombination("No se encontró combinación");
 	};
 
-	const generateUid = () => {
-		return Date.now().toString(36) + Math.random().toString(36).substr(2);
-	}; 
-
+	
 	
 	const resetFormNow = () => { 
 		setBusinessName("")
@@ -427,7 +449,7 @@ export default function CreateOrder() {
 		<>
 			<div className="mt-5">
 				<p>Pedido Nro {orderNumber}</p>
-				<p>Fecha: {getCurrentDate()}</p>
+				<p>Fecha: {GetCurrentDate()}</p>
 			</div>
 			<form className="mt-5" >
 				<Card
@@ -435,82 +457,19 @@ export default function CreateOrder() {
 						base: "flex flex-wrap gap-x-2.5 gap-y-4 rounded-md",
 					}}>
 					<CardBody className="bg-slate-300 flex-wrap flex-row gap-x-2.5 gap-y-4">
-						<Input
-					    	
-							className="grow w-auto"
-							label="Razón Social"
-							type="text"
-							size="sm"
-							variant="faded"
-							defaultValue=""
-							autoComplete="off"
-							value={businessName}
-							onChange={(e) => setBusinessName(e.target.value)}
-						/>
-						<Input
-							className="grow w-auto"
-							label="CUIT"
-							type="text"
-							size="sm"
-							variant="faded"
-							value={cuit}
-							onChange={(e) => setCuit(e.target.value)}
-						/>
-						<Input 
-							className="grow w-auto"
-							label="E-mail"
-							type="text"
-							size="sm"
-							variant="faded"
-							defaultValue=""
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-						/>
-						<Input
-							className="grow w-auto"
-							label="Localidad - Provincia"
-							type="text"
-							size="sm"
-							variant="faded"
-							value={townProvince}
-							onChange={(e) => setTownProvince(e.target.value)}
-						/>
-						<Input
-							className="grow w-auto"
-							label="Contacto"
-							type="text"
-							size="sm"
-							variant="faded"
-							value={contact}
-							onChange={(e) => setContact(e.target.value)}
-						/>
-						<Input
-							className="grow w-auto"
-							label="Telefono"
-							type="text"
-							size="sm"
-							variant="faded"
-							value={phoneNumber}
-							onChange={(e) => setPhoneNumber(e.target.value)}
-						/>
-						<Input
-							className="grow w-auto"
-							label="Domicilio"
-							type="text"
-							size="sm"
-							variant="faded"
-							value={direction}
-							onChange={(e) => setDirection(e.target.value)}
-						/>
-						<Input
-							className="grow w-auto"
-							label="Código Postal"
-							type="text"
-							size="sm"
-							variant="faded"
-							value={postalCode}
-							onChange={(e) => setPostalCode(e.target.value)}
-						/>
+						{customerFormData.map(
+							({ label, type, size, variant, value, onChange }) => (
+								<Input
+									className="grow w-auto"
+									label={label}
+									type={type ?? "text"}
+									size={size ?? "sm"}
+									variant={variant ?? "faded"}
+									value={value}
+									onChange={onChange}
+								/>
+							)
+						)}
 					</CardBody>
 				</Card>
 			</form>
@@ -564,42 +523,9 @@ export default function CreateOrder() {
 							getProductById={getProductById}
 						/>
 
-						{/* <Input
-							className="grow w-auto"
-							label="Atributo - Med"
-							type="select"
-							size="sm"
-							variant="faded"
-							onChange={(e) => setMedAttribute(e.target.value)}
-						/> */}
-
-						{/* <Input
-							className="grow w-auto"
-							// label="Selleciona Med"
-							// placeholder="value"
-							value='test'
-							type="select"
-							size="sm"
-							variant="faded"
-							readOnly
-							// onChange={(e) => setMedAttribute(e.target.value)}
-						/> */}
-
-						{/* <InputSelect inputName="Med" itemList={attributes} /> */}
-
 						{attributeGroups.length >= 1
 							? attributeGroups.map((attributeGroup) => attributeGroup.input)
 							: null}
-
-						{/* <div className="group flex flex-col grow w-auto">
-							<select
-								// name="cars"
-								// id="cars"
-								// form="carform"
-								className="w-full shadow-sm bg-default-100 border-medium border-default-200 data-[hover=true]:border-default-400 rounded-small justify-center h-12 !duration-150 transition-colors motion-reduce:transition-none outline-none group-data-[focus-visible=true]:z-10 group-data-[focus-visible=true]:ring-2 group-data-[focus-visible=true]:ring-focus group-data-[focus-visible=true]:ring-offset-2 group-data-[focus-visible=true]:ring-offset-background py-1.5 px-3 group">
-								<option className="h-10" value="select">Select an item</option>
-							</select>
-						</div> */}
 
 						<Input
 							className="grow w-auto"
@@ -641,22 +567,10 @@ export default function CreateOrder() {
 				</Button>
 			</form>
 
-			<Table aria-label="List of products">
-				<TableHeader columns={columns}>
-					{(column) => (
-						<TableColumn key={column.key}>{column.label}</TableColumn>
-					)}
-				</TableHeader>
-				<TableBody items={productsToOrder}>
-					{(item) => (
-						<TableRow key={item.key}>
-							{(columnKey) => (
-								<TableCell>{getKeyValue(item, columnKey)}</TableCell>
-							)}
-						</TableRow>
-					)}
-				</TableBody>
-			</Table>
+			<TableList
+				columns={OrderTableColumns}
+				productsToOrder={productsToOrder}
+			/>
 
 			<footer>
 				<Card
