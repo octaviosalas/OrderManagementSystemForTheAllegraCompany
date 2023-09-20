@@ -538,15 +538,7 @@ export default function CreateOrder() {
 							value={combination}
 							readOnly
 						/>
-						<Input
-							className="grow w-auto"
-							label="Atributo - Est"
-							type="text"
-							size="sm"
-							variant="faded"
-							value={estAttribute}
-							onChange={(e) => setEstAttribute(e.target.value)}
-						/>
+						
 						<Input
 							className="grow w-auto"
 							label="Cantidad"
