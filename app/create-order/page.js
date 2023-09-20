@@ -25,6 +25,7 @@ import InputSelect from "./inputSelect";
 import TableList from "./components/TableList";
 import GetCurrentDate from "./helpers/GetCurrentDate";
 import { customerFormData } from "../config/Orders";
+import GenerateUid from "./helpers/GenerateUid";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const columns = [
@@ -116,7 +117,7 @@ export default function CreateOrder() {
 		// console.log(attributes);
 		console.log(quantity);
 
-		let productKey = generateUid();
+		let productKey = GenerateUid();
 		// const stringAttributes = formattedAttributes.map((attribute) => {});
 		setProductsToOrder([
 			...productsToOrder,
@@ -393,10 +394,6 @@ export default function CreateOrder() {
 		});
 
 		setCombination("No se encontró combinación");
-	};
-
-	const generateUid = () => {
-		return Date.now().toString(36) + Math.random().toString(36).substr(2);
 	};
 
 	return (
