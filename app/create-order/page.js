@@ -19,8 +19,7 @@ import {
 	TableCell,
 	TableColumn,
 	TableHeader,
-	TableRow,
-	getKeyValue,
+	TableRow
 } from "@nextui-org/react";
 import Hashids from "hashids";
 import { useState, useEffect } from "react";
@@ -113,6 +112,7 @@ export default function CreateOrder() {
 				attributes: `${medAttribute}-${colorAttribute}-${estAttribute}`,
 				attributesObj: formattedAttributes,
 				quantity: quantity,
+				price:  quantity * combinationPrice,
 				// price: price
 				delete: (
 					<Button
@@ -242,6 +242,8 @@ export default function CreateOrder() {
 		}
 	};
 
+	var quantityAtributes = 0; 
+
 	const getProductById = async (id) => {
 		const attributeGroupsArray = [];
 		console.log("me ejecuto getProductById");
@@ -252,6 +254,7 @@ export default function CreateOrder() {
 		);
 
 		let data = await result.json();
+		console.log("EL ID RESPONDE: ", data)
 
 		let optionValuesStr = data.products[0].associations.product_option_values
 			.map((item) => item?.id)
@@ -339,18 +342,20 @@ export default function CreateOrder() {
 
 		setTimeout(() => {
 			setAttributeGroups(attributeGroupsArray);
-			
+			console.log(attributeGroupsArray)
+			quantityAtributes = attributeGroupsArray.length
+			console.log("Cantidad de atributos: ", quantityAtributes)
 		}, 500);
 	};
 
 	const combinationAttributes = [];
 
 	const setCombinationAttribute = (attribute) => {
-		console.log('triggered');
+
 		let updateExistingAttribute = false;
 		if (combinationAttributes.length > 0) {
 			combinationAttributes.forEach((combinationAttribute) => {
-				console.log("entramos");
+		
 
 				if (attribute.group.id === combinationAttribute.group.id) {
 					combinationAttribute.attribute.label = attribute.attribute.label;
@@ -368,13 +373,14 @@ export default function CreateOrder() {
 		console.log(combinationAttributes); 
 	
 
-		console.log(combinationAttributes.length, attributeGroups.length);
-		if (combinationAttributes.length >= 2) {
+		
+		if (combinationAttributes.length >= quantityAtributes) {
 			getCombination(combinationAttributes);
-		} else if (combinationAttributes.length === 1) { 
+
+		} /*else if (combinationAttributes.length === 1) { 
 			const idBuscado = combinationAttributes.map((c) => c.attribute.id)
 			setCombination(idBuscado)
-		}
+		}*/
 	}; 
 
   
@@ -421,6 +427,7 @@ export default function CreateOrder() {
 				  if (isMatch) {
 					matchingObjects.push(data.id);
 					setCombination(data.id)
+					setCombinationPrice(data.price)
 					console.log(combination)
 				  }			  
 				  console.log(matchingObjects);
@@ -451,8 +458,8 @@ export default function CreateOrder() {
 					console.log(combination);
 					setCombinationPrice(combination.price);
 					const combinationName = `${combination.reference}`;
-
 					setCombination(combinationName);
+				
 				}
 
 				console.log("no combination found");
