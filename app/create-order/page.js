@@ -379,6 +379,9 @@ export default function CreateOrder() {
 		console.log(combinationAttributes.length, attributeGroups.length);
 		if (combinationAttributes.length >= 2) {
 			getCombination(combinationAttributes);
+		} else if (combinationAttributes.length === 1) { 
+			const idBuscado = combinationAttributes.map((c) => c.attribute.id)
+			setCombination(idBuscado)
 		}
 	}; 
 
@@ -400,14 +403,9 @@ export default function CreateOrder() {
 			`${endpoint_url}/combinations?${json_format}&${language}&display=full&filter[id]=[${optionsValuesToSearch}]`,
 			{ headers: defaultHeaders }
 		);
-
-		// @TODO -> Sacar el combination ID a partir de los atributos que tenemos
-
-		// const combinationAttributes = [];
-		// attributes.forEach(({ attribute }) => {
-		// 	console.log("attribute");
-		// 	console.log(attribute);
-		// });
+ 
+	
+	
 
 		console.log("formattedAttributes");
 		console.log(formattedAttributes);
@@ -426,6 +424,7 @@ export default function CreateOrder() {
 			const arrayDeAtributosSeleccionados = attributes.map((a) => a.attribute.id)
 			console.log(arrayDeAtributosSeleccionados)
 			const matchingObjects = [];
+			
 
 			const buscandoElObjetivo = () => {
 				for (const data of combinationsData.combinations) {
