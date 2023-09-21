@@ -47,8 +47,6 @@ let productCodeTimeout = null;
 
 export default function CreateOrder() {
 
-
-
 	const endpoint_url = process.env.PS_API_URL;
 	const api_token = process.env.PS_API_TOKEN;
 	const json_format = "output_format=JSON";
@@ -345,14 +343,8 @@ export default function CreateOrder() {
 		}, 500);
 	};
 
-	// const setCombionationAttributes = (attributes) => {
-
-	// } 
- 
-
-
-
 	const combinationAttributes = [];
+
 	const setCombinationAttribute = (attribute) => {
 		console.log('triggered');
 		let updateExistingAttribute = false;
@@ -394,7 +386,6 @@ export default function CreateOrder() {
 	const getCombination = async (attributes) => {
 		console.log("attributes from get combination");
 
-
 		setFormattedAttributes([...formattedAttributes, attributes]);
 
 		const optionsValuesToSearch = productCombinationsIds.join("|");
@@ -404,9 +395,6 @@ export default function CreateOrder() {
 			{ headers: defaultHeaders }
 		);
  
-	
-	
-
 		console.log("formattedAttributes");
 		console.log(formattedAttributes);
 
@@ -414,10 +402,8 @@ export default function CreateOrder() {
 
 //-----------------------------------------------------------
 
-		console.log('combinationsData');
-		console.log(combinationsData); //ACA TENGO EL ARRAY ENORME, DENTRO DEL CUAL TENGO QUE BUSCAR LOS IDS.
-
-
+			console.log('combinationsData');
+			console.log(combinationsData); //ACA TENGO EL ARRAY ENORME, DENTRO DEL CUAL TENGO QUE BUSCAR LOS IDS.
 
 			console.log(attributes); //LOS IDS QUE TENGO QUE IR A BUSCAR SON ESTOS
 					
@@ -449,36 +435,29 @@ export default function CreateOrder() {
 		
 
 //-----------------------------------------------------------
-
-
-
-
-
-		combinationsData.combinations.map((combination) => {
-			const combinationHasAllAttributes =
+			combinationsData.combinations.map((combination) => {
+				const combinationHasAllAttributes =
 				combination.associations.product_option_values.every(({ id }) => {
 					return attributes.includes(id);
 				});
 
-			console.log('combinationHasAllAttributes');
-			console.log(combinationHasAllAttributes);
+				console.log('combinationHasAllAttributes');
+				console.log(combinationHasAllAttributes);
 
-			// console.log("combination");
-			// console.log(combination);
-			if (combinationHasAllAttributes) {
-				console.log('combination with all attributes');
-				console.log(combination);
-				setCombinationPrice(combination.price);
-				const combinationName = `${combination.reference}`;
+				// console.log("combination");
+				// console.log(combination);
+				if (combinationHasAllAttributes) {
+					console.log('combination with all attributes');
+					console.log(combination);
+					setCombinationPrice(combination.price);
+					const combinationName = `${combination.reference}`;
 
-				setCombination(combinationName);
-			}
+					setCombination(combinationName);
+				}
 
-			console.log("no combination found");
-		});
-
-	
-	};
+				console.log("no combination found");
+			});
+	     };
 
 	
 	
@@ -493,6 +472,40 @@ export default function CreateOrder() {
 		setTownProvince("")
 	}
 
+	const handleInputChange = (label, newValue) => {
+		switch (label) {
+		  case "Razón Social":
+			setBusinessName(newValue);
+			break;
+		  case "E-mail":
+			setEmail(newValue);
+			break;
+		  case "CUIT":
+			setCuit(newValue);
+			break;
+		  case "Contacto":
+			setContact(newValue);
+			break;
+		  case "Telefono":
+			setPhoneNumber(newValue);
+			break;
+		  case "Domicilio":
+			setDirection(newValue);
+			break;
+		  case "Código Postal":
+			setPostalCode(newValue);
+			break;
+		  case "Localidad - Provincia":
+			setTownProvince(newValue);
+			break;
+		  default:
+			break;
+		}
+	  };
+
+	  useEffect(() => { 
+         console.log(businessName)
+	  }, [businessName])
 
 
 	return (
@@ -515,8 +528,17 @@ export default function CreateOrder() {
 									type={type ?? "text"}
 									size={size ?? "sm"}
 									variant={variant ?? "faded"}
-									value={value}
-									onChange={onChange}
+									value={
+										label === "Razón Social" ? businessName :
+										label === "E-mail" ? email :
+										label === "CUIT" ? cuit :
+										label === "Contacto" ? contact :
+										label === "Telefono" ? phoneNumber :
+										label === "Domicilio" ? direction :
+										label === "Código Postal" ? postalCode :
+										label === "Localidad - Provincia" ? townProvince : ""
+									  }
+									  onChange={(e) => handleInputChange(label, e.target.value)}
 								/>
 							)
 						)}

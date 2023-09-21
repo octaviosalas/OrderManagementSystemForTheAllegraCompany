@@ -3,7 +3,6 @@
 const customerFormData = [
     {
       "label": "Razón Social",
-      "onChange": (e) => { setBusinessName(e.target.value) },
       "extraClassNames": ""
     },
     {
