@@ -69,6 +69,8 @@ export default function CreateOrder() {
 	const [quantity, setQuantity] = useState(0);
 	const [combination, setCombination] = useState("");
 	const [combinationPrice, setCombinationPrice] = useState(0);
+	const [firstAttribute, setFirstAttribute] = useState(0)
+	const [secondAttribute, setSecondAttribute] = useState(0)
 
 	// @TODO -> Use a single state and handle change function
 	// pluralsight.com/guides/handling-multiple-inputs-with-single-onchange-handler-react
@@ -202,7 +204,7 @@ export default function CreateOrder() {
 
 	const getProductName = (e) => {
 		let memProductName = e.target.value;
-		console.log(memProductName)
+		//console.log(memProductName)
 
 		setProduct(memProductName);
 
@@ -222,7 +224,7 @@ export default function CreateOrder() {
 					let formattedData = [];
 					let combinationsIds = [];
 					data.products.map(({ id, name, associations }) => {
-						console.log(name)
+		//				console.log(name)
 						formattedData.push({
 							key: id,
 							label: name,
@@ -345,7 +347,11 @@ export default function CreateOrder() {
 
 	// const setCombionationAttributes = (attributes) => {
 
-	// }
+	// } 
+ 
+
+
+
 	const combinationAttributes = [];
 	const setCombinationAttribute = (attribute) => {
 		console.log('triggered');
@@ -367,18 +373,25 @@ export default function CreateOrder() {
 			combinationAttributes.push(attribute);
 		};
 
-		console.log(combinationAttributes);
-		// setCombinationAttributes([...combinationAttributes, attribute]);
+		console.log(combinationAttributes); 
+	
 
 		console.log(combinationAttributes.length, attributeGroups.length);
 		if (combinationAttributes.length >= 2) {
 			getCombination(combinationAttributes);
 		}
-	};
+	}; 
+
+  
+	useEffect(() => { 
+        console.log(combination)
+	}, [combination])
+
 
 	const getCombination = async (attributes) => {
 		console.log("attributes from get combination");
-		console.log(attributes);
+
+
 		setFormattedAttributes([...formattedAttributes, attributes]);
 
 		const optionsValuesToSearch = productCombinationsIds.join("|");
@@ -401,8 +414,46 @@ export default function CreateOrder() {
 
 		const combinationsData = await combinationsResult.json();
 
+//-----------------------------------------------------------
+
 		console.log('combinationsData');
-		console.log(combinationsData);
+		console.log(combinationsData); //ACA TENGO EL ARRAY ENORME, DENTRO DEL CUAL TENGO QUE BUSCAR LOS IDS.
+
+
+
+			console.log(attributes); //LOS IDS QUE TENGO QUE IR A BUSCAR SON ESTOS
+					
+			const arrayDeAtributosSeleccionados = attributes.map((a) => a.attribute.id)
+			console.log(arrayDeAtributosSeleccionados)
+			const matchingObjects = [];
+
+			const buscandoElObjetivo = () => {
+				for (const data of combinationsData.combinations) {
+				  console.log("LA DATA: ", data);
+				  const optionProductValues = data.associations.product_option_values.map(obj => obj.id);
+				  console.log(optionProductValues);
+				  const isMatch = arrayDeAtributosSeleccionados.every(id => optionProductValues.includes(id));
+				  if (isMatch) {
+					matchingObjects.push(data.id);
+					setCombination(data.id)
+					console.log(combination)
+				  }			  
+				  console.log(matchingObjects);
+				
+				}
+			  }
+			  
+			  buscandoElObjetivo();
+			
+			console.log('Objetos que coinciden:', matchingObjects);
+
+		
+
+//-----------------------------------------------------------
+
+
+
+
 
 		combinationsData.combinations.map((combination) => {
 			const combinationHasAllAttributes =
@@ -427,7 +478,7 @@ export default function CreateOrder() {
 			console.log("no combination found");
 		});
 
-		setCombination("No se encontró combinación");
+	
 	};
 
 	
