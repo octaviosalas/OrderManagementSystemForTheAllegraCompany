@@ -433,7 +433,7 @@ const resetFormNow = () => {
 					setProductCode("")
 					setProduct("")
 					setCombination("")
-					setQuantity(null)
+					setQuantity("-")
 					setAttributeGroups([])
 		   	}
 
