@@ -39,3 +39,8 @@ select {
   -webkit-appearance:none; /* Safari and Chrome */
   appearance:none;
 }
+
+/* Table List styles for create-order page */
+[data-key="product"], [data-key="attributes"]  {
+  min-width: 160px;
+}
