@@ -62,7 +62,7 @@ const OrderTableColumns = [
 	},
 	{
 		key: "attributes",
-		label: "Atributos (Med-Color-Est)",
+		label: "Atributos ",
 	},
 	{
 		key: "quantity",
