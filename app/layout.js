@@ -64,7 +64,7 @@ export default function RootLayout({ children }) {
 							</nav>
 						</div>
 					</header>
-					<div className="px-8 mb-28">{children}</div>
+					<div className="px-8 mb-28 xl:flex">{children}</div>
 				</Providers>
 			</body>
 		</html>
