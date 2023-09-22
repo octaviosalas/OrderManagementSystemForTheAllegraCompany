@@ -338,6 +338,8 @@ const setCombinationAttribute = (attribute) => {
 						}*/
 					}; 
 
+					
+
 const getCombination = async (attributes) => {
 				console.log("attributes from get combination");
 
@@ -419,26 +421,23 @@ const getCombination = async (attributes) => {
 
 	
 	
-	        const resetFormNow = () => { 
-		setBusinessName("")
-		setEmail("")
-		setCuit("")
-		setContact("")
-		setPhoneNumber("")
-		setDirection("")
-		setPostalCode("")
-		setTownProvince("")
-		setProductCode("")
-        setProduct("")
-		setCombination("")
-		setQuantity(null)
-		setAttributeGroups([])
+const resetFormNow = () => { 
+					setBusinessName("")
+					setEmail("")
+					setCuit("")
+					setContact("")
+					setPhoneNumber("")
+					setDirection("")
+					setPostalCode("")
+					setTownProvince("")
+					setProductCode("")
+					setProduct("")
+					setCombination("")
+					setQuantity(null)
+					setAttributeGroups([])
+		   	}
 
-		
-
-			}
-
-			const handleInputChange = (label, newValue) => {
+const handleInputChange = (label, newValue) => {
 				switch (label) {
 				case "Razón Social":
 					setBusinessName(newValue);
