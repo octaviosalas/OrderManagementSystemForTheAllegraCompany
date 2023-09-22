@@ -87,6 +87,7 @@ const addProduct = (e) => {
 				let productKey = GenerateUid();
 
                 const checkAtributtes = () => { 
+					// @TODO -> Update to switch case
 					if(medAttribute && estAttribute !== undefined) { 
 						return `Med: ${medAttribute} | Est: ${estAttribute}`
 					} else if (medAttribute === undefined) { 
@@ -107,7 +108,7 @@ const addProduct = (e) => {
 						attributes: checkAtributtes(),
 					    attributesObj: formattedAttributes, 
 						quantity: quantity, 
-						price:  quantity * combinationPrice,
+						price: "$" + quantity * combinationPrice,
 						delete: (<Button	color="danger" data-item_key={productKey} onClick={removeProductItem}> Eliminar </Button>),
 					},
 				]);
@@ -467,133 +468,130 @@ const handleInputChange = (label, newValue) => {
 					break;
 				}
 			};
-
-	 
-
-
+			
 	return (
 		<>
-			<div className="mt-5">
-				<p>Pedido Nro {orderNumber}</p>
-				<p>Fecha: {GetCurrentDate()}</p>
+			<div>
+				<div className="mt-5">
+					<p>Pedido Nro {orderNumber}</p>
+					<p>Fecha: {GetCurrentDate()}</p>
+				</div>
+				<form className="mt-5" >
+					<Card
+						classNames={{
+							base: "flex flex-wrap gap-x-2.5 gap-y-4 rounded-md",
+						}}>
+						<CardBody className="bg-slate-300 flex-wrap flex-row gap-x-2.5 gap-y-4">
+							{customerFormData.map(
+								({ label, type, size, variant, value, onChange }) => (
+									<Input
+										className="grow w-auto"
+										label={label}
+										type={type ?? "text"}
+										size={size ?? "sm"}
+										variant={variant ?? "faded"}
+										value={
+											label === "Razón Social" ? businessName :
+											label === "E-mail" ? email :
+											label === "CUIT" ? cuit :
+											label === "Contacto" ? contact :
+											label === "Telefono" ? phoneNumber :
+											label === "Domicilio" ? direction :
+											label === "Código Postal" ? postalCode :
+											label === "Localidad - Provincia" ? townProvince : ""
+										}
+										onChange={(e) => handleInputChange(label, e.target.value)}
+									/>
+								)
+							)}
+						</CardBody>
+					</Card>
+				</form>
+
+				<hr className="my-4" />
+				<form id="product-form" className="" >
+					<Card
+						classNames={{
+							base: "flex flex-wrap gap-x-2.5 gap-y-4 rounded-md overflow-visible",
+						}}>
+						<CardBody className="bg-gray-200 flex-wrap flex-row gap-x-2.5 gap-y-4 overflow-visible">
+							<InputAutocomplete
+								inputComponent={
+									<Input
+										className="grow w-auto"
+										label="Código Producto"
+										type="number"
+										size="sm"
+										variant="faded"
+										onChange={getProductsCode}
+										value={productCode}
+										onValueChange={setProductCode}
+									/>
+								}
+								possibilitiesList={productsCodePossibilities}
+								setInputValue={setProductCode}
+								setPossibilitesList={setProductsCodePossibilities}
+								getProductById={getProductById}
+							/>
+
+							<InputAutocomplete
+								inputComponent={
+									<Input
+										className="grow w-auto"
+										label="Producto"
+										type="text"
+										size="sm"
+										variant="faded"
+										onChange={getProductName}
+										value={product}
+										onValueChange={setProduct}
+									/>
+								}
+								possibilitiesList={productPossibilities}
+								setInputValue={setProduct}
+								setPossibilitesList={setProductPossibilities}
+								setProductCode={setProductCode}
+								getProductById={getProductById}
+							/>
+
+							{attributeGroups.length >= 1
+								? attributeGroups.map((attributeGroup) => attributeGroup.input)
+								: null}
+
+							<Input
+								className="grow w-auto"
+								label="Combinación"
+								type="text"
+								size="sm"
+								variant="faded"
+								// onChange={(e) => setCombination(e.target.value)}
+								// onValueChange={setCombination}
+								value={combination}
+								readOnly
+							/>
+							
+							<Input
+								className="grow w-auto"
+								label="Cantidad"
+								type="number"
+								size="sm"
+								variant="faded"
+								value={quantity}
+								onChange={(e) => setQuantity(e.target.value)}
+							/>
+						</CardBody>
+					</Card>
+
+					<Button
+						className="my-4 w-full bg-indigo-500"
+						color="primary"
+						onClick={addProduct}
+						type="submit">
+						Agregar
+					</Button>
+				</form>
+
 			</div>
-			<form className="mt-5" >
-				<Card
-					classNames={{
-						base: "flex flex-wrap gap-x-2.5 gap-y-4 rounded-md",
-					}}>
-					<CardBody className="bg-slate-300 flex-wrap flex-row gap-x-2.5 gap-y-4">
-						{customerFormData.map(
-							({ label, type, size, variant, value, onChange }) => (
-								<Input
-									className="grow w-auto"
-									label={label}
-									type={type ?? "text"}
-									size={size ?? "sm"}
-									variant={variant ?? "faded"}
-									value={
-										label === "Razón Social" ? businessName :
-										label === "E-mail" ? email :
-										label === "CUIT" ? cuit :
-										label === "Contacto" ? contact :
-										label === "Telefono" ? phoneNumber :
-										label === "Domicilio" ? direction :
-										label === "Código Postal" ? postalCode :
-										label === "Localidad - Provincia" ? townProvince : ""
-									  }
-									  onChange={(e) => handleInputChange(label, e.target.value)}
-								/>
-							)
-						)}
-					</CardBody>
-				</Card>
-			</form>
-
-
-
-
-			<hr className="my-4" />
-			<form id="product-form" className="" >
-				<Card
-					classNames={{
-						base: "flex flex-wrap gap-x-2.5 gap-y-4 rounded-md overflow-visible",
-					}}>
-					<CardBody className="bg-gray-200 flex-wrap flex-row gap-x-2.5 gap-y-4 overflow-visible">
-						<InputAutocomplete
-							inputComponent={
-								<Input
-									className="grow w-auto"
-									label="Código Producto"
-									type="number"
-									size="sm"
-									variant="faded"
-									onChange={getProductsCode}
-									value={productCode}
-									onValueChange={setProductCode}
-								/>
-							}
-							possibilitiesList={productsCodePossibilities}
-							setInputValue={setProductCode}
-							setPossibilitesList={setProductsCodePossibilities}
-							getProductById={getProductById}
-						/>
-
-						<InputAutocomplete
-							inputComponent={
-								<Input
-									className="grow w-auto"
-									label="Producto"
-									type="text"
-									size="sm"
-									variant="faded"
-									onChange={getProductName}
-									value={product}
-									onValueChange={setProduct}
-								/>
-							}
-							possibilitiesList={productPossibilities}
-							setInputValue={setProduct}
-							setPossibilitesList={setProductPossibilities}
-							setProductCode={setProductCode}
-							getProductById={getProductById}
-						/>
-
-						{attributeGroups.length >= 1
-							? attributeGroups.map((attributeGroup) => attributeGroup.input)
-							: null}
-
-						<Input
-							className="grow w-auto"
-							label="Combinación"
-							type="text"
-							size="sm"
-							variant="faded"
-							// onChange={(e) => setCombination(e.target.value)}
-							// onValueChange={setCombination}
-							value={combination}
-							readOnly
-						/>
-						
-						<Input
-							className="grow w-auto"
-							label="Cantidad"
-							type="number"
-							size="sm"
-							variant="faded"
-							value={quantity}
-							onChange={(e) => setQuantity(e.target.value)}
-						/>
-					</CardBody>
-				</Card>
-
-				<Button
-					className="my-4 w-full bg-indigo-500"
-					color="primary"
-					onClick={addProduct}
-					type="submit">
-					Agregar
-				</Button>
-			</form>
 
 			<TableList
 				columns={OrderTableColumns}
@@ -603,7 +601,7 @@ const handleInputChange = (label, newValue) => {
 			<footer>
 				<Card
 					isBlurred
-					className="fixed bottom-0 bg-default-100/10 flex left-0 w-full justify-end rounded-none z-60">
+					className="fixed bottom-0 bg-default-100/10 flex left-0 w-full justify-end rounded-none z-[99]">
 					<CardBody className="flex-row gap-2">
 						<Button className="w-full bg-red-500" color="primary" onClick={() => resetFormNow()}>
 							Reiniciar pedido
