@@ -75,29 +75,42 @@ export default function CreateOrder() {
 	
      
 const addProduct = (e) => {
-				console.log("me ejecuto");
-				console.log(productsToOrder);
-				e.preventDefault();
-				console.log(productCode);
-				console.log(product);
-				console.log(combination)
-				console.log(estAttribute)
-				console.log(quantity);
 
 				let productKey = GenerateUid();
 
-                const checkAtributtes = () => { 
-					// @TODO -> Update to switch case
-					if(medAttribute && estAttribute !== undefined) { 
-						return `Med: ${medAttribute} | Est: ${estAttribute}`
-					} else if (medAttribute === undefined) { 
-                        return ` Est: ${estAttribute}`
-					} else if (medAttribute && estAttribute === undefined) { 
-						return "No hay"
-					} else if (estAttribute === undefined) { 
-						return ` Med: ${medAttribute}`
+				const checkAtributtes = () => {
+					let result = "";
+				  
+					switch (true) {
+					  case medAttribute && estAttribute !== undefined:
+						result = `Med: ${medAttribute} | Est: ${estAttribute}`;
+						break;
+					  case medAttribute === undefined && estAttribute !== undefined:
+						result = `Est: ${estAttribute}`;
+						break;
+					  case medAttribute && estAttribute === undefined:
+						result = "No hay";
+						break;
+					  case estAttribute === undefined:
+						result = `Med: ${medAttribute}`;
+						break;
+					  default:
+						result = "No hay";
 					}
-				}
+					return result;
+				  };
+
+					const totalPrice = quantity * combinationPrice; 
+					console.log( "Precio: ", combinationPrice)
+					console.log("Cantidad: ", quantity)
+
+					const formattedPrice = totalPrice.toLocaleString('es-ES', {
+						style: 'currency',
+						currency: 'ARS',
+						minimumFractionDigits: 2,
+						maximumFractionDigits: 2,
+					  });
+					  const priceWithSymbol = formattedPrice.replace('ARS', '$ ');
 
 				setProductsToOrder([
 					...productsToOrder,
@@ -108,7 +121,7 @@ const addProduct = (e) => {
 						attributes: checkAtributtes(),
 					    attributesObj: formattedAttributes, 
 						quantity: quantity, 
-						price: "$" + quantity * combinationPrice,
+						price: priceWithSymbol,
 						delete: (<Button	color="danger" data-item_key={productKey} onClick={removeProductItem}> Eliminar </Button>),
 					},
 				]);
@@ -436,6 +449,7 @@ const resetFormNow = () => {
 					setCombination("")
 					setQuantity("-")
 					setAttributeGroups([])
+					setProductsToOrder([])
 		   	}
 
 const handleInputChange = (label, newValue) => {
@@ -596,6 +610,7 @@ const handleInputChange = (label, newValue) => {
 			<TableList
 				columns={OrderTableColumns}
 				productsToOrder={productsToOrder}
+				style={{marginTop:"200px"}}
 			/>
 
 			<footer>
