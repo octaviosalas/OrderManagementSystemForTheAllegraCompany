@@ -78,6 +78,19 @@ const addProduct = (e) => {
 
 				let productKey = GenerateUid();
 
+
+				/*const medAttributeAndEstAttribute = formattedAttributes.map((f) => { 
+					const grupoUno =   f[0].group.label 
+					const atributoGrupoUno = f[0].attribute.label
+					const grupoDos =  f[1].group.label 
+					const atributoGrupoDos = f[1].attribute.label
+					console.log(grupoUno)
+					console.log(atributoGrupoUno)
+					console.log(grupoDos)
+					console.log(atributoGrupoDos)
+					return `${grupoUno} ${atributoGrupoUno} / ${grupoDos} ${atributoGrupoDos}`
+				  })*/
+
 				const checkAtributtes = () => {
 					let result = "";
 					switch (true) {
@@ -97,7 +110,12 @@ const addProduct = (e) => {
 						result = "No hay";
 					}
 					return result;
-				  };
+				  }; 
+
+				   
+		
+
+				   
 
 					setAttributeGroups([])
 					setProductCode("")
@@ -106,17 +124,13 @@ const addProduct = (e) => {
 					setQuantity("-")
 
 					const totalPrice = quantity * combinationPrice; 
-					console.log( "Precio: ", combinationPrice)
-					console.log("Cantidad: ", quantity)
 
 					const formattedPrice = totalPrice.toLocaleString('es-ES', {
-						style: 'currency',
-						currency: 'ARS',
 						minimumFractionDigits: 2,
 						maximumFractionDigits: 2,
 					  });
-					  const priceWithSymbol = formattedPrice.replace('ARS', '$ ');
 
+					  const priceWithSymbol = `$ ${formattedPrice}`;
 					  console.log(formattedAttributes)
 
 				setProductsToOrder([
@@ -129,7 +143,7 @@ const addProduct = (e) => {
 					    attributesObj: formattedAttributes, //Agarrar formattedAtttributes
 						quantity: quantity, 
 						price: priceWithSymbol,
-						delete: (<Button	color="danger" data-item_key={productKey} onClick={removeProductItem}> Eliminar </Button>),
+						delete: (<Button color="danger" hover="bg-red-800" data-item_key={productKey} onClick={removeProductItem} className='hover:bg-red-700'> Eliminar </Button>),
 					},
 				]);
 			};
@@ -327,6 +341,8 @@ const getProductById = async (id) => {
 					quantityAtributes = attributeGroupsArray.length
 					console.log("Cantidad de atributos: ", quantityAtributes)
 				}, 500);
+
+				console.log(formattedAttributes)
 			};
 
 			const combinationAttributes = [];
@@ -422,14 +438,12 @@ const getCombination = async (attributes) => {
 							return attributes.includes(id);
 						});
 
-						console.log('combinationHasAllAttributes');
-						console.log(combinationHasAllAttributes);
+					
 
 						// console.log("combination");
 						// console.log(combination);
 						if (combinationHasAllAttributes) {
-							console.log('combination with all attributes');
-							console.log(combination);
+							
 							setCombinationPrice(combination.price);
 							const combinationName = `${combination.reference}`;
 							setCombination(combinationName);
@@ -440,7 +454,9 @@ const getCombination = async (attributes) => {
 					});
 			};
 
-	
+	useEffect(() => { 
+         console.log("Hola!! FormatedAttributes: ",  formattedAttributes)
+	}, [formattedAttributes])
 	
 const resetFormNow = () => { 
 					setBusinessName("")
@@ -491,13 +507,14 @@ const handleInputChange = (label, newValue) => {
 			};
 			
 	return (
-		<>
+		<div className='2xl:flex '>
 			<div>
 				<div className="mt-5">
 					<p>Pedido Nro {orderNumber}</p>
 					<p>Fecha: {GetCurrentDate()}</p>
 				</div>
-				<form className="mt-5" >
+
+				<form className="mt-5 2xl:w-[1100px] " >
 					<Card
 						classNames={{
 							base: "flex flex-wrap gap-x-2.5 gap-y-4 rounded-md",
@@ -530,7 +547,8 @@ const handleInputChange = (label, newValue) => {
 				</form>
 
 				<hr className="my-4" />
-				<form id="product-form" className="" >
+
+				<form id="product-form" className="2xl:w-[1100px]" >
 					<Card
 						classNames={{
 							base: "flex flex-wrap gap-x-2.5 gap-y-4 rounded-md overflow-visible",
@@ -538,16 +556,7 @@ const handleInputChange = (label, newValue) => {
 						<CardBody className="bg-gray-200 flex-wrap flex-row gap-x-2.5 gap-y-4 overflow-visible">
 							<InputAutocomplete
 								inputComponent={
-									<Input
-										className="grow w-auto"
-										label="Código Producto"
-										type="number"
-										size="sm"
-										variant="faded"
-										onChange={getProductsCode}
-										value={productCode}
-										onValueChange={setProductCode}
-									/>
+									<Input className="grow w-auto" label="Código Producto"	type="number"	size="sm"	variant="faded"	onChange={getProductsCode}	value={productCode}	onValueChange={setProductCode}/>
 								}
 								possibilitiesList={productsCodePossibilities}
 								setInputValue={setProductCode}
@@ -557,16 +566,7 @@ const handleInputChange = (label, newValue) => {
 
 							<InputAutocomplete
 								inputComponent={
-									<Input
-										className="grow w-auto"
-										label="Producto"
-										type="text"
-										size="sm"
-										variant="faded"
-										onChange={getProductName}
-										value={product}
-										onValueChange={setProduct}
-									/>
+									<Input className="grow w-auto"	label="Producto"	type="text"	size="sm"	variant="faded"	onChange={getProductName}	value={product}	onValueChange={setProduct}/>
 								}
 								possibilitiesList={productPossibilities}
 								setInputValue={setProduct}
@@ -579,32 +579,15 @@ const handleInputChange = (label, newValue) => {
 								? attributeGroups.map((attributeGroup) => attributeGroup.input)
 								: null}
 
-							<Input
-								className="grow w-auto"
-								label="Combinación"
-								type="text"
-								size="sm"
-								variant="faded"
-								// onChange={(e) => setCombination(e.target.value)}
-								// onValueChange={setCombination}
-								value={combination}
-								readOnly
-							/>
+							<Input className="grow w-auto" label="Combinación"	type="text"size="sm" variant="faded" value={combination} readOnly/>
 							
-							<Input
-								className="grow w-auto"
-								label="Cantidad"
-								type="number"
-								size="sm"
-								variant="faded"
-								value={quantity}
-								onChange={(e) => setQuantity(e.target.value)}
-							/>
+							<Input className="grow w-auto"	label="Cantidad" type="number" size="sm" variant="faded" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+
 						</CardBody>
 					</Card>
 
 					<Button
-						className="my-4 w-full bg-indigo-500"
+						className="my-4 w-full bg-indigo-500 hover:bg-indigo-700"
 						color="primary"
 						onClick={addProduct}
 						>
@@ -614,29 +597,33 @@ const handleInputChange = (label, newValue) => {
 
 			</div>
 
-			<TableList
-				columns={OrderTableColumns}
-				productsToOrder={productsToOrder}
-				style={{marginTop:"200px"}}
-			/>
+			<div className='overflow-auto max-h-[300px] 2xl:mt-52  ml-6'>
+				<TableList
+					columns={OrderTableColumns}
+					productsToOrder={productsToOrder}
+					style={{marginTop:"200px", overflow: "auto"}}
+				/>
+			</div>
+
+		
 
 			<footer>
 				<Card
 					isBlurred
 					className="fixed bottom-0 bg-default-100/10 flex left-0 w-full justify-end rounded-none z-[99]">
 					<CardBody className="flex-row gap-2">
-						<Button className="w-full bg-red-500" color="primary" onClick={() => resetFormNow()}>
+						<Button className="w-full bg-red-500 hover:bg-red-800" color="primary" onClick={() => resetFormNow()}>
 							Reiniciar pedido
 						</Button>
 						<Button
 							onClick={createOrder}
-							className="w-full bg-slate-300 text-black"
+							className="w-full bg-slate-300 text-black hover:bg-slate-500"
 							color="primary">
 							Crear pedido
 						</Button>
 					</CardBody>
 				</Card>
 			</footer>
-		</>
+		</div>
 	);
 }

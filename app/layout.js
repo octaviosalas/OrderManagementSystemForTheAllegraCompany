@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
 				<Providers>
 					<header className="flex bg-gray-100 justify-between px-8 py-4">
 						<div>
-							<Link href="/HomePage">
+							<Link href="/">
 								<img className="w-20" src="/allegra-store-logo.jpg" alt="" />
 							</Link>
 						</div>
@@ -57,7 +57,9 @@ export default function RootLayout({ children }) {
 									 transition-transform-colors
 									 motion-reduce:transition-none
 									 text-primary-foreground
-									 bg-indigo-500">
+									 bg-indigo-500
+									 hover:bg-indigo-800
+									 ">
 										Crear órden
 									</button>
 								</Link>
