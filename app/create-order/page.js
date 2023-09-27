@@ -80,7 +80,6 @@ const addProduct = (e) => {
 
 				const checkAtributtes = () => {
 					let result = "";
-				  
 					switch (true) {
 					  case medAttribute && estAttribute !== undefined:
 						result = `Med: ${medAttribute} | Est: ${estAttribute}`;
@@ -100,6 +99,12 @@ const addProduct = (e) => {
 					return result;
 				  };
 
+					setAttributeGroups([])
+					setProductCode("")
+					setProduct("")
+					setCombination("")
+					setQuantity("-")
+
 					const totalPrice = quantity * combinationPrice; 
 					console.log( "Precio: ", combinationPrice)
 					console.log("Cantidad: ", quantity)
@@ -112,6 +117,8 @@ const addProduct = (e) => {
 					  });
 					  const priceWithSymbol = formattedPrice.replace('ARS', '$ ');
 
+					  console.log(formattedAttributes)
+
 				setProductsToOrder([
 					...productsToOrder,
 					{
@@ -119,7 +126,7 @@ const addProduct = (e) => {
 					    productCode: productCode, 
 						product: product, 
 						attributes: checkAtributtes(),
-					    attributesObj: formattedAttributes, 
+					    attributesObj: formattedAttributes, //Agarrar formattedAtttributes
 						quantity: quantity, 
 						price: priceWithSymbol,
 						delete: (<Button	color="danger" data-item_key={productKey} onClick={removeProductItem}> Eliminar </Button>),
@@ -374,9 +381,9 @@ const getCombination = async (attributes) => {
 		//-----------------------------------------------------------
 
 					console.log('combinationsData');
-					console.log(combinationsData); //ACA TENGO EL ARRAY ENORME, DENTRO DEL CUAL TENGO QUE BUSCAR LOS IDS.
+					console.log(combinationsData); 
 
-					console.log(attributes); //LOS IDS QUE TENGO QUE IR A BUSCAR SON ESTOS
+					console.log(attributes); 
 							
 					const arrayDeAtributosSeleccionados = attributes.map((a) => a.attribute.id)
 					console.log(arrayDeAtributosSeleccionados)
@@ -600,7 +607,7 @@ const handleInputChange = (label, newValue) => {
 						className="my-4 w-full bg-indigo-500"
 						color="primary"
 						onClick={addProduct}
-						type="submit">
+						>
 						Agregar
 					</Button>
 				</form>

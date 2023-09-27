@@ -14,7 +14,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  getKeyValue,
 } from "@nextui-org/react";
 import pedidosConfirmados from "./JsonEjemplo.js";
 
