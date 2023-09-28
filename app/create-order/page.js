@@ -112,11 +112,6 @@ const addProduct = (e) => {
 					return result;
 				  }; 
 
-				   
-		
-
-				   
-
 					setAttributeGroups([])
 					setProductCode("")
 					setProduct("")
@@ -507,7 +502,7 @@ const handleInputChange = (label, newValue) => {
 			};
 			
 	return (
-		<div className='2xl:flex '>
+		<div className='2xl:flex mb-28'>
 			<div>
 				<div className="mt-5">
 					<p>Pedido Nro {orderNumber}</p>
@@ -612,8 +607,7 @@ const handleInputChange = (label, newValue) => {
 					isBlurred
 					className="fixed bottom-0 bg-default-100/10 flex left-0 w-full justify-end rounded-none z-[99]">
 					<CardBody className="flex-row gap-2">
-						<Button className="w-full bg-red-500 hover:bg-red-800" color="primary" onClick={() => resetFormNow()}>
-							Reiniciar pedido
+						<Button className="w-full bg-red-500 hover:bg-red-800" color="primary" onClick={() => resetFormNow()}>Reiniciar pedido
 						</Button>
 						<Button
 							onClick={createOrder}
