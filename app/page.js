@@ -15,16 +15,15 @@ export default function Home() {
  
   const router = useRouter();
 
-  useEffect(() => {
-   
+    useEffect(() => {
     const hasVisitedHome = localStorage.getItem('hasVisitedHome');
-console.log(hasVisitedHome)
+    console.log(hasVisitedHome)
     
     if (!hasVisitedHome) {
-      localStorage.setItem('hasVisitedHome', 'true'); 
-      router.push('/login');
+    localStorage.setItem('hasVisitedHome', 'true'); 
+    router.push('/login');
     }
-  }, [router]);
+    }, [router]);
   
 
 
