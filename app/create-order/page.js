@@ -518,7 +518,7 @@ const handleInputChange = (label, newValue) => {
 							{customerFormData.map(
 								({ label, type, size, variant, value, onChange }) => (
 									<Input
-										className="grow w-auto"
+										className="grow w-auto border border-none"
 										label={label}
 										type={type ?? "text"}
 										size={size ?? "sm"}

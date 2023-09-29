@@ -2,8 +2,31 @@
 import React from "react";
 import {Table,TableHeader,TableColumn,TableBody,TableRow,TableCell,} from "@nextui-org/react";
 import pedidosConfirmados from "./JsonEjemplo.js";
+import { useEffect } from "react";
+import { useRouter } from 'next/navigation'
+import { useState } from "react";
+
+
+
+
 
 export default function Home() {
+
+ 
+  const router = useRouter();
+
+  useEffect(() => {
+   
+    const hasVisitedHome = localStorage.getItem('hasVisitedHome');
+console.log(hasVisitedHome)
+    
+    if (!hasVisitedHome) {
+      localStorage.setItem('hasVisitedHome', 'true'); 
+      router.push('/login');
+    }
+  }, [router]);
+  
+
 
   const columns = [
     {
