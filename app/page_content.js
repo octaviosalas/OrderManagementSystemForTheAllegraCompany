@@ -1,25 +1,28 @@
 "use client"
 
-import React from 'react'
-import { Link } from '@nextui-org/react'
+import React from "react";
+import { Link } from "@nextui-org/react";
+import { usePathname } from "next/navigation";
 
-const PageContent = ({children}) => {
-  return (
-    <>
-      	{window.location.pathname === "/login" ? null : 
-					   <>
-					    { 
-								<header className="flex bg-gray-100 justify-between px-8 py-4">
-								<div>
-									<Link href="/">
-										<img className="w-20" src="/allegra-store-logo.jpg" alt="" />
-									</Link>
-								</div>
-								<div>
-									<nav>
-										<Link href="/create-order">
-											<button
-												className="my-4
+const PageContent = ({ children }) => {
+	const pathname = usePathname();
+
+	return (
+		<>
+			{pathname === "/login" ? null : (
+				<>
+					{
+						<header className="flex bg-gray-100 justify-between px-8 py-4">
+							<div>
+								<Link href="/">
+									<img className="w-20" src="/allegra-store-logo.png" alt="" />
+								</Link>
+							</div>
+							<div>
+								<nav>
+									<Link href="/create-order">
+										<button
+											className="my-4
 											 w-full
 											 bg-indigo-500z-0
 											 group
@@ -54,24 +57,19 @@ const PageContent = ({children}) => {
 											 bg-indigo-500
 											 hover:bg-indigo-800
 											 ">
-												Crear órden
-											</button>
-										</Link>
-									</nav>
-								</div>
-							</header>
-						
-						
-
+											Crear órden
+										</button>
+									</Link>
+								</nav>
+							</div>
+						</header>
 					}
-					
-					   </>
-					
-					}
-					      
-					<div className="px-8">{children}</div>
-    </>
-  )
-}
+				</>
+			)}
 
-export default PageContent
+			<div className="px-8">{children}</div>
+		</>
+	);
+};
+
+export default PageContent;
