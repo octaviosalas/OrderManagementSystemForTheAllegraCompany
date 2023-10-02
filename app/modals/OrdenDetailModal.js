@@ -16,7 +16,7 @@ const OrdenDetailModal = ({razonSocial, cuit, cantidad, email, localidad, estado
     return (
       <>
         <Button onPress={openModal} className="text-white bg-blue-500  hover:bg-blue-800 h-8 w-6">Ver Detalle</Button>
-        <Modal isOpen={modalIsOpenNow} onOpenChange={closeModal} className="w-[700px]">
+        <Modal isOpen={modalIsOpenNow} onOpenChange={closeModal} className="w-[1300px] border border-black">
           <ModalContent>
             {(onClose) => (
               <>
