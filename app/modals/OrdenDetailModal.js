@@ -1,5 +1,6 @@
 import React, {useState} from "react"
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell,} from "@nextui-org/react";
+import "../globals.css"
 
 const OrdenDetailModal = ({razonSocial, cuit, cantidad, email, localidad, estado}) => { 
 
@@ -16,8 +17,8 @@ const OrdenDetailModal = ({razonSocial, cuit, cantidad, email, localidad, estado
     return (
       <>
         <Button onPress={openModal} className="text-white bg-blue-500  hover:bg-blue-800 h-8 w-6">Ver Detalle</Button>
-        <Modal isOpen={modalIsOpenNow} onOpenChange={closeModal} style={{width:"100%"}}>
-          <ModalContent>
+        <Modal isOpen={modalIsOpenNow} onOpenChange={closeModal} className="modalGeneral">
+          <ModalContent  className="modalGeneral">
             {(onClose) => (
               <>
                 <ModalHeader className="flex flex-col gap-1 items-center jusitify-center">Detalle de Orden</ModalHeader>
@@ -44,8 +45,9 @@ const OrdenDetailModal = ({razonSocial, cuit, cantidad, email, localidad, estado
   
                   <div> 
 
+                     {/*<Table removeWrapper aria-label="Example static collection table" className="overflow-auto max-h-[300px] max-w-full"> */}
                     {/*Id producto | Numero de combinacion | Nombre de producto | Atributos | Cantidad | Precio total | Editar | Eliminar */}
-                      <Table removeWrapper aria-label="Example static collection table" className="overflow-auto max-h-[300px] max-w-full">
+                      <Table removeWrapper aria-label="Example static collection table" className="w-100% sm:overflow-auto xxs:overflow-auto xxxs:overflow-auto ">
                             <TableHeader>
                                   <TableColumn>Id producto</TableColumn>
                                   <TableColumn>N de combinacion</TableColumn>
@@ -114,3 +116,7 @@ const OrdenDetailModal = ({razonSocial, cuit, cantidad, email, localidad, estado
   
   }
   export default OrdenDetailModal
+
+
+
+  

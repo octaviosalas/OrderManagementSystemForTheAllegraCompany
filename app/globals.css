@@ -44,3 +44,10 @@ select {
 [data-key="product"], [data-key="attributes"]  {
   min-width: 160px;
 }
+
+
+/*ModalDetalleOrde */
+
+.modalGeneral {
+  max-width: fit-content;
+}
