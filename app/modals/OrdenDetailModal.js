@@ -66,8 +66,8 @@ const OrdenDetailModal = ({razonSocial, cuit, cantidad, email, localidad, estado
                                   <TableCell>Active</TableCell>
                                   <TableCell>Active</TableCell>
                                   <TableCell>Active</TableCell>
-                                  <TableCell><Button>Editar</Button></TableCell>
-                                  <TableCell><Button>Eliminar</Button></TableCell>
+                                  <TableCell><Button className="bg-blue-500 text-white hover:bg-blue-800">Editar</Button></TableCell>
+                                  <TableCell><Button className="bg-red-500 text-white hover:bg-red-800">Eliminar</Button></TableCell>
                               </TableRow>
   
                               <TableRow key="2">
@@ -77,8 +77,8 @@ const OrdenDetailModal = ({razonSocial, cuit, cantidad, email, localidad, estado
                                   <TableCell>Active</TableCell>
                                   <TableCell>Active</TableCell>
                                   <TableCell>Active</TableCell>
-                                  <TableCell><Button>Editar</Button></TableCell>
-                                  <TableCell><Button>Eliminar</Button></TableCell>
+                                  <TableCell><Button  className="bg-blue-500 text-white hover:bg-blue-800">Editar</Button></TableCell>
+                                  <TableCell><Button className="bg-red-500 text-white hover:bg-red-800">Eliminar</Button></TableCell>
                               </TableRow>
   
                               <TableRow key="3">
@@ -88,8 +88,8 @@ const OrdenDetailModal = ({razonSocial, cuit, cantidad, email, localidad, estado
                                   <TableCell>Active</TableCell>
                                   <TableCell>Active</TableCell>
                                   <TableCell>Active</TableCell>
-                                  <TableCell><Button>Editar</Button></TableCell>
-                                  <TableCell><Button>Eliminar</Button></TableCell>
+                                  <TableCell><Button  className="bg-blue-500 text-white hover:bg-blue-800">Editar</Button></TableCell>
+                                  <TableCell><Button className="bg-red-500 text-white hover:bg-red-800">Eliminar</Button></TableCell>
                               </TableRow>
   
                                 <TableRow key="4">
@@ -99,8 +99,8 @@ const OrdenDetailModal = ({razonSocial, cuit, cantidad, email, localidad, estado
                                   <TableCell>Active</TableCell>
                                   <TableCell>Active</TableCell>
                                   <TableCell>Active</TableCell>
-                                  <TableCell><Button>Editar</Button></TableCell>
-                                  <TableCell><Button>Eliminar</Button></TableCell>
+                                  <TableCell><Button  className="bg-blue-500 text-white hover:bg-blue-800">Editar</Button></TableCell>
+                                  <TableCell><Button className="bg-red-500 text-white hover:bg-red-800">Eliminar</Button></TableCell>
                                 </TableRow>
                           </TableBody>
                      </Table>
