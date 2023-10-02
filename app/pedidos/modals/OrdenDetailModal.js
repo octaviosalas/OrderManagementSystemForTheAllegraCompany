@@ -1,6 +1,6 @@
 import React, {useState} from "react"
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell,} from "@nextui-org/react";
-import "../globals.css"
+import "../../globals.css"
 
 const OrdenDetailModal = ({razonSocial, cuit, cantidad, email, localidad, estado}) => { 
 
@@ -17,7 +17,7 @@ const OrdenDetailModal = ({razonSocial, cuit, cantidad, email, localidad, estado
     return (
       <>
         <Button onPress={openModal} className="text-white bg-blue-500  hover:bg-blue-800 h-8 w-6">Ver Detalle</Button>
-        <Modal isOpen={modalIsOpenNow} onOpenChange={closeModal} className="modalGeneral">
+        <Modal isOpen={modalIsOpenNow} onOpenChange={closeModal} className="modalGeneral" classNames={{wrapper:"items-center"}}>
           <ModalContent  className="modalGeneral">
             {(onClose) => (
               <>
@@ -44,9 +44,6 @@ const OrdenDetailModal = ({razonSocial, cuit, cantidad, email, localidad, estado
                   </div>
   
                   <div> 
-
-                     {/*<Table removeWrapper aria-label="Example static collection table" className="overflow-auto max-h-[300px] max-w-full"> */}
-                    {/*Id producto | Numero de combinacion | Nombre de producto | Atributos | Cantidad | Precio total | Editar | Eliminar */}
                       <Table removeWrapper aria-label="Example static collection table" className="w-100% sm:overflow-auto xxs:overflow-auto xxxs:overflow-auto ">
                             <TableHeader>
                                   <TableColumn>Id producto</TableColumn>

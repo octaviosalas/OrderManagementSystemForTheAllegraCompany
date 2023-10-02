@@ -11,8 +11,8 @@ const Login = () => {
         >
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img
-              className="mx-auto h-16 w-16"
-              src="/allegra-store-logo.jpg"
+              className="mx-auto h-20"
+              src="/allegra-store-logo.png"
               alt="Your Company"
             />
             <h2 className="mt-10 text-center 2xl:text-2xl xl:text-2xl lg:text-xl md:text-lg sm:text-md font-bold leading-9 tracking-tight text-gray-900">
