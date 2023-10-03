@@ -5,6 +5,7 @@ import pedidosConfirmados from "./JsonEjemplo.js";
 import { useEffect } from "react";
 import { useRouter } from 'next/navigation'
 import { useState } from "react";
+import axios from "axios"
 
 
 export default function Home() {
@@ -22,11 +23,31 @@ export default function Home() {
     }
     }, [router]);
   
+   useEffect(() => { 
+        console.log("Aa")
+        axios.get("http://backend-allegra-pedidos.lndo.site/api/orders")
+             .then((res) => { 
+              console.log(res.data)
+             })
+             .catch((err) => { 
+              console.log(err)
+             })
+   }, [])
 
+   /*
+   useEffect(() => { 
+    axios.get("http://backend-allegra-pedidos.lndo.site/api/${orderId}")
+         .then((res) => { 
+          console.log(res.data)
+         })
+         .catch((err) => { 
+          console.log(err)
+         })
+}, []) */
 
   const columns = [
     {
-      key: "NumeroDePedido",
+      key: "NumeroDePedido", 
       label: "Numero de Pedido",
     },
     {
