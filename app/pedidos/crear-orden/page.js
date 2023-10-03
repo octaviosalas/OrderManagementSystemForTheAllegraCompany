@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import InputSelect from "./inputSelect";
 import TableList from "./components/TableList";
 import GetCurrentDate from "./helpers/GetCurrentDate";
-import { OrderTableColumns, customerFormData } from "../config/Orders";
+import { OrderTableColumns, customerFormData } from "../../config/Orders";
 import GenerateUid from "./helpers/GenerateUid";
 
 dotenv.config()
