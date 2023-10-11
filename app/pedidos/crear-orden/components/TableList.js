@@ -5,9 +5,11 @@ import {
 	TableColumn,
 	TableHeader,
 	TableRow,
+	getKeyValue,
 } from "@nextui-org/react";
 
 export default function TableList({ columns, productsToOrder }) {
+	
 	return (
 		<Table aria-label="List of products">
 			<TableHeader columns={columns}>

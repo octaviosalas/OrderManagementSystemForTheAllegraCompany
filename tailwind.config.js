@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
-
+import formsPlugin from '@tailwindcss/forms';
 const { nextui } = require("@nextui-org/react");
+
 
 module.exports = {
   content: [
@@ -16,11 +17,21 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      screens: {
+        "2xs": "1px",
+        "xxxs": "280px",
+        "xxs": "480px",
+        "sm": "640px",
+        "md": "768px",
+        "lg": "1024px",
+        "xl": "1280px",
+        "2xl": "1536px",
+      },
     },
   },
   plugins: [
     require('@tailwindcss/forms')
   ],
   darkMode: "class",
-  plugins: [nextui()]
+  plugins: [nextui(),  formsPlugin]
 }
