@@ -25,9 +25,9 @@ export default function Home() {
   
    useEffect(() => { 
         console.log("Aa")
-        axios.get("http://backend-allegra-pedidos.lndo.site/api/orders")
+        axios.get("https://allegra-apps.fly.dev/api/orders")
              .then((res) => { 
-              console.log(res.data)
+              console.log(res)
              })
              .catch((err) => { 
               console.log(err)
