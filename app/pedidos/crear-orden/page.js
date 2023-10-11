@@ -11,6 +11,7 @@ import TableList from "./components/TableList";
 import GetCurrentDate from "./helpers/GetCurrentDate";
 import { OrderTableColumns, customerFormData } from "../../config/Orders";
 import GenerateUid from "./helpers/GenerateUid";
+import axios from "axios"
 
 dotenv.config()
 
@@ -151,8 +152,110 @@ const removeProductItem = (e) => {
 				});
 			};
 
+			/*{
+    "orderNumber": "0001",
+    "businessName": "Franco Jara",
+    "cuit": "20434279918",
+    "email": "jarafranco122@gmail.com",
+    "townProvince": "Avellaneda - Santa Fe",
+    "contact": "",
+    "phoneNumber": "03482225162",
+    "direction": "Calle 316 270 3",
+    "postalCode": "3561",
+    "productsToOrder": [
+        {
+            "key": "lmwoi0gt9mymgtwtl8p",
+            "productCode": 814,
+            "product": "Mantel Rayas Black",
+            "attributes": "Med: 395 | Est: 97",
+            "attributesObj": [
+                [
+                    {
+                        "attribute": {
+                            "id": "387",
+                            "label": "1.5 X 2.4"
+                        },
+                        "group": {
+                            "id": 1,
+                            "label": "Med"
+                        }
+                    },
+                    {
+                        "attribute": {
+                            "id": "97",
+                            "label": "Rayas Black"
+                        },
+                        "group": {
+                            "id": 2,
+                            "label": "Est"
+                        }
+                    }
+                ]
+            ],
+            "quantity": "10",
+            "price": "$181500",
+            "delete": {
+                "type": {},
+                "key": null,
+                "ref": null,
+                "props": {
+                    "color": "danger",
+                    "data-item_key": "lmwoi0gt9mymgtwtl8p",
+                    "children": " Eliminar "
+                },
+                "_owner": null,
+                "_store": {}
+            }
+        },
+        {
+            "key": "lmwoi0gt9mymgtwtl8p",
+            "productCode": 814,
+            "product": "Mantel Rayas Black",
+            "attributes": "Med: 395 | Est: 97",
+            "attributesObj": [
+                [
+                    {
+                        "attribute": {
+                            "id": "387",
+                            "label": "1.5 X 2.4"
+                        },
+                        "group": {
+                            "id": 1,
+                            "label": "Med"
+                        }
+                    },
+                    {
+                        "attribute": {
+                            "id": "97",
+                            "label": "Rayas Black"
+                        },
+                        "group": {
+                            "id": 2,
+                            "label": "Est"
+                        }
+                    }
+                ]
+            ],
+            "quantity": "10",
+            "price": "$181500",
+            "delete": {
+                "type": {},
+                "key": null,
+                "ref": null,
+                "props": {
+                    "color": "danger",
+                    "data-item_key": "lmwoi0gt9mymgtwtl8p",
+                    "children": " Eliminar "
+                },
+                "_owner": null,
+                "_store": {}
+            }
+        }
+    ]
+}*/
+
 const createOrder = async () => {
-				let order = {
+				let order = ({
 					orderNumber: orderNumber,
 					businessName: businessName,
 					cuit: cuit,
@@ -163,10 +266,17 @@ const createOrder = async () => {
 					direction: direction,
 					postalCode: postalCode,
 					productsToOrder: productsToOrder,
-				};
+				});
 
 				console.log(order);
-				console.log("post to backedn");
+				axios.post("https://allegra-apps.fly.dev/api/orders", order)
+				     .then((res) => { 
+						console.log(res)
+						console.log(res.data)
+					 })
+					 .catch((err) => { 
+						console.log(err)
+					 })
 			};
 
 const getProductsCode = (e) => {

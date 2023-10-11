@@ -20,7 +20,7 @@ const PageContent = ({ children }) => {
 							</div>
 							<div>
 								<nav>
-									<Link href="/create-order">
+									<Link href="/pedidos/crear-orden">
 										<button
 											className="my-4
 											 w-full

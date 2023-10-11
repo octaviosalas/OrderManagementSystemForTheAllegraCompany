@@ -28,6 +28,7 @@ export default function Home() {
         axios.get("https://allegra-apps.fly.dev/api/orders")
              .then((res) => { 
               console.log(res)
+              console.log("enviado")
              })
              .catch((err) => { 
               console.log(err)
