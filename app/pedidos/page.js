@@ -1,17 +1,19 @@
 "use client"
 import React from "react";
 import {Table,TableHeader,TableColumn,TableBody,TableRow,TableCell,} from "@nextui-org/react";
-import pedidosConfirmados from "./JsonEjemplo.js";
 import { useEffect } from "react";
 import { useRouter } from 'next/navigation'
 import { useState } from "react";
 import axios from "axios"
+import MyModal from "./modals/EditModal"
+import OrdenDetailModal from "./modals/OrdenDetailModal";
+import { Button } from "@nextui-org/react";
 
 
-export default function Home() {
+export default function Home({orders}) {
 
- 
   const router = useRouter();
+  const [allOrders, setAllOrders] = useState([]);
 
     useEffect(() => {
     const hasVisitedHome = localStorage.getItem('hasVisitedHome');
@@ -23,28 +25,22 @@ export default function Home() {
     }
     }, [router]);
   
-   useEffect(() => { 
-        console.log("Aa")
-        axios.get("https://allegra-apps.fly.dev/api/orders")
-             .then((res) => { 
-              console.log(res)
-              console.log("enviado")
-             })
-             .catch((err) => { 
-              console.log(err)
-             })
-   }, [])
+    useEffect(() => {
+      axios
+        .get("https://allegra-apps.fly.dev/api/orders")
+        .then((res) => {
+          setAllOrders(res.data.data.orders);
+          console.log(res.data.data.orders)
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }, []);
 
-   /*
-   useEffect(() => { 
-    axios.get("http://backend-allegra-pedidos.lndo.site/api/${orderId}")
-         .then((res) => { 
-          console.log(res.data)
-         })
-         .catch((err) => { 
-          console.log(err)
-         })
-}, []) */
+    const deleteOrder = (id) => { 
+      console.log("El Id DE LA ORDEN es:", id)
+      axios.delete(`https://allegra-apps.fly.dev/api/orders/${id}`)
+    }
 
   const columns = [
     {
@@ -85,15 +81,27 @@ export default function Home() {
     },
   ];
 
+  const confirmedOrders = allOrders.map((order) => ({
+    NumeroDePedido: order.id,
+    Razonsocial: order.business_name,
+    Cuit: order.cuit,
+    Email: order.client_email,
+    Ciudadprovincia: order.province,
+    Estado: order.state,
+    detalle:  <OrdenDetailModal razonSocial={order.business_name} cuit={order.cuit}  email={order.client_email} localidad={order.province} estado={order.state} detalle={order.order_products}/>,
+    Eliminar: <Button className="bg-red-500 text-white hover:bg-red-800  h-8 mr-2" onClick={() => deleteOrder(order.id)}>Eliminar</Button>,
+    Editar:   <MyModal RazonSocial={order.business_name} Cuit={order.cuit} Email={order.client_email} Localidad={order.province}/>
+  }));
+
   return (
     <div className="mt-6">
         <Table aria-label="Example table with dynamic content">
           <TableHeader columns={columns}>
             {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
           </TableHeader>
-          <TableBody items={pedidosConfirmados}>
+          <TableBody items={confirmedOrders}>
             {(item) => (
-              <TableRow key={item.key}>
+              <TableRow key={item.NumeroDePedido}>
                 {columns.map((column) => (
                   <TableCell key={column.key}>{item[column.key]}</TableCell>
                 ))}
