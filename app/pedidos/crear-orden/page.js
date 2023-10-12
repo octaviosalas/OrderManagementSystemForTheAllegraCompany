@@ -152,107 +152,6 @@ const removeProductItem = (e) => {
 				});
 			};
 
-			/*{
-    "orderNumber": "0001",
-    "businessName": "Franco Jara",
-    "cuit": "20434279918",
-    "email": "jarafranco122@gmail.com",
-    "townProvince": "Avellaneda - Santa Fe",
-    "contact": "",
-    "phoneNumber": "03482225162",
-    "direction": "Calle 316 270 3",
-    "postalCode": "3561",
-    "productsToOrder": [
-        {
-            "key": "lmwoi0gt9mymgtwtl8p",
-            "productCode": 814,
-            "product": "Mantel Rayas Black",
-            "attributes": "Med: 395 | Est: 97",
-            "attributesObj": [
-                [
-                    {
-                        "attribute": {
-                            "id": "387",
-                            "label": "1.5 X 2.4"
-                        },
-                        "group": {
-                            "id": 1,
-                            "label": "Med"
-                        }
-                    },
-                    {
-                        "attribute": {
-                            "id": "97",
-                            "label": "Rayas Black"
-                        },
-                        "group": {
-                            "id": 2,
-                            "label": "Est"
-                        }
-                    }
-                ]
-            ],
-            "quantity": "10",
-            "price": "$181500",
-            "delete": {
-                "type": {},
-                "key": null,
-                "ref": null,
-                "props": {
-                    "color": "danger",
-                    "data-item_key": "lmwoi0gt9mymgtwtl8p",
-                    "children": " Eliminar "
-                },
-                "_owner": null,
-                "_store": {}
-            }
-        },
-        {
-            "key": "lmwoi0gt9mymgtwtl8p",
-            "productCode": 814,
-            "product": "Mantel Rayas Black",
-            "attributes": "Med: 395 | Est: 97",
-            "attributesObj": [
-                [
-                    {
-                        "attribute": {
-                            "id": "387",
-                            "label": "1.5 X 2.4"
-                        },
-                        "group": {
-                            "id": 1,
-                            "label": "Med"
-                        }
-                    },
-                    {
-                        "attribute": {
-                            "id": "97",
-                            "label": "Rayas Black"
-                        },
-                        "group": {
-                            "id": 2,
-                            "label": "Est"
-                        }
-                    }
-                ]
-            ],
-            "quantity": "10",
-            "price": "$181500",
-            "delete": {
-                "type": {},
-                "key": null,
-                "ref": null,
-                "props": {
-                    "color": "danger",
-                    "data-item_key": "lmwoi0gt9mymgtwtl8p",
-                    "children": " Eliminar "
-                },
-                "_owner": null,
-                "_store": {}
-            }
-        }
-    ]
-}*/
 
 const createOrder = async () => {
 				let order = ({
@@ -269,14 +168,18 @@ const createOrder = async () => {
 				});
 
 				console.log(order);
-				axios.post("https://allegra-apps.fly.dev/api/orders", order)
+				axios.post("https://allegra-apps.fly.dev/api/create-order", order)
 				     .then((res) => { 
 						console.log(res)
 						console.log(res.data)
+						setTimeout(() => { 
+                         resetFormNow()
+						}, 4000)
 					 })
 					 .catch((err) => { 
 						console.log(err)
 					 })
+					 
 			};
 
 const getProductsCode = (e) => {

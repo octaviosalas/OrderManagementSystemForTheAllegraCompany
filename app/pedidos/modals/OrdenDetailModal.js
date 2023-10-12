@@ -1,8 +1,10 @@
 import React, {useState} from "react"
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell,} from "@nextui-org/react";
 import "../../globals.css"
+import EditDetailOrder from "./EditDetailOrder";
 
-const OrdenDetailModal = ({razonSocial, cuit, cantidad, email, localidad, estado}) => { 
+const OrdenDetailModal = ({razonSocial, cuit, email, localidad, estado, detalle}) => { 
+  console.log(detalle)
 
     const [modalIsOpenNow, setModalIsOpenNow] = useState(false);
   
@@ -23,25 +25,15 @@ const OrdenDetailModal = ({razonSocial, cuit, cantidad, email, localidad, estado
               <>
                 <ModalHeader className="flex flex-col gap-1 items-center jusitify-center">Detalle de Orden</ModalHeader>
                 <ModalBody>
-                  <div className=""> 
-                    <div className="flex justify-center">
+                 
+                    <div className="flex flex-col items-center justify-center">
                       <small  className="font-bold">{razonSocial}</small>
-                      <small  className="font-bold ml-2">-</small>
                       <small className="font-bold ml-2"> {cuit}</small>
-                    </div>
-  
-                    <div className="flex justify-center mt-2">
                       <small  className="font-bold">{email}</small>
-                    </div>
-  
-                    <div className="flex justify-center mt-2">
                       <small  className="font-bold">{localidad}</small>
-                    </div>
-  
-                    <div className="flex justify-center mt-2">
                       <small  className="font-bold">{estado}</small>
                     </div>
-                  </div>
+                 
   
                   <div> 
                       <Table removeWrapper aria-label="Example static collection table" className="w-100% sm:overflow-auto xxs:overflow-auto xxxs:overflow-auto ">
@@ -51,54 +43,27 @@ const OrdenDetailModal = ({razonSocial, cuit, cantidad, email, localidad, estado
                                   <TableColumn>Producto</TableColumn>
                                   <TableColumn>Atributos</TableColumn>
                                   <TableColumn>Cantidad</TableColumn>
+                                  <TableColumn>Precio unitario</TableColumn>
                                   <TableColumn>Precio total</TableColumn>
                                   <TableColumn>Editar</TableColumn>
                                   <TableColumn>Eliminar</TableColumn>
                             </TableHeader>
                           <TableBody>
+                          {detalle.map((d) => ( 
                               <TableRow key="1">
-                                  <TableCell>75785</TableCell>
-                                  <TableCell>192372</TableCell>
-                                  <TableCell>Active</TableCell>
-                                  <TableCell>Active</TableCell>
-                                  <TableCell>Active</TableCell>
-                                  <TableCell>Active</TableCell>
-                                  <TableCell><Button className="bg-blue-500 text-white hover:bg-blue-800">Editar</Button></TableCell>
+                                  <TableCell>{d.id}</TableCell>
+                                  <TableCell>{d.product_code}</TableCell>
+                                  <TableCell>{d.product_name}</TableCell>
+                                  <TableCell>{d.attributes}</TableCell>
+                                  <TableCell>{d.quantity}</TableCell>
+                                  <TableCell>{d.unit_price}</TableCell>
+                                  <TableCell>{d.total_price}</TableCell>
+                                  <TableCell><EditDetailOrder cantidad={d.quantity}/></TableCell>
                                   <TableCell><Button className="bg-red-500 text-white hover:bg-red-800">Eliminar</Button></TableCell>
                               </TableRow>
+                           ))}
   
-                              <TableRow key="2">
-                              <TableCell>934739</TableCell>
-                                  <TableCell>23421</TableCell>
-                                  <TableCell>Active</TableCell>
-                                  <TableCell>Active</TableCell>
-                                  <TableCell>Active</TableCell>
-                                  <TableCell>Active</TableCell>
-                                  <TableCell><Button  className="bg-blue-500 text-white hover:bg-blue-800">Editar</Button></TableCell>
-                                  <TableCell><Button className="bg-red-500 text-white hover:bg-red-800">Eliminar</Button></TableCell>
-                              </TableRow>
-  
-                              <TableRow key="3">
-                              <TableCell>304093</TableCell>
-                                  <TableCell>23241</TableCell>
-                                  <TableCell>Active</TableCell>
-                                  <TableCell>Active</TableCell>
-                                  <TableCell>Active</TableCell>
-                                  <TableCell>Active</TableCell>
-                                  <TableCell><Button  className="bg-blue-500 text-white hover:bg-blue-800">Editar</Button></TableCell>
-                                  <TableCell><Button className="bg-red-500 text-white hover:bg-red-800">Eliminar</Button></TableCell>
-                              </TableRow>
-  
-                                <TableRow key="4">
-                                <TableCell>78378</TableCell>
-                                  <TableCell>912312</TableCell>
-                                  <TableCell>Active</TableCell>
-                                  <TableCell>Active</TableCell>
-                                  <TableCell>Active</TableCell>
-                                  <TableCell>Active</TableCell>
-                                  <TableCell><Button  className="bg-blue-500 text-white hover:bg-blue-800">Editar</Button></TableCell>
-                                  <TableCell><Button className="bg-red-500 text-white hover:bg-red-800">Eliminar</Button></TableCell>
-                                </TableRow>
+                             
                           </TableBody>
                      </Table>
                   </div>
