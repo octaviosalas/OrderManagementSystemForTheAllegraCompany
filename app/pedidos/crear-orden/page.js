@@ -183,6 +183,7 @@ const createOrder = async () => {
 			};
 
 const getProductsCode = (e) => {
+	console.log("iiiiiiiiiii")
 					let memProductCode = e.target.value;
 					if (memProductCode.length <= 0) {
 						setProductsCodePossibilities([]);
@@ -201,6 +202,7 @@ const getProductsCode = (e) => {
 					result.json().then((data) => {
                         data.products.map((d) => { 
 							setProduct(d.name)
+							console.log(d.name)
 						})
 
 						let formattedData = [];
@@ -218,7 +220,7 @@ const getProductsCode = (e) => {
 
 const getProductName = (e) => {
 				let memProductName = e.target.value;
-				setProduct(memProductName);
+				
 				clearTimeout(productCodeTimeout);
 
 				if (memProductName.length > 3) {
@@ -262,6 +264,11 @@ const getProductById = async (id) => {
 
 				let data = await result.json();
 				console.log("EL ID RESPONDE: ", data)
+				console.log( 
+					data.products.map((d) => d.name)
+				)
+				setProduct(data.products.map((d) => d.name))
+				
 
 				let optionValuesStr = data.products[0].associations.product_option_values
 					.map((item) => item?.id)
@@ -530,9 +537,10 @@ const handleInputChange = (label, newValue) => {
 						<CardBody className="bg-slate-300 flex-wrap flex-row gap-x-2.5 gap-y-4">
 							{customerFormData.map(
 								({ label, type, size, variant, value, onChange }) => (
-									<Input
-										className="grow w-auto border border-none"
+									<input
+										className="grow w-auto border border-none hover:border-none"
 										label={label}
+										placeholder={label}
 										type={type ?? "text"}
 										size={size ?? "sm"}
 										variant={variant ?? "faded"}
@@ -564,7 +572,8 @@ const handleInputChange = (label, newValue) => {
 						<CardBody className="bg-gray-200 flex-wrap flex-row gap-x-2.5 gap-y-4 overflow-visible">
 							<InputAutocomplete
 								inputComponent={
-									<Input className="grow w-auto" label="Código Producto"	type="number"	size="sm"	variant="faded"	onChange={getProductsCode}	value={productCode}	onValueChange={setProductCode}/>
+									<Input className="grow w-auto border border-none" label="Código Producto" 	type="number"	size="sm"	
+									 variant="faded"	onChange={getProductsCode}	value={productCode}	onValueChange={setProductCode}/>
 								}
 								possibilitiesList={productsCodePossibilities}
 								setInputValue={setProductCode}
@@ -574,7 +583,7 @@ const handleInputChange = (label, newValue) => {
 
 							<InputAutocomplete
 								inputComponent={
-									<Input className="grow w-auto"	label="Producto"	type="text"	size="sm"	variant="faded"	onChange={getProductName}	value={product}	onValueChange={setProduct}/>
+									<Input className="grow w-auto border border-none"	label="Producto"	type="text"	size="sm"	variant="faded"	onChange={getProductName}	value={product}	onValueChange={setProduct}/>
 								}
 								possibilitiesList={productPossibilities}
 								setInputValue={setProduct}
@@ -587,9 +596,9 @@ const handleInputChange = (label, newValue) => {
 								? attributeGroups.map((attributeGroup) => attributeGroup.input)
 								: null}
 
-							<Input className="grow w-auto" label="Combinación"	type="text"size="sm" variant="faded" value={combination} readOnly/>
+							<Input className="grow w-auto border border-none" label="Combinación"	type="text"size="sm" variant="faded" value={combination} readOnly/>
 							
-							<Input className="grow w-auto"	label="Cantidad" type="number" size="sm" variant="faded" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+							<Input className="grow w-auto border border-none"	label="Cantidad" type="number" size="sm" variant="faded" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
 
 						</CardBody>
 					</Card>

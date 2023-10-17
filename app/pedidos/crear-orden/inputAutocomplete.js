@@ -11,7 +11,7 @@ export default function InputAutocomplete({
 	return (
 		<div className="grow w-auto relative">
 			{inputComponent}
-			<div className="bg-white rounded-md w-full absolute z-30 max-h-60 overflow-y-scroll">
+			<div className="bg-white rounded-md w-full absolute z-30 max-h-60 overflow-y-scroll ">
 				<ul>
 					{possibilitiesList.map((item) => (
 						<li
