@@ -12,6 +12,7 @@ import GetCurrentDate from "./helpers/GetCurrentDate";
 import { OrderTableColumns, customerFormData } from "../../config/Orders";
 import GenerateUid from "./helpers/GenerateUid";
 import axios from "axios"
+import Loading from '../componentes/Loading';
 
 dotenv.config()
 
@@ -28,6 +29,9 @@ export default function CreateOrder() {
 	};
 
 	const hashId = new Hashids("", 6);
+
+	const [loading, setLoading] = useState(true)
+	const [withOutProducts, setWithOutProducts] = useState(false)
 
 	const [productCode, setProductCode] = useState("");
 	const [productsCodePossibilities, setProductsCodePossibilities] = useState();
@@ -61,6 +65,12 @@ export default function CreateOrder() {
 
 	// const [combinationAttributes, setCombinationAttributes] = useState([]);
 
+ 
+    useEffect(() => { 
+		setTimeout(() => { 
+          setLoading(false)
+		}, 1500)
+	}, [])
 
 	useEffect(() => { 
 		console.log("Cmbio el estAtributte a: ", medAttribute)
@@ -78,19 +88,6 @@ export default function CreateOrder() {
 const addProduct = (e) => {
 
 				let productKey = GenerateUid();
-
-
-				/*const medAttributeAndEstAttribute = formattedAttributes.map((f) => { 
-					const grupoUno =   f[0].group.label 
-					const atributoGrupoUno = f[0].attribute.label
-					const grupoDos =  f[1].group.label 
-					const atributoGrupoDos = f[1].attribute.label
-					console.log(grupoUno)
-					console.log(atributoGrupoUno)
-					console.log(grupoDos)
-					console.log(atributoGrupoDos)
-					return `${grupoUno} ${atributoGrupoUno} / ${grupoDos} ${atributoGrupoDos}`
-				  })*/
 
 				const checkAtributtes = () => {
 					let result = "";
@@ -129,20 +126,29 @@ const addProduct = (e) => {
 					  const priceWithSymbol = `$ ${formattedPrice}`;
 					  console.log(formattedAttributes)
 
-				setProductsToOrder([
-					...productsToOrder,
-					{
-						key: productKey,
-					    productCode: productCode, 
-						product: product, 
-						attributes: checkAtributtes(),
-					    attributesObj: formattedAttributes, //Agarrar formattedAtttributes
-						quantity: quantity, 
-						price: priceWithSymbol,
-						delete: (<Button color="danger" hover="bg-red-800" data-item_key={productKey} onClick={removeProductItem} className='hover:bg-red-700'> Eliminar </Button>),
-					},
-				]);
+					  if(productCode.length === 0 || product.length === 0 ) { 
+						setWithOutProducts(true)
+						setTimeout(() => { 
+							setWithOutProducts(false)
+						}, 3000)
+					  } else { 
+						setProductsToOrder([
+							...productsToOrder,
+							{
+								key: productKey,
+								productCode: productCode, 
+								product: product, 
+								attributes: checkAtributtes(),
+								attributesObj: formattedAttributes, //Agarrar formattedAtttributes
+								quantity: quantity, 
+								price: priceWithSymbol,
+								delete: (<Button color="danger" hover="bg-red-800" data-item_key={productKey} onClick={removeProductItem} className='hover:bg-red-700'> Eliminar </Button>),
+							},
+						]);
+					  }				
 			};
+
+
 
 const removeProductItem = (e) => {
 				let product_key = e.target.dataset.item_key;
@@ -152,8 +158,12 @@ const removeProductItem = (e) => {
 				});
 			};
 
+			useEffect(() => { 
+                 console.log(productsToOrder)
+			}, [productsToOrder])
 
 const createOrder = async () => {
+
 				let order = ({
 					orderNumber: orderNumber,
 					businessName: businessName,
@@ -488,6 +498,7 @@ const resetFormNow = () => {
 					setQuantity("-")
 					setAttributeGroups([])
 					setProductsToOrder([])
+					setWithOutProducts(false)
 		   	}
 
 const handleInputChange = (label, newValue) => {
@@ -522,7 +533,14 @@ const handleInputChange = (label, newValue) => {
 			};
 			
 	return (
-		<div className='2xl:flex mb-28'>
+	<> 
+		{loading ? 
+		  <div className='flex flex-col items-center justify-center mt-44'>
+             <Loading text="Formulario"/>
+		  </div>
+		
+		         :
+			<div className='2xl:flex mb-28'>
 			<div>
 				<div className="mt-5">
 					<p>Pedido Nro {orderNumber}</p>
@@ -538,7 +556,7 @@ const handleInputChange = (label, newValue) => {
 							{customerFormData.map(
 								({ label, type, size, variant, value, onChange }) => (
 									<input
-										className="grow w-auto border border-none hover:border-none"
+										className="grow w-auto border border-none hover:border-none rounded-lg"
 										label={label}
 										placeholder={label}
 										type={type ?? "text"}
@@ -572,7 +590,7 @@ const handleInputChange = (label, newValue) => {
 						<CardBody className="bg-gray-200 flex-wrap flex-row gap-x-2.5 gap-y-4 overflow-visible">
 							<InputAutocomplete
 								inputComponent={
-									<Input className="grow w-auto border border-none" label="Código Producto" 	type="number"	size="sm"	
+									<Input className="grow w-auto" style={{ borderColor: 'transparent', boxShadow: 'transparent',  padding: '10px 0 0 0' }} label="Código Producto" 	type="number"	size="sm"	
 									 variant="faded"	onChange={getProductsCode}	value={productCode}	onValueChange={setProductCode}/>
 								}
 								possibilitiesList={productsCodePossibilities}
@@ -583,7 +601,7 @@ const handleInputChange = (label, newValue) => {
 
 							<InputAutocomplete
 								inputComponent={
-									<Input className="grow w-auto border border-none"	label="Producto"	type="text"	size="sm"	variant="faded"	onChange={getProductName}	value={product}	onValueChange={setProduct}/>
+									<Input className="grow w-auto border border-none"  style={{ borderColor: 'transparent', boxShadow: 'transparent',  padding: '10px 0 0 0' }}	label="Producto"	type="text"	size="sm"	variant="faded"	onChange={getProductName}	value={product}	onValueChange={setProduct}/>
 								}
 								possibilitiesList={productPossibilities}
 								setInputValue={setProduct}
@@ -596,9 +614,9 @@ const handleInputChange = (label, newValue) => {
 								? attributeGroups.map((attributeGroup) => attributeGroup.input)
 								: null}
 
-							<Input className="grow w-auto border border-none" label="Combinación"	type="text"size="sm" variant="faded" value={combination} readOnly/>
+							<Input className="grow w-auto" style={{ borderColor: 'transparent', boxShadow: 'transparent',  padding: '10px 0 0 0' }} label="Combinación"	type="text"size="sm" variant="faded" value={combination} readOnly/>
 							
-							<Input className="grow w-auto border border-none"	label="Cantidad" type="number" size="sm" variant="faded" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+							<Input className="grow w-auto" style={{ borderColor: 'transparent', boxShadow: 'transparent',  padding: '10px 0 0 0' }}	label="Cantidad" type="number" size="sm" variant="faded" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
 
 						</CardBody>
 					</Card>
@@ -614,13 +632,19 @@ const handleInputChange = (label, newValue) => {
 
 			</div>
 
-			<div className='overflow-auto max-h-[300px] 2xl:mt-52  ml-6'>
+			{ withOutProducts ? 
+			<div className='flex items-center justify-center'>
+			   <p className='font-bold text-sm'>Faltan datos para poder agregar la orden</p>
+			</div>	
+	
+				: 
+			 <div className='overflow-auto max-h-[300px] 2xl:mt-52  ml-6'>
 				<TableList
 					columns={OrderTableColumns}
 					productsToOrder={productsToOrder}
 					style={{marginTop:"200px", overflow: "auto"}}
 				/>
-			</div>
+			</div>}
 
 		
 
@@ -641,5 +665,7 @@ const handleInputChange = (label, newValue) => {
 				</Card>
 			</footer>
 		</div>
+		}
+	</>	
 	);
 }

@@ -8,12 +8,14 @@ import axios from "axios"
 import MyModal from "./modals/EditModal"
 import OrdenDetailModal from "./modals/OrdenDetailModal";
 import { Button } from "@nextui-org/react";
+import Loading from "./componentes/Loading";
 
 
 export default function Home({orders}) {
 
   const router = useRouter();
   const [allOrders, setAllOrders] = useState([]);
+  const [loading, setLoading] = useState(true)
 
     useEffect(() => {
     const hasVisitedHome = localStorage.getItem('hasVisitedHome');
@@ -31,6 +33,9 @@ export default function Home({orders}) {
         .then((res) => {
           setAllOrders(res.data.data.orders);
           console.log(res.data.data.orders)
+          setTimeout(() => { 
+            setLoading(false)
+          }, 800)
         })
         .catch((err) => {
           console.log(err);
@@ -94,7 +99,13 @@ export default function Home({orders}) {
   }));
 
   return (
-    <div className="mt-6">
+    <>
+    { loading ? 
+    <div className="flex items-center justify-center mt-44">
+       <Loading text="pedidos"/> 
+    </div>    
+       :
+      <div className="mt-6">
         <Table aria-label="Example table with dynamic content">
           <TableHeader columns={columns}>
             {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
@@ -110,6 +121,8 @@ export default function Home({orders}) {
           </TableBody>
         </Table>
     </div>
+  }
+  </>
   );
 }
 

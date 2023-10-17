@@ -19,10 +19,54 @@ const PageContent = ({ children }) => {
 								</Link>
 							</div>
 							<div>
-								<nav>
-									<Link href="/pedidos/crear-orden">
+								<nav className="flex">
+										<Link href="/pedidos">
 										<button
-											className="my-4
+											className="
+											 my-4
+											 w-full
+											 bg-indigo-500z-0
+											 group
+											 relative
+											 inline-flex
+											 items-center
+											 justify-center
+											 box-border
+											 appearance-none
+											 select-none
+											 whitespace-nowrap
+											 font-normal
+											 subpixel-antialiased
+											 overflow-hidden
+											 tap-highlight-transparent
+											 outline-none
+											 data-[focus-visible=true]:z-10
+											 data-[focus-visible=true]:outline-2
+											 data-[focus-visible=true]:outline-focus
+											 data-[focus-visible=true]:outline-offset-2
+											 px-unit-4
+											 min-w-unit-20
+											 h-unit-10
+											 text-small
+											 gap-unit-2
+											 rounded-medium
+											 [&>svg]:max-w-[theme(spacing.unit-8)]
+											 data-[pressed=true]:scale-[0.97]
+											 transition-transform-colors
+											 motion-reduce:transition-none
+											 text-primary-foreground
+											 bg-indigo-500
+											 hover:bg-indigo-800
+											 ">
+											Pedidos
+										</button>
+										</Link>
+
+										<Link href="/pedidos/crear-orden">
+										<button
+											className="
+											 ml-2
+											 my-4
 											 w-full
 											 bg-indigo-500z-0
 											 group
@@ -59,7 +103,8 @@ const PageContent = ({ children }) => {
 											 ">
 											Crear órden
 										</button>
-									</Link>
+										</Link>
+									
 								</nav>
 							</div>
 						</header>
