@@ -9,7 +9,7 @@ const PageContent = ({ children }) => {
 
 	return (
 		<>
-			{pathname === "/"  ||  pathname === "/seccion" ? null : (
+			{pathname === "/"  ||  pathname === "/seccion" ||   pathname === "/produccion" ? null : (
 				<>
 					{
 						<header className="flex bg-gray-100 justify-between px-8 py-4">
