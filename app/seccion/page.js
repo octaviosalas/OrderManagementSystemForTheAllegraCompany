@@ -10,18 +10,11 @@ import Loading from '../pedidos/componentes/Loading';
 
 const MainProduction = () => {
 
-    const [loading, setLoading] = useState(false) 
-
-  useEffect(() => { 
-   setTimeout(() => {
-    setLoading(true)
-   }, 2500);
-  }, [])
 
   return (
 
     <div className='flex justify-center items-center mt-12 md:mt-22'>
-    {loading ?  <div className=''>
+      <div className=''>
                 <div className='flex justify-center'>
                     <img src={"/allegra-store-logo.png"} className='w-24 h-24'/>
                 </div>
@@ -53,9 +46,7 @@ const MainProduction = () => {
               </Link>
 
           </div>
-      </div> : 
-        <Loading text="Pagina"/>
-        }
+      </div> 
     </div>
    
   )

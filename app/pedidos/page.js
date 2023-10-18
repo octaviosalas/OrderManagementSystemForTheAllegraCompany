@@ -43,8 +43,8 @@ export default function Home({orders}) {
     }, []);
 
     const deleteOrder = (id) => { 
-      console.log("El Id DE LA ORDEN es:", id)
       axios.delete(`https://allegra-apps.fly.dev/api/orders/${id}`)
+      setAllOrders(allOrders.filter(order => order.id !== id));
     }
 
   const columns = [
