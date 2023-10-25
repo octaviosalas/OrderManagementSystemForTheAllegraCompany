@@ -3,6 +3,7 @@ import formsPlugin from '@tailwindcss/forms';
 const { nextui } = require("@nextui-org/react");
 // import daisyui from 'daisyui';
 
+
 module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
