@@ -11,7 +11,7 @@ import {
 export default function TableList({ columns, productsToOrder }) {
 	
 	return (
-		<Table aria-label="List of products">
+		<Table isHeaderSticky aria-label="List of products" classNames={{base: 'overflow-visible'}}>
 			<TableHeader columns={columns}>
 				{(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
 			</TableHeader>

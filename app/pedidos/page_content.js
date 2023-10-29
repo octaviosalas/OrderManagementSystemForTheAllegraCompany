@@ -56,7 +56,7 @@ const PageContent = ({ children }) => {
 											 motion-reduce:transition-none
 											 text-primary-foreground
 											 bg-indigo-500
-											 hover:bg-indigo-800
+											 hover:bg-indigo-700
 											 ">
 											Pedidos
 										</button>
@@ -99,7 +99,7 @@ const PageContent = ({ children }) => {
 											 motion-reduce:transition-none
 											 text-primary-foreground
 											 bg-indigo-500
-											 hover:bg-indigo-800
+											 hover:bg-indigo-700
 											 ">
 											Crear órden
 										</button>

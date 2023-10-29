@@ -51,3 +51,10 @@ select {
 .modalGeneral {
   max-width: fit-content;
 }
+
+/* Remove Input Border for create order page inputs */
+
+.remove-input-border {
+  border-color: transparent;
+  box-shadow: unset;
+}
