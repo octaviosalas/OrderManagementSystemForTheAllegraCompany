@@ -27,7 +27,7 @@ import GetCurrentDate from "./helpers/GetCurrentDate";
 import { OrderTableColumns, customerFormData } from "../../config/Orders";
 import GenerateUid from "./helpers/GenerateUid";
 import axios from "axios";
-import Loading from "../componentes/Loading";
+import Loading from "../components/Loading";
 
 dotenv.config();
 
@@ -83,6 +83,11 @@ export default function CreateOrder() {
 	const [attributeGroups, setAttributeGroups] = useState([]);
 	const [attribute, setAttribute] = useState([]);
 	const [productCombinationsIds, setProductCombinationsIds] = useState([]);
+
+	/**
+	 * Button Loaders
+	 */
+	const [createOrderLoader, setCreateOrderLoader] = useState(false);
 
 	// const [combinationAttributes, setCombinationAttributes] = useState([]);
 
@@ -189,6 +194,8 @@ export default function CreateOrder() {
 	}, [productsToOrder]);
 
 	const createOrder = async () => {
+		setCreateOrderLoader(true);
+
 		let order = {
 			orderNumber: orderNumber,
 			businessName: businessName,
@@ -206,6 +213,8 @@ export default function CreateOrder() {
 		axios
 			.post("https://allegra-apps.fly.dev/api/create-order", order)
 			.then((res) => {
+				setCreateOrderLoader(false);
+
 				console.log(res);
 				console.log(res.data);
 				setTimeout(() => {
@@ -724,7 +733,8 @@ export default function CreateOrder() {
 								<Button
 									onClick={createOrder}
 									className="w-full bg-slate-300 text-black hover:bg-slate-400"
-									color="primary">
+									color="primary"
+									isLoading={createOrderLoader}>
 									Crear pedido
 								</Button>
 							</CardBody>

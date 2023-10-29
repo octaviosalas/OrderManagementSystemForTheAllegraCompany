@@ -8,7 +8,7 @@ import axios from "axios"
 import MyModal from "./modals/EditModal"
 import OrdenDetailModal from "./modals/OrdenDetailModal";
 import { Button } from "@nextui-org/react";
-import Loading from "./componentes/Loading";
+import Loading from "./components/Loading";
 
 
 export default function Home({orders}) {
@@ -33,9 +33,7 @@ export default function Home({orders}) {
         .then((res) => {
           setAllOrders(res.data.data.orders);
           console.log(res.data.data.orders)
-          setTimeout(() => { 
-            setLoading(false)
-          }, 800)
+          setLoading(false)
         })
         .catch((err) => {
           console.log(err);
