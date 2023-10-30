@@ -20,7 +20,7 @@ const EditDetailOrder = ({cantidad}) => {
 
   return (
     <>
-      <Button onPress={openModal} className="text-white bg-blue-500  hover:bg-blue-800 h-8 w-6">Editar</Button>
+      <Button onPress={openModal} color='primary'>Editar</Button>
       <Modal isOpen={modalIsOpen} onOpenChange={closeModal}>
         <ModalContent>
           {(onClose) => (

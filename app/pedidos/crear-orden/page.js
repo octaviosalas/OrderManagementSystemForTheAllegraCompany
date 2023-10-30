@@ -51,8 +51,6 @@ export default function CreateOrder() {
 	const [quantity, setQuantity] = useState(null);
 	const [combination, setCombination] = useState("");
 	const [combinationPrice, setCombinationPrice] = useState(0);
-	const [firstAttribute, setFirstAttribute] = useState(0);
-	const [secondAttribute, setSecondAttribute] = useState(0);
 
 	// @TODO -> Use a single state and handle change function
 	// pluralsight.com/guides/handling-multiple-inputs-with-single-onchange-handler-react
@@ -68,7 +66,6 @@ export default function CreateOrder() {
 	const [orderNumber, setOrderNumber] = useState("0001");
 	const [formattedAttributes, setFormattedAttributes] = useState([]);
 	const [attributeGroups, setAttributeGroups] = useState([]);
-	const [attribute, setAttribute] = useState([]);
 	const [productCombinationsIds, setProductCombinationsIds] = useState([]);
 
 	/**
