@@ -79,12 +79,7 @@ export default function CreateOrder() {
 	/**
 	 * Toasts
 	 */
-	const [toasts, setToasts] = useState([
-		{
-			id: shortUUID.uuid(),
-			text: "Prueba",
-		},
-	]);
+	const [toasts, setToasts] = useState([]);
 
 	const [isToastVisible, setIsToastVisible] = useState(true);
 
@@ -101,7 +96,7 @@ export default function CreateOrder() {
 		setTimeout(() => {
 			setIsToastVisible(false);
 		}, 1600);
-		
+
 		setTimeout(() => {
 			autoDestroyToast(toast.id, toast.toastVisibility);
 		}, 1800);
@@ -171,7 +166,7 @@ export default function CreateOrder() {
 				{
 					key: productKey,
 					productCode: productCode,
-					product: typeof(product) === 'object' ? product.toString() : product,
+					product: typeof product === "object" ? product.toString() : product,
 					attributes: checkAtributtes(),
 					attributesObj: JSON.stringify(formattedAttributes),
 					quantity: quantity,
@@ -267,7 +262,6 @@ export default function CreateOrder() {
 
 			result.json().then((data) => {
 				data.products.map(({ name }) => {
-
 					console.log(name);
 
 					setProduct(name);
@@ -595,7 +589,13 @@ export default function CreateOrder() {
 
 					<div className="fixed z-50 top-0 right-0">
 						{toasts.map(({ id, text, type, customIcon }) => (
-							<Toast toastVisibility={isToastVisible} key={id} text={text} type={type} customIcon={customIcon} />
+							<Toast
+								toastVisibility={isToastVisible}
+								key={id}
+								text={text}
+								type={type}
+								customIcon={customIcon}
+							/>
 						))}
 					</div>
 
