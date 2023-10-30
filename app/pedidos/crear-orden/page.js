@@ -157,7 +157,8 @@ export default function CreateOrder() {
 		});
 
 		const priceWithSymbol = `$${formattedPrice}`;
-		console.log(formattedAttributes);
+		// console.log(formattedAttributes);
+		// console.log('product name', product, typeof(product.toString()));
 
 		if (productCode.length === 0 || product.length === 0) {
 			setWithOutProducts(true);
@@ -170,9 +171,9 @@ export default function CreateOrder() {
 				{
 					key: productKey,
 					productCode: productCode,
-					product: product,
+					product: typeof(product) === 'object' ? product.toString() : product,
 					attributes: checkAtributtes(),
-					attributesObj: formattedAttributes, //Agarrar formattedAtttributes
+					attributesObj: JSON.stringify(formattedAttributes),
 					quantity: quantity,
 					price: priceWithSymbol,
 					delete: (
@@ -265,9 +266,12 @@ export default function CreateOrder() {
 			);
 
 			result.json().then((data) => {
-				data.products.map((d) => {
-					setProduct(d.name);
-					console.log(d.name);
+				data.products.map(({ name }) => {
+
+					console.log(name);
+
+					setProduct(name);
+					console.log(name);
 				});
 
 				let formattedData = [];
