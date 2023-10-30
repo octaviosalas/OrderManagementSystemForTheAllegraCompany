@@ -1,26 +1,10 @@
 "use client";
-import React, { useRef } from "react";
+import React from "react";
 import dotenv from "dotenv";
-import {
-	Button,
-	Card,
-	CardBody,
-	Dropdown,
-	DropdownItem,
-	DropdownMenu,
-	DropdownTrigger,
-	Input,
-	Table,
-	TableBody,
-	TableCell,
-	TableColumn,
-	TableHeader,
-	TableRow,
-} from "@nextui-org/react";
+import { Button, Card, CardBody, Input } from "@nextui-org/react";
 import Hashids from "hashids";
 import { useState, useEffect } from "react";
 import InputAutocomplete from "./inputAutocomplete";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import InputSelect from "./inputSelect";
 import TableList from "./components/TableList";
 import GetCurrentDate from "./helpers/GetCurrentDate";
@@ -28,6 +12,9 @@ import { OrderTableColumns, customerFormData } from "../../config/Orders";
 import GenerateUid from "./helpers/GenerateUid";
 import axios from "axios";
 import Loading from "../components/Loading";
+import Toast from "@/app/components/Toast";
+import { DANGER_TYPE } from "@/app/constants";
+import shortUUID from "short-uuid";
 
 dotenv.config();
 
@@ -51,7 +38,7 @@ export default function CreateOrder() {
 
 	const hashId = new Hashids("", 6);
 
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 	const [withOutProducts, setWithOutProducts] = useState(false);
 
 	const [productCode, setProductCode] = useState("");
@@ -89,13 +76,36 @@ export default function CreateOrder() {
 	 */
 	const [createOrderLoader, setCreateOrderLoader] = useState(false);
 
-	// const [combinationAttributes, setCombinationAttributes] = useState([]);
+	/**
+	 * Toasts
+	 */
+	const [toasts, setToasts] = useState([
+		{
+			id: shortUUID.uuid(),
+			text: "Prueba",
+		},
+	]);
 
-	useEffect(() => {
-		setLoading(false);
-		// setTimeout(() => {
-		// }, 0);
-	}, []);
+	const [isToastVisible, setIsToastVisible] = useState(true);
+
+	const autoDestroyToast = (id, visibility) => {
+		let updatedArray = toasts.filter((item) => item.id !== id);
+
+		setToasts(updatedArray);
+		setIsToastVisible(true);
+	};
+
+	const addToast = (toast) => {
+		setToasts([...toasts, toast]);
+
+		setTimeout(() => {
+			setIsToastVisible(false);
+		}, 1600);
+		
+		setTimeout(() => {
+			autoDestroyToast(toast.id, toast.toastVisibility);
+		}, 1800);
+	};
 
 	useEffect(() => {
 		console.log("Cmbio el estAtributte a: ", medAttribute);
@@ -172,8 +182,7 @@ export default function CreateOrder() {
 							data-item_key={productKey}
 							onClick={removeProductItem}
 							className="hover:bg-red-700">
-							{" "}
-							Eliminar{" "}
+							Eliminar
 						</Button>
 					),
 				},
@@ -213,7 +222,10 @@ export default function CreateOrder() {
 		axios
 			.post("https://allegra-apps.fly.dev/api/create-order", order)
 			.then((res) => {
-				setCreateOrderLoader(false);
+				addToast({
+					id: shortUUID.uuid(),
+					text: "Órden creada exitosamente",
+				});
 
 				console.log(res);
 				console.log(res.data);
@@ -222,7 +234,16 @@ export default function CreateOrder() {
 				}, 4000);
 			})
 			.catch((err) => {
+				addToast({
+					id: shortUUID.uuid(),
+					text: "Hubo error al procesar la órden",
+					type: DANGER_TYPE,
+				});
+
 				console.log(err);
+			})
+			.finally(() => {
+				setCreateOrderLoader(false);
 			});
 	};
 
@@ -567,6 +588,13 @@ export default function CreateOrder() {
 						<p>Pedido Nro {orderNumber}</p>
 						<p>Fecha: {GetCurrentDate()}</p>
 					</div>
+
+					<div className="fixed z-50 top-0 right-0">
+						{toasts.map(({ id, text, type, customIcon }) => (
+							<Toast toastVisibility={isToastVisible} key={id} text={text} type={type} customIcon={customIcon} />
+						))}
+					</div>
+
 					<div className="xl:flex">
 						<div className="xl:max-w-[45%]">
 							<form className="mt-5">
@@ -665,7 +693,7 @@ export default function CreateOrder() {
 										{attributeGroups.length >= 1
 											? attributeGroups.map(
 													(attributeGroup) => attributeGroup.input
-											)
+											  )
 											: null}
 
 										<Input
