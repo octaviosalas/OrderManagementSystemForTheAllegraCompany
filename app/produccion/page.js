@@ -1,8 +1,9 @@
+"use client"
 import React from 'react'
 
 const page = () => {
   return (
-    <div className='flex items-center justify-center'>
+    <div className='flex flex-col items-center justify-center'>
         <h1>Main Page Produccion</h1>
     </div>
   )
