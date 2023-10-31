@@ -9,10 +9,16 @@ import EditModal from "./modals/EditModal"
 import { Button } from "@nextui-org/react";
 import Loading from "./components/Loading";
 import OrderDetailModal from "./modals/OrderDetailModal";
+import dotenv from "dotenv";
+
+dotenv.config()
+
 
 
 export default function Home({orders}) {
 
+  //const backend_url_fly = process.env.API_FLY;
+  //console.log(backend_url_fly)
   const router = useRouter();
   const [allOrders, setAllOrders] = useState([]);
   const [loading, setLoading] = useState(true)
@@ -28,14 +34,14 @@ export default function Home({orders}) {
     }, [router]);
   
     useEffect(() => {
-      axios
-        .get("https://allegra-apps.fly.dev/api/orders")
+      axios.get("https://allegra-apps.fly.dev/api/orders") //axios.get(`${backend_url_fly}/orders`)
         .then((res) => {
           setAllOrders(res.data.data.orders);
           console.log(res.data.data.orders)
           setLoading(false)
         })
         .catch((err) => {
+          console.log(backend_url_fly)
           console.log(err);
         });
     }, []);
@@ -91,7 +97,7 @@ export default function Home({orders}) {
     Email: order.client_email,
     Ciudadprovincia: order.province,
     Estado: order.state,
-    detalle:  <OrderDetailModal razonSocial={order.business_name} cuit={order.cuit}  email={order.client_email} localidad={order.province} estado={order.state} detalle={order.order_products}/>,
+    detalle:  <OrderDetailModal orderId={order.id} razonSocial={order.business_name} cuit={order.cuit}  email={order.client_email} localidad={order.province} estado={order.state} detalle={order.order_products}/>,
     Eliminar: <Button color="danger" onClick={() => deleteOrder(order.id)}>Eliminar</Button>,
     Editar:   <EditModal RazonSocial={order.business_name} Cuit={order.cuit} Email={order.client_email} Localidad={order.province}/>
   }));

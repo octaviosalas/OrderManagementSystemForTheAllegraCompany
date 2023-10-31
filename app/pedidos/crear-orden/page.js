@@ -16,6 +16,7 @@ import Toast from "@/app/components/Toast";
 import { DANGER_TYPE } from "@/app/constants";
 import shortUUID from "short-uuid";
 
+
 dotenv.config();
 
 let productCodeTimeout = null;
@@ -23,6 +24,7 @@ let productCodeTimeout = null;
 export default function CreateOrder() {
 	const endpoint_url = process.env.PS_API_URL;
 	const api_token = process.env.PS_API_TOKEN;
+	const url_backend = process.env.URL_BACKEND;
 	const json_format = "output_format=JSON";
 	const language = "language=1";
 	const defaultHeaders = {

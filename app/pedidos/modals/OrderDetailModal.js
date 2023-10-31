@@ -17,8 +17,12 @@ import {
 } from "@nextui-org/react";
 import "../../globals.css";
 import EditDetailOrder from "./EditDetailOrder";
+import { DANGER_TYPE } from "@/app/constants";
+import { SUCCESS_TYPE } from "@/app/constants";
+import { WARNING_TYPE } from "@/app/constants";
 
 const OrderDetailModal = ({
+	orderId,
 	razonSocial,
 	cuit,
 	email,
@@ -64,9 +68,9 @@ const OrderDetailModal = ({
 										<small className="font-bold">Email: {email}</small>
 										<small className="font-bold">Localidad: {localidad}</small>
 									</div>
-									{/* @TODO -> Do it dynamically */}
-									{/* <Chip color="secondary">{estado}</Chip> */}
-									<Chip color="success">Confirmado</Chip>
+									{estado === 1 ? <Chip color={WARNING_TYPE}>Pendiente</Chip> : null}
+									{estado === 2 ? <Chip color={DANGER_TYPE}>Cancelado</Chip> : null}
+									{estado === 3 ? <Chip color={SUCCESS_TYPE}>Confirmado</Chip> : null}
 								</div>
 
 								<hr className="my-4" />
