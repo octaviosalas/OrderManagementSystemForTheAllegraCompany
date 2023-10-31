@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 import formsPlugin from '@tailwindcss/forms';
 const { nextui } = require("@nextui-org/react");
-import daisyui from 'daisyui';
+// import daisyui from 'daisyui';
 
 
 module.exports = {
@@ -34,5 +34,5 @@ module.exports = {
     require('@tailwindcss/forms')
   ],
   darkMode: "class",
-  plugins: [nextui(),  formsPlugin, daisyui]
+  plugins: [nextui(), formsPlugin]
 }

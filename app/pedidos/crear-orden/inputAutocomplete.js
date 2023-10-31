@@ -16,7 +16,7 @@ export default function InputAutocomplete({
 					{possibilitiesList.map((item) => (
 						<li
 							className="p-4 hover:bg-gray-100 cursor-pointer"
-							onClick={() => {
+							onClick={() => {								
 								setInputValue(item.label);
 								setPossibilitesList([]);
                                 getProductById(item.key);

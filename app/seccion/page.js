@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import produccion from "../images/produccion.jpg"
 import calendario from "../images/calendario.jpg"
 import Link from 'next/link';
-import Loading from '../pedidos/componentes/Loading';
+import Loading from '../pedidos/components/Loading';
 
 
 

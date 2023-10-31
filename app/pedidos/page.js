@@ -5,10 +5,10 @@ import { useEffect } from "react";
 import { useRouter } from 'next/navigation'
 import { useState } from "react";
 import axios from "axios"
-import MyModal from "./modals/EditModal"
-import OrdenDetailModal from "./modals/OrdenDetailModal";
+import EditModal from "./modals/EditModal"
 import { Button } from "@nextui-org/react";
-import Loading from "./componentes/Loading";
+import Loading from "./components/Loading";
+import OrderDetailModal from "./modals/OrderDetailModal";
 
 
 export default function Home({orders}) {
@@ -33,9 +33,7 @@ export default function Home({orders}) {
         .then((res) => {
           setAllOrders(res.data.data.orders);
           console.log(res.data.data.orders)
-          setTimeout(() => { 
-            setLoading(false)
-          }, 800)
+          setLoading(false)
         })
         .catch((err) => {
           console.log(err);
@@ -93,9 +91,9 @@ export default function Home({orders}) {
     Email: order.client_email,
     Ciudadprovincia: order.province,
     Estado: order.state,
-    detalle:  <OrdenDetailModal razonSocial={order.business_name} cuit={order.cuit}  email={order.client_email} localidad={order.province} estado={order.state} detalle={order.order_products}/>,
-    Eliminar: <Button className="bg-red-500 text-white hover:bg-red-800  h-8 mr-2" onClick={() => deleteOrder(order.id)}>Eliminar</Button>,
-    Editar:   <MyModal RazonSocial={order.business_name} Cuit={order.cuit} Email={order.client_email} Localidad={order.province}/>
+    detalle:  <OrderDetailModal razonSocial={order.business_name} cuit={order.cuit}  email={order.client_email} localidad={order.province} estado={order.state} detalle={order.order_products}/>,
+    Eliminar: <Button color="danger" onClick={() => deleteOrder(order.id)}>Eliminar</Button>,
+    Editar:   <EditModal RazonSocial={order.business_name} Cuit={order.cuit} Email={order.client_email} Localidad={order.province}/>
   }));
 
   return (
