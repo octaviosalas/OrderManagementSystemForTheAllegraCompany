@@ -73,15 +73,19 @@ select {
   min-width: 160px;
 }
 
+/* Remove tailwind input box shadow border globally */
+.group > div > input, .group > div > input:focus {
+  border-color: transparent;
+  box-shadow: unset;
+  padding: 10px 0px 0px;
+}
 
 /*ModalDetalleOrde */
-
 .modalGeneral {
   max-width: fit-content;
 }
 
 /* Remove Input Border for create order page inputs */
-
 .remove-input-border {
   border-color: transparent;
   box-shadow: unset;

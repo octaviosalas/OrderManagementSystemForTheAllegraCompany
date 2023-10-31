@@ -6,10 +6,16 @@ import {
 	ModalBody,
 	ModalFooter,
 	Button,
+	Input,
 } from "@nextui-org/react";
 
 const EditModal = ({ RazonSocial, Cuit, Email, Localidad }) => {
 	const [modalIsOpen, setModalIsOpen] = useState(false);
+
+	const [updatedRazonSocial, setUpdatedRazonSocial] = useState(RazonSocial);
+	const [updatedCuit, setUpdatedCuit] = useState(Cuit);
+	const [updatedEmail, setUpdatedEmail] = useState(Email);
+	const [updatedLocalidad, setUpdatedLocalidad] = useState(Localidad);
 
 	const openModal = () => {
 		setModalIsOpen(true);
@@ -21,9 +27,7 @@ const EditModal = ({ RazonSocial, Cuit, Email, Localidad }) => {
 
 	return (
 		<>
-			<Button
-				onPress={openModal}
-				color="primary">
+			<Button onPress={openModal} color="primary">
 				Editar
 			</Button>
 			<Modal isOpen={modalIsOpen} onOpenChange={closeModal}>
@@ -31,45 +35,33 @@ const EditModal = ({ RazonSocial, Cuit, Email, Localidad }) => {
 					{(onClose) => (
 						<>
 							<ModalHeader className="flex flex-col gap-1 items-center jusitify-center">
-								Estas por editar el pedido
+								Editar pedido
 							</ModalHeader>
 							<ModalBody>
-								<div className="justify-center items-center">
-									<div className="flex flex-col items-center">
-										<label className="text-sm mt-4">Razon Social</label>
-										<input
-											type="text"
-											placeholder={RazonSocial}
-											className="text-center mt-2 h-6 bg-gray-300 text-black font-bold text-sm rounded-lg"
-										/>
-									</div>
+								<div className="flex flex-col gap-3 justify-center items-center">
+									<Input
+										label="Razón Social"
+										value={updatedRazonSocial}
+										onValueChange={setUpdatedRazonSocial}
+									/>
 
-									<div className="flex flex-col items-center">
-										<label className="text-sm mt-4">Cuit</label>
-										<input
-											type="text"
-											placeholder={Cuit}
-											className="text-center mt-2 h-6 bg-gray-300 text-black font-bold text-sm rounded-lg"
-										/>
-									</div>
+									<Input
+										label="Cuit"
+										value={updatedCuit}
+										onValueChange={setUpdatedCuit}
+									/>
 
-									<div className="flex flex-col items-center">
-										<label className="text-sm mt-4">Email</label>
-										<input
-											type="text"
-											placeholder={Email}
-											className="text-center mt-2 h-6 bg-gray-300 text-black font-bold text-sm rounded-lg"
-										/>
-									</div>
+									<Input
+										label="Email"
+										value={updatedEmail}
+										onValueChange={setUpdatedEmail}
+									/>
 
-									<div className="flex flex-col items-center">
-										<label className="text-sm mt-4">Ciudad/Provincia</label>
-										<input
-											type="text"
-											placeholder={Localidad}
-											className="text-center mt-2 h-6 bg-gray-300 text-black font-bold text-sm rounded-lg"
-										/>
-									</div>
+									<Input
+										label="Ciudad/Provincia"
+										value={updatedLocalidad}
+										onValueChange={setUpdatedLocalidad}
+									/>
 								</div>
 							</ModalBody>
 							<ModalFooter className="justify-center ">
