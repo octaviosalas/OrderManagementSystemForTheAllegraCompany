@@ -1,12 +1,15 @@
-"use client"
-import React from 'react'
 
-const page = () => {
+import React from 'react'
+import Navbar from './components/navbar'
+import TablePedidos from './components/tablePedidos'
+
+const productionPedidos = () => {
   return (
-    <div className='flex flex-col items-center justify-center'>
-        <h1>Main Page Produccion</h1>
+    <div className='flex flex-col'> 
+        <Navbar/>
+        <TablePedidos/>
     </div>
   )
 }
 
-export default page
+export default productionPedidos
