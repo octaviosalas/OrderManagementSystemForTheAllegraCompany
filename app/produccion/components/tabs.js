@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {Tabs, Tab, Card, CardBody, CardHeader} from "@nextui-org/react";
 
-export default function TabsModal({showFirst, showSecond}) {
+export default function TabsModal({showFirst, showSecond, showLastTable}) {
   const [selected, setSelected] = React.useState("photos");
 
   const handleFirstTab = () => { 
@@ -15,14 +15,15 @@ export default function TabsModal({showFirst, showSecond}) {
         showFirst()
     } else if (selected === "Planchado/Control de Calidad") { 
         showSecond()
-    }
+        showLastTable()
+    } 
   },[selected])
 
   return (
     <div className="flex w-full flex-col">
       <Tabs  aria-label="Options"  selectedKey={selected}   onSelectionChange={setSelected}
       >
-        <Tab key="Corte" title="Corte" >
+        <Tab key="Corte" title="Corte">
             <div className="flex flex-col">
                 <div className="bg-gray-200 h-8 w-36">
                     <small className="text-xs text-black m-4">Estado: En Corte</small>

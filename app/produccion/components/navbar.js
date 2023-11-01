@@ -1,8 +1,6 @@
 "use client"
 import React, {useEffect, useState} from "react";
-import {NavbarMenuToggle, NavbarItem, NavbarMenuItem, NavbarMenu} from "@nextui-org/react";
-//import {AcmeLogo} from "./AcmeLogo.jsx";
-import person from "../../images/persona.png"
+import Link from 'next/link';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -41,11 +39,11 @@ export default function Navbar() {
                 <img src="/allegra-store-logo.png" className="h-11 w-11 ml-6"/>
                  <div className="hidden lg:block">
                     <div className="flex ml-4 items-center gap-6 lg:gap-9 xl:gap-16 ">
-                        <p className="text-black">Tienda Mayorista</p>
-                        <p className="text-black">Pedidos</p>
-                        <p className="text-black">Usuarios</p>
-                        <p className="text-black">Cargar Pedidos</p>
-                        <p className="text-black">Talleres de Confeccion</p>
+                        <p className="text-black cursor-pointer hover:underline">Tienda Mayorista</p>
+                        <p className="text-black cursor-pointer hover:underline">Pedidos</p>
+                        <p className="text-black cursor-pointer hover:underline">Usuarios</p>
+                        <Link href="/produccion/cargarPedido"> <p className="text-black cursor-pointer hover:underline">Cargar Pedidos</p> </Link> 
+                        <p className="text-black cursor-pointer hover:underline">Talleres de Confeccion</p>
                     </div>
                   
                  </div>

@@ -132,30 +132,31 @@ const rowsSecondTable = [
   ];
 
 
- 
-
-/*Para corte: Checkbox, Codigo producto con un link hacia el sitio web, nombre de producto, cantidad, observaciones*/
-/*Columnas para confeccion: Checkbox, id, cod prod, nombre prod, cantidad, costo de confeccion unitario (como input), costo confeccion total, observaciones */
-/*mismas columnas que confeccion, pero no debe haber inputs salvo observaciones */
-
-
 const ProduccionDetailModal = () => {
 	
 
-	const [modalIsOpenNow, setModalIsOpenNow] = useState(false);
-    const [showFirstTable, setShowFirstTable] = useState(true)
-    const [showSecondTable, setShowSecondTable] = useState(false)
+	   const [modalIsOpenNow, setModalIsOpenNow] = useState(false);
+     const [showFirstTable, setShowFirstTable] = useState(true)
+     const [showSecondTable, setShowSecondTable] = useState(false)
+     const [lastTable, setLastTable] = useState(false)
 
     const showingFirstTable = () => { 
         setShowFirstTable(true)
         setShowSecondTable(false)
+        setLastTable(false)
         console.log("aa")
     }
 
     const showingSecondTable = () => { 
         setShowSecondTable(true)
         setShowFirstTable(false)
+        setLastTable(false)
         console.log("bb")
+    }
+
+    const showButtonFinally = () => { 
+      setLastTable(true)
+      console.log("sdgbsh")
     }
 
 	const openModal = () => {
@@ -179,7 +180,7 @@ const ProduccionDetailModal = () => {
 					{(onClose) => (
 						<>
 							<ModalHeader className="flex flex-col gap-1 items-center jusitify-start">
-                                <TabsModal showFirst={showingFirstTable} showSecond={showingSecondTable}/>
+                                <TabsModal showFirst={showingFirstTable} showSecond={showingSecondTable} showLastTable={showButtonFinally}/>
                             </ModalHeader>
                                 <ModalBody className="w-100% flex flex-col">
                                            <div className="flex flex-col border w-[1034px]">
@@ -191,11 +192,12 @@ const ProduccionDetailModal = () => {
                                                                 <TableBody items={rowsFirstTable}>
                                                                 {(item) => (
                                                                     <TableRow key={item.key}>
-                                                                    {(columnKey) => <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
-                                                                    </TableRow>
+                                                                     {(columnKey) => <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
+                                                                    </TableRow>                                                           
                                                                 )}
-                                                            </TableBody>
-                                                    </Table> : null}
+                                                            </TableBody>     
+                                                    </Table>                                                  
+                                                    : null}
 
                                                     {showSecondTable ?
                                                     <Table  aria-label="Selection behavior table example with dynamic content" selectionMode="multiple" selectionBehavior={selectionBehavior}>
@@ -210,6 +212,11 @@ const ProduccionDetailModal = () => {
                                                                 )}
                                                             </TableBody>
                                                     </Table> : null}
+                                            </div>
+                                            <div className=" w-full flex justify-end">
+                                               {showFirstTable ?  <Button className="mr-6">Pasar a Confeccion</Button> : null}
+                                               {showSecondTable && !lastTable ?  <Button className="mr-6">Pasar a Planchado / Control de Calidad</Button> : null}
+                                               {showSecondTable && lastTable ?  <Button className="mr-6">Finalizar</Button> : null}
                                             </div>
                                 </ModalBody>
 						</>
