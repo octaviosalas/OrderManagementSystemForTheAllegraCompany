@@ -1,17 +1,28 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Tabs, Tab, Card, CardBody, CardHeader} from "@nextui-org/react";
 
-export default function App() {
+export default function TabsModal({showFirst, showSecond}) {
   const [selected, setSelected] = React.useState("photos");
+
+  const handleFirstTab = () => { 
+    console.log("yyyyyyyyyy")
+  }
+
+  useEffect(() => { 
+    if(selected === "Confeccion") { 
+        showSecond()
+    } else if (selected === "Corte") { 
+        showFirst()
+    } else if (selected === "Planchado/Control de Calidad") { 
+        showSecond()
+    }
+  },[selected])
 
   return (
     <div className="flex w-full flex-col">
-      <Tabs 
-        aria-label="Options"         
-        selectedKey={selected}
-        onSelectionChange={setSelected}
+      <Tabs  aria-label="Options"  selectedKey={selected}   onSelectionChange={setSelected}
       >
-        <Tab key="Corte" title="Corte">
+        <Tab key="Corte" title="Corte" >
             <div className="flex flex-col">
                 <div className="bg-gray-200 h-8 w-36">
                     <small className="text-xs text-black m-4">Estado: En Corte</small>
@@ -21,7 +32,7 @@ export default function App() {
                 </div>
              </div>
         </Tab>
-        <Tab key="Confeccion" title="Confeccion">
+        <Tab key="Confeccion" title="Confeccion" onSelectionChange={handleFirstTab}>
             <div className="flex gap-12 text-center">
                 <div className="bg-gray-200 h-8 w-36">
                     <small className="text-xs text-black m-4">Estado: En Corte</small>
@@ -47,12 +58,12 @@ export default function App() {
                 <small className="text-xs">Listado de productos en Confeccion</small>
              </div>
         </Tab>
-        <Tab key="Planchado/Control de Calidad" title="Planchado/Control de Calidad">
+        <Tab key="Planchado/Control de Calidad" title="Planchado/Control de Calidad" onClick={() => (console.log("cccccccccccc"))}>
             <div className="flex gap-12">
                     <div className="bg-gray-200 h-8 w-36">
                         <small className="text-xs text-black m-4">Estado: En Corte</small>
                     </div>
-                    <div className="bg-gray-200 h-8 w-56">
+                    <div className="bg-gray-200 h-8 w-56 justify-center text-center">
                         <small className="text-xs">Taller de confeccion: Lorem Impsut</small>
                     </div>
                 </div>
