@@ -21,7 +21,7 @@ const MainProduction = () => {
 
                 <div className='flex justify-center mt-6'>
                     <div className='text-center'>
-                      <h2 className='font-bold text-lg'>Bienvenido!</h2>
+                      <h2 className='font-bold text-lg dark:text-red-600'>Bienvenido!</h2>
                       <h3 className='font-bold text-lg'>Selecciona el area al que deseas Ingresar!</h3>
                     </div> 
                 </div>

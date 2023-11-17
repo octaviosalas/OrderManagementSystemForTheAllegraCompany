@@ -34,11 +34,11 @@ const EditModal = ({ RazonSocial, Cuit, Email, Localidad }) => {
 				<ModalContent>
 					{(onClose) => (
 						<>
-							<ModalHeader className="flex flex-col gap-1 items-center jusitify-center">
+							<ModalHeader className="flex flex-col gap-1 items-center jusitify-center text-black dark:text-white">
 								Editar pedido
 							</ModalHeader>
 							<ModalBody>
-								<div className="flex flex-col gap-3 justify-center items-center">
+								<div className="flex flex-col gap-3 justify-center items-center text-black dark:text-white">
 									<Input
 										label="Razón Social"
 										value={updatedRazonSocial}

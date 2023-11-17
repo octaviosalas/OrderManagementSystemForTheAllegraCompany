@@ -1,12 +1,32 @@
 "use client"
 
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Link } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
 import { Button } from "@nextui-org/react";
 
 const PageContent = ({ children }) => {
 	const pathname = usePathname();
+
+	const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
+	const [theme, setTheme] = useState("light");
+
+	useEffect(() => {
+		const isDarkMode = matchMedia("(prefers-color-scheme: dark)").matches;
+		console.log(isDarkMode)
+		setTheme(isDarkMode ? "dark" : "light");
+	}, []);
+
+	const handleChangeTheme = () => {
+		setTheme(prevTheme => prevTheme === "light" ? "dark" : "light");
+	  };
+	
+	useEffect(() => {
+		document.querySelector("html").classList.remove("dark");
+		document.querySelector("html").classList.add(theme);
+	}, [theme]);
+
 
 	return (
 		<>
@@ -20,17 +40,18 @@ const PageContent = ({ children }) => {
 								</Link>
 							</div>
 							<div>
-								<nav className="flex gap-2 mt-6">
+								<nav className="flex text-center justify-center items-center gap-2 mt-6">
+									   <small onClick={handleChangeTheme}>Cambiar Tema</small>
 										<Link href="/pedidos">
-										<Button color="primary">
-											Pedidos
-										</Button>
+											<Button color="primary">
+												Pedidos
+											</Button>
 										</Link>
 
 										<Link href="/pedidos/crear-orden">
-										<Button color="primary">
-											Crear órden
-										</Button>
+											<Button color="primary">
+												Crear órden
+											</Button>
 										</Link>
 									
 								</nav>

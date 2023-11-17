@@ -22,17 +22,17 @@ export default function TablePedidos() {
 
   return (
     <>
-      <div className="flex flex-col gap-3 mt-52">
+      <div className="flex flex-col gap-3 mt-52 text-black">
         <p className="font-bold text-md ml-6">Pedidos</p>
-          <Table   color={selectedColor} selectionMode="single"  defaultSelectedKeys={["2"]}  aria-label="Example static collection table" >
+          <Table className="text-black dark:text-white"  color={selectedColor} selectionMode="single"  defaultSelectedKeys={["2"]}  aria-label="Example static collection table" >
             <TableHeader>
-              <TableColumn>Id</TableColumn>
-              <TableColumn>Codigo Producto</TableColumn>
-              <TableColumn>Costo de Confeccion</TableColumn>
-              <TableColumn>Estado</TableColumn>
-              <TableColumn>Detalle</TableColumn>
-              <TableColumn>Editar</TableColumn>
-              <TableColumn>Eliminar</TableColumn>
+              <TableColumn className="text-black dark:text-white font-bold" >Id</TableColumn>
+              <TableColumn className="text-black dark:text-white font-bold" >Codigo Producto</TableColumn>
+              <TableColumn className="text-black dark:text-white font-bold" >Costo de Confeccion</TableColumn>
+              <TableColumn className="text-black dark:text-white font-bold" >Estado</TableColumn>
+              <TableColumn className="text-black dark:text-white font-bold" >Detalle</TableColumn>
+              <TableColumn className="text-black dark:text-white font-bold" >Editar</TableColumn>
+              <TableColumn className="text-black dark:text-white font-bold" >Eliminar</TableColumn>
             </TableHeader>
             <TableBody>
               <TableRow key="1">

@@ -41,7 +41,6 @@ export default function Home({orders}) {
           setLoading(false)
         })
         .catch((err) => {
-          console.log(backend_url_fly)
           console.log(err);
         });
     }, []);
@@ -110,8 +109,8 @@ export default function Home({orders}) {
     </div>    
        :
       <div className="mt-6">
-        <Table aria-label="Example table with dynamic content">
-          <TableHeader columns={columns}>
+        <Table aria-label="Example table with dynamic content" className="text-black dark:text-white">
+          <TableHeader columns={columns} className="text-black dark:text-white text-center">
             {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
           </TableHeader>
           <TableBody items={confirmedOrders}>

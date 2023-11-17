@@ -243,7 +243,7 @@ export default function CreateOrder() {
 	};
 
 	const getProductsCode = (e) => {
-		console.log("iiiiiiiiiii");
+		
 		let memProductCode = e.target.value;
 		if (memProductCode.length <= 0) {
 			setProductsCodePossibilities([]);
@@ -261,10 +261,10 @@ export default function CreateOrder() {
 
 			result.json().then((data) => {
 				data.products.map(({ name }) => {
-					console.log(name);
+					
 
 					setProduct(name);
-					console.log(name);
+				
 				});
 
 				let formattedData = [];
@@ -275,7 +275,7 @@ export default function CreateOrder() {
 					});
 				});
 				setProductsCodePossibilities(formattedData);
-				console.log(productsCodePossibilities);
+	
 			});
 		}, 800);
 	};
@@ -333,7 +333,7 @@ export default function CreateOrder() {
 			.map((item) => item?.id)
 			.join("|");
 
-		console.log(optionValuesStr);
+		
 
 		let optionValuesResult = await fetch(
 			`${endpoint_url}/product_option_values?${json_format}&${language}&display=full&filter[id]=[${optionValuesStr}]`,
@@ -348,7 +348,7 @@ export default function CreateOrder() {
 		);
 
 		let theName = await getName.json();
-		console.log(theName);
+	
 
 		const attributes = [];
 		attributesData.product_option_values.forEach((attribute) => {
@@ -381,7 +381,7 @@ export default function CreateOrder() {
 
 			let attributeGroupData = await attributeGroupResult.json();
 
-			console.log(attributeGroupData);
+		
 
 			await Promise.all(
 				attributeGroupData.product_options.map((attributeGroup) => {
@@ -417,7 +417,7 @@ export default function CreateOrder() {
 			console.log("Cantidad de atributos: ", quantityAtributes);
 		}, 500);
 
-		console.log(formattedAttributes);
+
 	};
 
 	const combinationAttributes = [];
@@ -437,7 +437,7 @@ export default function CreateOrder() {
 			combinationAttributes.push(attribute);
 		}
 
-		console.log(combinationAttributes);
+	
 
 		if (combinationAttributes.length >= quantityAtributes) {
 			getCombination(combinationAttributes);
@@ -448,7 +448,7 @@ export default function CreateOrder() {
 	};
 
 	const getCombination = async (attributes) => {
-		console.log("attributes from get combination");
+		
 
 		setFormattedAttributes([...formattedAttributes, attributes]);
 
@@ -459,17 +459,13 @@ export default function CreateOrder() {
 			{ headers: defaultHeaders }
 		);
 
-		console.log("formattedAttributes");
-		console.log(formattedAttributes);
+	
 
 		const combinationsData = await combinationsResult.json();
 
 		//-----------------------------------------------------------
 
-		console.log("combinationsData");
-		console.log(combinationsData);
-
-		console.log(attributes);
+	
 
 		const arrayDeAtributosSeleccionados = attributes.map((a) => a.attribute.id);
 		console.log(arrayDeAtributosSeleccionados);
@@ -483,7 +479,7 @@ export default function CreateOrder() {
 				);
 				setEstAttribute(optionProductValues[0]);
 				setMedAttribute(optionProductValues[1]);
-				console.log(optionProductValues);
+			
 				const isMatch = arrayDeAtributosSeleccionados.every((id) =>
 					optionProductValues.includes(id)
 				);
@@ -493,13 +489,13 @@ export default function CreateOrder() {
 					setCombinationPrice(data.price);
 					console.log(combination);
 				}
-				console.log(matchingObjects);
+			
 			}
 		};
 
 		buscandoElObjetivo();
 
-		console.log("Objetos que coinciden:", matchingObjects);
+		
 
 		//-----------------------------------------------------------
 		combinationsData.combinations.map((combination) => {
@@ -516,7 +512,7 @@ export default function CreateOrder() {
 				setCombination(combinationName);
 			}
 
-			console.log("no combination found");
+			
 		});
 	};
 
@@ -609,7 +605,7 @@ export default function CreateOrder() {
 										{customerFormData.map(
 											({ label, type, size, variant, value, onChange }) => (
 												<input
-													className="grow w-auto border border-none hover:border-none rounded-lg"
+													className="grow w-auto border border-none hover:border-none rounded-lg bg:white dark:bg-black dark:text-white"
 													label={label}
 													placeholder={label}
 													type={type ?? "text"}

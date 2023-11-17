@@ -185,9 +185,9 @@ const ProduccionDetailModal = () => {
                                 <ModalBody className="w-100% flex flex-col">
                                            <div className="flex flex-col border w-[1034px]">
                                                {showFirstTable ?
-                                                    <Table  aria-label="Selection behavior table example with dynamic content" selectionMode="multiple" selectionBehavior={selectionBehavior}>
+                                                    <Table className="text-black dark:text-white" aria-label="Selection behavior table example with dynamic content" selectionMode="multiple" selectionBehavior={selectionBehavior}>
                                                             <TableHeader columns={columnsFirstTable}>
-                                                                {(columnsFirstTable) => <TableColumn key={columnsFirstTable.key}>{columnsFirstTable.label}</TableColumn>}
+                                                                {(columnsFirstTable) => <TableColumn className="text-black dark:text-white"  key={columnsFirstTable.key}>{columnsFirstTable.label}</TableColumn>}
                                                                 </TableHeader>
                                                                 <TableBody items={rowsFirstTable}>
                                                                 {(item) => (
@@ -200,9 +200,9 @@ const ProduccionDetailModal = () => {
                                                     : null}
 
                                                     {showSecondTable ?
-                                                    <Table  aria-label="Selection behavior table example with dynamic content" selectionMode="multiple" selectionBehavior={selectionBehavior}>
+                                                    <Table className="text-black dark:text-white" aria-label="Selection behavior table example with dynamic content" selectionMode="multiple" selectionBehavior={selectionBehavior}>
                                                             <TableHeader columns={columnsSecondTable}>
-                                                                {(columnsSecondTable) => <TableColumn key={columnsSecondTable.key}>{columnsSecondTable.label}</TableColumn>}
+                                                                {(columnsSecondTable) => <TableColumn className="text-black dark:text-white" key={columnsSecondTable.key}>{columnsSecondTable.label}</TableColumn>}
                                                                 </TableHeader>
                                                                 <TableBody items={rowsSecondTable}>
                                                                 {(item) => (
@@ -214,9 +214,9 @@ const ProduccionDetailModal = () => {
                                                     </Table> : null}
                                             </div>
                                             <div className=" w-full flex justify-end">
-                                               {showFirstTable ?  <Button className="mr-6">Pasar a Confeccion</Button> : null}
-                                               {showSecondTable && !lastTable ?  <Button className="mr-6">Pasar a Planchado / Control de Calidad</Button> : null}
-                                               {showSecondTable && lastTable ?  <Button className="mr-6">Finalizar</Button> : null}
+                                               {showFirstTable ?  <Button className="mr-6 bg-gray-300 dark:bg-white text-black font-bold">Pasar a Confeccion</Button> : null}
+                                               {showSecondTable && !lastTable ?  <Button className="mr-6 bg-gray-300 dark:bg-white text-black font-bold">Pasar a Planchado / Control de Calidad</Button> : null}
+                                               {showSecondTable && lastTable ?  <Button className="mr-6 bg-gray-300 dark:bg-white text-black font-bold">Finalizar</Button> : null}
                                             </div>
                                 </ModalBody>
 						</>
