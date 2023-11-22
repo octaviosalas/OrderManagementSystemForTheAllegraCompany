@@ -1,9 +1,10 @@
 "use client"
 import React from "react";
-import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, RadioGroup, Radio} from "@nextui-org/react";
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, RadioGroup, Radio, Button} from "@nextui-org/react";
 import axios from "axios"
 import { useState, useEffect } from "react";
 import ProduccionDetailModal from "../modals/ProduccionDetailModal";
+import AddNewProductionOrder from "../modals/AddNewProductionOrder";
 
 const colors = ["default", "primary", "secondary", "success", "warning", "danger"];
 
@@ -22,8 +23,12 @@ export default function TablePedidos() {
 
   return (
     <>
-      <div className="flex flex-col gap-3 mt-52 text-black">
-        <p className="font-bold text-md ml-6">Pedidos</p>
+      <div className="flex flex-col gap-3 mt-52 text-black"> 
+      <div className="flex justify-between text-center items-center">
+        <p className="font-bold text-md ml-6">Pedidos Produccion</p>
+        <AddNewProductionOrder/>
+      </div>
+        
           <Table className="text-black dark:text-white"  color={selectedColor} selectionMode="single"  defaultSelectedKeys={["2"]}  aria-label="Example static collection table" >
             <TableHeader>
               <TableColumn className="text-black dark:text-white font-bold" >Id</TableColumn>

@@ -30,7 +30,7 @@ const PageContent = ({ children }) => {
 
 	return (
 		<>
-			{pathname === "/"  ||  pathname === "/seccion" ||   pathname === "/produccion"  ||   pathname === "/produccion/productionPedidos" ? null : (
+			{pathname === "/"  ||  pathname === "/seccion" ||   pathname === "/produccion"  ||   pathname === "/produccion/productionPedidos"  ||  pathname === "/produccion/users"  ? null : (
 				<>
 					{
 						<header className="flex bg-gray-100 justify-between px-8 py-4">
