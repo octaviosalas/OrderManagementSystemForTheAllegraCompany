@@ -132,7 +132,7 @@ const rowsSecondTable = [
   ];
 
 
-const ProduccionDetailModal = () => {
+const ProduccionDetailModal = ({orderData}) => {
 	
 
 	   const [modalIsOpenNow, setModalIsOpenNow] = useState(false);

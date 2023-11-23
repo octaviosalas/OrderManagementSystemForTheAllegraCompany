@@ -3,6 +3,7 @@ import React from "react";
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, RadioGroup, Radio, Button} from "@nextui-org/react";
 import ProduccionDetailModal from "../modals/ProduccionDetailModal";
 import Navbar from "../components/navbar";
+import AddNewUser from "../modals/AddNewUser";
 
 const Users = () => {
 
@@ -12,12 +13,12 @@ const Users = () => {
   return (
     <>
     <Navbar/>
-        <div className="flex flex-col items-center justify-center h-screen">
+        <div className="flex flex-col mt-52">
           <div className="flex items-center justify-between">
             <p className="font-bold text-sm">Usuarios</p>
-            
+            <AddNewUser/>
           </div>
-          <Table className="text-black dark:text-white"  color={selectedColor} selectionMode="single"  defaultSelectedKeys={["2"]}  aria-label="Example static collection table" >
+          <Table className="text-black dark:text-white mt-12"  color={selectedColor} selectionMode="single"  defaultSelectedKeys={["2"]}  aria-label="Example static collection table" >
                 <TableHeader>
                   <TableColumn className="text-black dark:text-white font-bold" >Id</TableColumn>
                   <TableColumn className="text-black dark:text-white font-bold" >Codigo Producto</TableColumn>

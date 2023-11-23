@@ -58,7 +58,7 @@ export default function Navbar() {
                  <div className="hidden lg:block">
                     <div className="flex ml-4 items-center gap-6 lg:gap-9 xl:gap-16 ">
                         <p className="text-black cursor-pointer hover:underline dark:text-white">Tienda Mayorista</p>
-                        <p className="text-black cursor-pointer hover:underline dark:text-white ">Pedidos</p>
+                        <Link href="/produccion">  <p className="text-black cursor-pointer hover:underline dark:text-white ">Pedidos</p> </Link>
                         <Link href="/produccion/users"> <p className="text-black cursor-pointer hover:underline dark:text-white">Usuarios</p>  </Link> 
                         <Link href="/produccion/cargarPedido"> <p className="text-black cursor-pointer hover:underline dark:text-white">Cargar Pedidos</p> </Link> 
                         <p className="text-black cursor-pointer hover:underline dark:text-white">Talleres de Confeccion</p>

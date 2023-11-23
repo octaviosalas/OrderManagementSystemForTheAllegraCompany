@@ -1,37 +1,31 @@
 "use client"
 import React from "react";
-import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, RadioGroup, Radio, Button} from "@nextui-org/react";
 import axios from "axios"
 import { useState, useEffect } from "react";
 import ProduccionDetailModal from "../modals/ProduccionDetailModal";
 import AddNewProductionOrder from "../modals/AddNewProductionOrder";
-
-const colors = ["default", "primary", "secondary", "success", "warning", "danger"];
+import {Table,TableHeader,TableColumn,TableBody,TableRow,TableCell, Button, Input} from "@nextui-org/react";
+import EditOrderModal from "../modals/EditOrder";
+import DeleteOrderModal from "../modals/DeleteOrder";
 
 export default function TablePedidos() {
+
   const [selectedColor, setSelectedColor] = React.useState("default");
+  const [data, setData] = useState([])
+  const [columns, setColumns] = useState([]);
+  const [selectionBehavior, setSelectionBehavior] = React.useState("toggle");
+  const [searchTerm, setSearchTerm] = useState("")
+
 
   useEffect(() => {
     axios.get("https://allegra-apps.fly.dev/api/orders") 
-      .then((res) => {
+         .then((res) => {
         console.log(res.data.data.orders) 
-      })
-      .catch((err) => {
+        })
+        .catch((err) => {
         console.log(err);
       });
-  }, []);
-
-  useEffect(() => {
-    axios.get("http://localhost:4000/allUsers") 
-      .then((res) => {
-      console.log(res.data)
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-
+    }, []);
 
 
   return (
@@ -42,7 +36,7 @@ export default function TablePedidos() {
         <AddNewProductionOrder/>
       </div>
         
-          <Table className="text-black dark:text-white"  color={selectedColor} selectionMode="single"  defaultSelectedKeys={["2"]}  aria-label="Example static collection table" >
+          <Table className="text-black dark:text-white mt-12"  color={selectedColor} selectionMode="single"  defaultSelectedKeys={["2"]}  aria-label="Example static collection table" >
             <TableHeader>
               <TableColumn className="text-black dark:text-white font-bold" >Id</TableColumn>
               <TableColumn className="text-black dark:text-white font-bold" >Codigo Producto</TableColumn>
@@ -96,3 +90,175 @@ export default function TablePedidos() {
   
   );
 }
+
+
+
+/*
+
+"use client"
+import React from "react";
+import axios from "axios"
+import { useState, useEffect } from "react";
+import ProduccionDetailModal from "../modals/ProduccionDetailModal";
+import AddNewProductionOrder from "../modals/AddNewProductionOrder";
+import {Table,TableHeader,TableColumn,TableBody,TableRow,TableCell, Button, Input} from "@nextui-org/react";
+import EditOrderModal from "../modals/EditOrder";
+import DeleteOrderModal from "../modals/DeleteOrder";
+
+export default function TablePedidos() {
+
+  const [selectedColor, setSelectedColor] = React.useState("default");
+  const [data, setData] = useState([])
+  const [columns, setColumns] = useState([]);
+  const [selectionBehavior, setSelectionBehavior] = React.useState("toggle");
+  const [searchTerm, setSearchTerm] = useState("")
+
+
+  useEffect(() => {
+    axios.get("https://allegra-apps.fly.dev/api/orders") 
+         .then((res) => {
+        console.log(res.data.data.orders) 
+        })
+        .catch((err) => {
+        console.log(err);
+      });
+    }, []);
+
+    useEffect(() => {
+      axios.get("http://localhost:4000/allOrders") 
+           .then((res) => {
+                  console.log(res.data) 
+                  setData(res.data);
+                  console.log(res.data)
+                  const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'id' && propiedad !== 'orderDetail');
+                  const columnObjects = propiedades.map(propiedad => ({
+                      key: propiedad,
+                      label: propiedad.charAt(0).toUpperCase() + propiedad.slice(1),
+                      allowsSorting: true
+                }));
+
+                columnObjects.push({
+                  key: 'VerDetalle',
+                  label: 'Detalle',
+                  cellRenderer: (cell) => { 
+                    const filaActual = cell.row;
+                    const id = filaActual.original._id;
+                    const orderDetail = filaActual.original.orderDetail;
+                    const orderData = {
+                    id: id,
+                    detail: orderDetail,
+                    };
+                    return (
+                      <ProduccionDetailModal  orderData={orderData} /> 
+                      );
+                },
+                  }) 
+             
+                      columnObjects.push({
+                          key: 'Editar',
+                          label: 'Editar',
+                          cellRenderer: (cell) => {      
+
+                              const filaActual = cell.row;                    
+                              const orderId = filaActual.original._id;
+                              const manufacturingCost = filaActual.original.manufacturingCost;
+                              const state = filaActual.original.state;
+                              const orderDetail = filaActual.original.orderDetail;
+                              
+                              const orderData = {
+                              orderId: orderId,
+                              manufacturingCost: manufacturingCost,
+                              fechaCompra: fechaCompra,
+                              state: state,
+                              orderDetail: orderDetail,
+                              };
+                              return (
+                              <EditOrderModal orderData={orderData} />
+                              );
+                          },
+                      }) 
+
+                      columnObjects.push({
+                        key: 'Eliminar',
+                        label: 'Eliminar',
+                        cellRenderer: (cell) => { 
+                          const filaActual = cell.row;
+                          const id = filaActual.original._id;
+                          const orderData = {
+                          id: id
+                          };
+                          return (
+                            <DeleteOrderModal orderId={orderData} />
+                            );
+                      },
+                        }) 
+      
+                          
+                          setColumns(columnObjects);
+      
+                          if (tableRef.current) {
+                              tableRef.current.updateColumns(columnObjects);
+                          }
+                })
+                .catch((err) => {
+                console.log(err);
+              });
+            }, []);
+
+            const filteredData = data.filter((item) => {
+              return Object.values(item).some((value) =>
+              value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+              );
+          });
+
+          useEffect(() => { 
+              console.log(filteredData)
+          }, [filteredData])
+
+
+  return (
+    <>
+      <div>
+          <div className="flex items-start m-2">
+              <Input style={{border: "none"}}
+                  classNames={{ base: "w-full sm:max-w-[40%]" }} 
+                  disableFilled={true}
+                  startContent={<SearchIcon className="text-default-300 " disableFocusRing />}  
+                  placeholder="Buscador"
+                  size="xxs"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+              />
+          </div>
+
+          <Table columnAutoWidth={true} columnSpacing={10}  aria-label="Selection behavior table example with dynamic content"   selectionMode="multiple" selectionBehavior={selectionBehavior} className="w-[1250px] h-[676px] text-center">
+              <TableHeader columns={columns}>
+                  {(column) => (<TableColumn key={column.key}className="text-center">{column.label}</TableColumn>)}
+              </TableHeader>
+              <TableBody items={filteredData}>
+                  {(item) => (
+                  <TableRow key={item._id}>
+                      {columns.map((column) => (
+                  <TableCell key={column.key}>
+                    {column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]}
+                  </TableCell>
+                ))}
+                  </TableRow>
+                  )}
+              </TableBody>
+          </Table>
+      </div>
+    </>
+  
+  );
+}
+
+*/
+
+
+
+
+
+
+
+
