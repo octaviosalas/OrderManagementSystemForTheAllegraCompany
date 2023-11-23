@@ -21,6 +21,19 @@ export default function TablePedidos() {
       });
   }, []);
 
+  useEffect(() => {
+    axios.get("http://localhost:4000/allUsers") 
+      .then((res) => {
+      console.log(res.data)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+
+
+
   return (
     <>
       <div className="flex flex-col gap-3 mt-52 text-black"> 
