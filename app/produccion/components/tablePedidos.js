@@ -39,16 +39,24 @@ export default function TablePedidos() {
                   cellRenderer: (cell) => { 
                     const filaActual = cell.row;
                     const id = filaActual.original._id;
-                    const orderDetail = filaActual.original.orderDetail;
+                    const orderDetail = filaActual.original.orderDetail;                 
+                    const orderDetailPropsArray = orderDetail.map(item => ({
+                      productId: item.codigoProducto,
+                      name: item.nombre,
+                      quantity: item.cantidad,
+                      observations: item.observaciones
+                    }));
+                
                     const orderData = {
-                    id: id,
-                    detail: orderDetail,
+                      id: id,
+                      orderDetail: orderDetailPropsArray,
                     };
+                
                     return (
-                      <ProduccionDetailModal  orderData={orderData} /> 
-                      );
-                },
-                  }) 
+                      <ProduccionDetailModal orderData={orderData} /> 
+                    );
+                  },
+                });
              
                       columnObjects.push({
                           key: 'Editar',
@@ -68,7 +76,7 @@ export default function TablePedidos() {
                               orderDetail: orderDetail,
                               };
                               return (
-                              <EditOrderModal orderData={orderData} />
+                              <EditOrderModal orderData={orderData} type={"orders"}/>
                               );
                           },
                       }) 
@@ -83,7 +91,7 @@ export default function TablePedidos() {
                           id: id
                           };
                           return (
-                            <DeleteOrderModal orderId={orderData} />
+                            <DeleteOrderModal orderData={orderData} type={"orders"}/>
                             );
                       },
                         }) 

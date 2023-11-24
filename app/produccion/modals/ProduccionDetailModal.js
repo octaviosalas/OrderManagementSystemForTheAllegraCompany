@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, ModalContent,ModalHeader,ModalBody,ModalFooter,Button,Table,TableHeader,TableColumn,TableBody,TableRow,TableCell,Chip,Input, getKeyValue, Radio, RadioGroup} from "@nextui-org/react";
 import "../../globals.css";
 import TabsModal from "../components/tabs";
+import axios from "axios";
 
 
 const rowsFirstTable = [
@@ -138,7 +139,23 @@ const ProduccionDetailModal = ({orderData}) => {
 	   const [modalIsOpenNow, setModalIsOpenNow] = useState(false);
      const [showFirstTable, setShowFirstTable] = useState(true)
      const [showSecondTable, setShowSecondTable] = useState(false)
+     const [orderId, setOrderId] = useState("")
+     const [orderDetailData, setOrderDetailData] = useState([])
+     const [load, setLoad] = useState(false)
      const [lastTable, setLastTable] = useState(false)
+
+    
+
+     useEffect(() => { 
+       setOrderId(orderData.id)
+     }, [orderData])
+
+   useEffect(() => { 
+       console.log(orderData)
+   }, [orderData])
+
+     
+  
 
     const showingFirstTable = () => { 
         setShowFirstTable(true)
@@ -182,7 +199,20 @@ const ProduccionDetailModal = ({orderData}) => {
 							<ModalHeader className="flex flex-col gap-1 items-center jusitify-start">
                                 <TabsModal showFirst={showingFirstTable} showSecond={showingSecondTable} showLastTable={showButtonFinally}/>
                             </ModalHeader>
+                                <p>Orden id:  {orderData.id} </p> 
+                                {orderData.orderDetail.map((ord) => ( 
+                                  <p>{ord.name}</p>
+                                ))}
+                                
+
+                                 {load ? 
+                                  <div>
+                                     {orderDetailData.map((o) => <p>{o.productId}</p>)}
+                                  </div>
+                                  : null
+                                 }
                                 <ModalBody className="w-100% flex flex-col">
+
                                            <div className="flex flex-col border w-[1034px]">
                                                {showFirstTable ?
                                                     <Table className="text-black dark:text-white" aria-label="Selection behavior table example with dynamic content" selectionMode="multiple" selectionBehavior={selectionBehavior}>

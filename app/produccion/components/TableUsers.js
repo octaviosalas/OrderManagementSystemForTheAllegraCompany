@@ -64,14 +64,16 @@ export default function TableUsers() {
                             const surname = filaActual.original.surname;
                             const email = filaActual.original.email;
                             const rol = filaActual.original.rol;
-                            const orderData = {
+                            const id = filaActual.original._id;
+                            const userData = {
                               name: name,
                               surname: surname,
                               email: email,
-                              rol: rol
+                              rol: rol,
+                              id: id
                             };
                               return (
-                              <EditOrderModal orderData={orderData} />
+                              <EditOrderModal userData={userData} type={"users"}/>
                               );
                           },
                       }) 
@@ -82,11 +84,11 @@ export default function TableUsers() {
                         cellRenderer: (cell) => { 
                           const filaActual = cell.row;
                           const id = filaActual.original._id;
-                          const orderData = {
+                          const userData = {
                           userId: id
                           };
                           return (
-                            <DeleteOrderModal orderId={orderData} />
+                            <DeleteOrderModal userData={userData}  type={"users"}/>
                             );
                       },
                         }) 
