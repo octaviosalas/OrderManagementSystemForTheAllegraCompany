@@ -3,13 +3,13 @@ import React from "react";
 import axios from "axios"
 import { useState, useEffect } from "react";
 import ProduccionDetailModal from "../modals/ProduccionDetailModal";
-import AddNewProductionOrder from "../modals/AddNewProductionOrder";
 import {Table,TableHeader,TableColumn,TableBody,TableRow,TableCell, Button, Input} from "@nextui-org/react";
 import EditOrderModal from "../modals/EditOrder";
 import DeleteOrderModal from "../modals/DeleteOrder";
 import { useRef } from "react";
+import AddNewUser from "../modals/AddNewUser";
 
-export default function TablePedidos() {
+export default function TableUsers() {
 
   const [selectedColor, setSelectedColor] = React.useState("default");
   const tableRef = useRef(null);
@@ -22,12 +22,12 @@ export default function TablePedidos() {
 
 
             useEffect(() => {
-      axios.get("http://localhost:4000/allOrders") 
+          axios.get("http://localhost:4000/allUsers") 
            .then((res) => {
                   console.log(res.data) 
                   setData(res.data);
                   console.log(res.data)
-                  const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'orderDetail');
+                  const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'password');
                   const columnObjects = propiedades.map(propiedad => ({
                       key: propiedad,
                       label: propiedad.charAt(0).toUpperCase() + propiedad.slice(1)
@@ -38,11 +38,15 @@ export default function TablePedidos() {
                   label: 'Detalle',
                   cellRenderer: (cell) => { 
                     const filaActual = cell.row;
-                    const id = filaActual.original._id;
-                    const orderDetail = filaActual.original.orderDetail;
+                    const name = filaActual.original.name;
+                    const surname = filaActual.original.surname;
+                    const email = filaActual.original.email;
+                    const rol = filaActual.original.rol;
                     const orderData = {
-                    id: id,
-                    detail: orderDetail,
+                      name: name,
+                      surname: surname,
+                      email: email,
+                      rol: rol
                     };
                     return (
                       <ProduccionDetailModal  orderData={orderData} /> 
@@ -55,18 +59,17 @@ export default function TablePedidos() {
                           label: 'Editar',
                           cellRenderer: (cell) => {      
 
-                              const filaActual = cell.row;                    
-                              const orderId = filaActual.original._id;
-                              const manufacturingCost = filaActual.original.manufacturingCost;
-                              const state = filaActual.original.state;
-                              const orderDetail = filaActual.original.orderDetail;
-                              
-                              const orderData = {
-                              orderId: orderId,
-                              manufacturingCost: manufacturingCost,
-                              state: state,
-                              orderDetail: orderDetail,
-                              };
+                            const filaActual = cell.row;
+                            const name = filaActual.original.name;
+                            const surname = filaActual.original.surname;
+                            const email = filaActual.original.email;
+                            const rol = filaActual.original.rol;
+                            const orderData = {
+                              name: name,
+                              surname: surname,
+                              email: email,
+                              rol: rol
+                            };
                               return (
                               <EditOrderModal orderData={orderData} />
                               );
@@ -80,7 +83,7 @@ export default function TablePedidos() {
                           const filaActual = cell.row;
                           const id = filaActual.original._id;
                           const orderData = {
-                          id: id
+                          userId: id
                           };
                           return (
                             <DeleteOrderModal orderId={orderData} />
@@ -124,7 +127,7 @@ export default function TablePedidos() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <AddNewProductionOrder/>
+              <AddNewUser/>
           </div>
 
           <Table columnAutoWidth={true} columnSpacing={10}  aria-label="Selection behavior table example with dynamic content"   selectionMode="multiple" selectionBehavior={selectionBehavior} className="w-full">
@@ -148,12 +151,5 @@ export default function TablePedidos() {
   
   );
 }
-
-
-
-
-
-
-
 
 

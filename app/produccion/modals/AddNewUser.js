@@ -3,6 +3,7 @@ import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDis
 import {MailIcon} from '../icons/MailIcon.jsx';
 import {LockIcon} from '../icons/LockIcon.jsx';
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function AddNewUser() {
 
@@ -60,7 +61,7 @@ export default function AddNewUser() {
                     autoFocus 
                     label="Apellido"
                     style={{border:"none"}} 
-                    onChange={(e) => setUserName(e.target.value)}/> 
+                    onChange={(e) => setUserSurname(e.target.value)}/> 
 
                     <Input 
                     autoFocus 
@@ -90,9 +91,9 @@ export default function AddNewUser() {
               <ModalFooter className="flex items-center justify-center">
                 
                {succesMessage ? 
-                <p className="font-bold text-sm">Usuario Registrado Exitosamente</p>
+                <p className="font-bold text-sm text-blue-600">Usuario Registrado Exitosamente</p>
                 :
-               <Button color="primary" className="w-52" onPress={onClose} onClick={() => registerNewUser()}>
+               <Button color="primary" className="w-52" onClick={() => registerNewUser()}>
                   Guardar
                 </Button>}
               </ModalFooter>

@@ -14,6 +14,8 @@ export default function AddNewProductionOrder() {
   const [orderState, setOrderState] = useState("")
   const [showAddProducts, setShowAddProducts] = useState(false)
   const [productsChoosen, setProductsChoosen] = useState([])
+  const [showOrdersChoosen, setShowOrdersChoosen] = useState(false)
+  const [succesMessage, setSuccesMessage] = useState(false)
   const [productsOrders, setProductsOrders] = useState({ 
     codigoProducto: "",
     nombre: "",
@@ -22,6 +24,7 @@ export default function AddNewProductionOrder() {
   })
 
   const continueAdding = () => {
+    setShowOrdersChoosen(true)
     setProductsChoosen((prevProducts) => [
       ...prevProducts,
       {
@@ -60,7 +63,11 @@ export default function AddNewProductionOrder() {
   
     axios.post('http://localhost:4000/newOrder', newOrderToBeSaved)
          .then((res) => {
-        console.log(res.data);
+         console.log(res.data);
+         setSuccesMessage(true)
+         setTimeout(() => { 
+            window.location.reload()
+         }, 2500)
       })
       .catch((err) => {
         console.log(err);
@@ -132,10 +139,27 @@ export default function AddNewProductionOrder() {
                                   }));
                                 }}/>
 
-                                <div className="flex items-center gap-6">
+                                {showOrdersChoosen ?
+
+                                  <div className="flex flex-col items-start justify-start mt-6 mb-2">
+                                      {productsChoosen.map((p) => (
+                                        <div key={p.nombre} className="flex flex-col">
+                                           <ul className="list-disc flex flex-col ">
+                                             <li className="text-sm font-bold">{p.nombre} - {p.cantidad} Unidades</li>
+                                           </ul>
+                                     
+                                        </div>   
+                                      ))}
+                                  </div> 
+
+                                : null}
+
+                               {succesMessage ? <p className="font-bold text-blue-600 mt-8">Pedido realizado con Exito</p> 
+                                :
+                               <div className="flex items-center gap-6">
                                    <Button color="primary" variant="shadow" className="mt-6 mb-4" onClick={() => continueAdding()}> Elegir Otro Producto </Button>
                                    <Button color="primary" variant="shadow" className="mt-6 mb-4" onClick={() => sendMyOrder()}> Guardar Pedido </Button>
-                                </div>
+                                </div>}
 
                               
 
