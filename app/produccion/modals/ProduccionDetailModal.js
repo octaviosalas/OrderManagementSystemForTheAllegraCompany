@@ -139,20 +139,15 @@ const ProduccionDetailModal = ({orderData}) => {
 	   const [modalIsOpenNow, setModalIsOpenNow] = useState(false);
      const [showFirstTable, setShowFirstTable] = useState(true)
      const [showSecondTable, setShowSecondTable] = useState(false)
-     const [orderId, setOrderId] = useState("")
      const [orderDetailData, setOrderDetailData] = useState([])
+     const [columns, setColumns] = useState([])
      const [load, setLoad] = useState(false)
      const [lastTable, setLastTable] = useState(false)
 
-    
 
-     useEffect(() => { 
-       setOrderId(orderData.id)
-     }, [orderData])
-
-   useEffect(() => { 
-       console.log(orderData)
-   }, [orderData])
+    useEffect(() => { 
+        console.log(orderData)
+    }, [orderData])
 
      
   
