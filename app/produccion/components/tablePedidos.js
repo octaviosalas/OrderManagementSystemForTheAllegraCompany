@@ -19,9 +19,11 @@ export default function TablePedidos() {
   const [searchTerm, setSearchTerm] = useState("")
   const [load, setLoad] = useState(true)
 
+
   const actualizarOrdenes = (newOrders) => {
     setData(newOrders);
   };
+
 
 
 
@@ -88,17 +90,15 @@ export default function TablePedidos() {
                       columnObjects.push({
                         key: 'Eliminar',
                         label: 'Eliminar',
-                        cellRenderer: (cell) => { 
+                        cellRenderer: (cell) => {
                           const filaActual = cell.row;
                           const id = filaActual.original._id;
                           const orderData = {
-                          id: id
-                          };
-                          return (
-                            <DeleteOrderModal orderData={orderData} type={"orders"} updateNow={actualizarOrdenes} allOrders={data}/>
-                            );
-                      },
-                        }) 
+                            id: id
+                          };                                       
+                            return <DeleteOrderModal orderData={orderData} type={"orders"} updateNow={actualizarOrdenes} allOrders={data} />;                   
+                        },
+                      });
       
                           
                           setColumns(columnObjects);
@@ -113,7 +113,7 @@ export default function TablePedidos() {
                 .catch((err) => {
                 console.log(err);
               });
-            }, []);
+            }, [load]);
 
             const filteredData = data.filter((item) => {
               return Object.values(item).some((value) =>

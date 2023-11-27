@@ -2,35 +2,41 @@ import React, { useEffect, useState } from "react";
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 import axios from "axios";
 
-export default function DeleteOrderModal({orderData, type, userData, updateNow, allOrders}) {
+export default function DeleteOrderModal({orderData, type, userData, updateNow, allOrders, allUsers, updateUsersNow, }) {
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [succesMessage, setSuccesMessage] = useState(false)
   const [userId, setUserId] = useState("")
   const [orderId, setOrderId] = useState("")
 
-  const deleteOrder = () => { 
+
+  
+
+  const deleteOrder = () => {
     axios.delete(`http://localhost:4000/deleteOrder/${orderId}`)
-         .then((res) => { 
-          console.log(res.data)
-          setSuccesMessage(true)
-          const newOrders = allOrders.filter((order) => order._id !== orderId);
-          console.log(newOrders)
-          updateNow(newOrders);
-         })
-         .catch((err) => { 
-          console.log(err)
-         })
-  }
+      .then((res) => {
+        console.log(res.data);
+        setSuccesMessage(true);
+        console.log(res.data.deleted._id)
+        const newOrderId = res.data.deleted._id;
+        const newOrders = allOrders.filter((order) => order._id !== newOrderId);
+        console.log(newOrders);
+        updateNow(newOrders); 
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const deleteUser = () => { 
     axios.delete(`http://localhost:4000/deleteUser/${userId}`)
          .then((res) => { 
           console.log(res.data)
           setSuccesMessage(true)
-          setTimeout(() => {
-             window.location.reload()
-          }, 2000);
+          const newUserId = res.data.deleted._id;
+          const newUsers = allUsers.filter((user) => user._id !== newUserId);
+          console.log(newUsers);
+          updateUsersNow(newUsers); 
          })
          .catch((err) => { 
           console.log(err)

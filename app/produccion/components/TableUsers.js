@@ -11,14 +11,17 @@ import AddNewUser from "../modals/AddNewUser";
 
 export default function TableUsers() {
 
-  const [selectedColor, setSelectedColor] = React.useState("default");
-  const tableRef = useRef(null);
-  const [data, setData] = useState([])
-  const [columns, setColumns] = useState([]);
-  const [selectionBehavior, setSelectionBehavior] = React.useState("toggle");
-  const [searchTerm, setSearchTerm] = useState("")
-  const [load, setLoad] = useState(true)
+    const [selectedColor, setSelectedColor] = React.useState("default");
+    const tableRef = useRef(null);
+    const [data, setData] = useState([])
+    const [columns, setColumns] = useState([]);
+    const [selectionBehavior, setSelectionBehavior] = React.useState("toggle");
+    const [searchTerm, setSearchTerm] = useState("")
+    const [load, setLoad] = useState(true)
 
+    const updateUsers = (newUsers) => {
+      setData(newUsers);
+    };
 
 
             useEffect(() => {
@@ -27,6 +30,7 @@ export default function TableUsers() {
                   console.log(res.data) 
                   setData(res.data);
                   console.log(res.data)
+                  setLoad(false);
                   const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'password');
                   const columnObjects = propiedades.map(propiedad => ({
                       key: propiedad,
@@ -69,7 +73,7 @@ export default function TableUsers() {
                           userId: id
                           };
                           return (
-                            <DeleteOrderModal userData={userData}  type={"users"}/>
+                            <DeleteOrderModal userData={userData}  type={"users"} updateUsersNow={updateUsers} allUsers={data}/>
                             );
                       },
                         }) 
@@ -80,14 +84,12 @@ export default function TableUsers() {
                           if (tableRef.current) {
                               tableRef.current.updateColumns(columnObjects);
                           }
-                          setTimeout(() => { 
-                            setLoad(false)
-                        }, 1200)
+                 
                 })
                 .catch((err) => {
                 console.log(err);
               });
-            }, []);
+            }, [load]);
 
             const filteredData = data.filter((item) => {
               return Object.values(item).some((value) =>
