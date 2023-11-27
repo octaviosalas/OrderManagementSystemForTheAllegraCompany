@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 import axios from "axios";
 
-export default function DeleteOrderModal({orderData, type, userData}) {
+export default function DeleteOrderModal({orderData, type, userData, updateNow, allOrders}) {
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [succesMessage, setSuccesMessage] = useState(false)
@@ -14,9 +14,9 @@ export default function DeleteOrderModal({orderData, type, userData}) {
          .then((res) => { 
           console.log(res.data)
           setSuccesMessage(true)
-          setTimeout(() => {
-             window.location.reload()
-          }, 2000);
+          const newOrders = allOrders.filter((order) => order._id !== orderId);
+          console.log(newOrders)
+          updateNow(newOrders);
          })
          .catch((err) => { 
           console.log(err)
@@ -49,15 +49,15 @@ export default function DeleteOrderModal({orderData, type, userData}) {
 
   return (
     <>
-        <small onClick={onOpen} className="text-sm cursor-pointer">Eliminar</small>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              {type === "orders" ? <ModalHeader className="flex flex-col items-center justify-center  gap-1">Eliminar Orden</ModalHeader> : null}
-              {type === "users" ? <ModalHeader className="flex flex-col items-center justify-center  gap-1">Eliminar Usuario</ModalHeader> : null}
-              <ModalBody>
-                 
+        <Button onPress={onOpen} className="text-sm cursor-pointer" color={"danger"}>Eliminar</Button>
+          <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+            <ModalContent>
+              {(onClose) => (
+                <>
+                {type === "orders" ? <ModalHeader className="flex flex-col items-center justify-center  gap-1">Eliminar Orden</ModalHeader> : null}
+                {type === "users" ? <ModalHeader className="flex flex-col items-center justify-center  gap-1">Eliminar Usuario</ModalHeader> : null}
+                <ModalBody>
+                  
                  <div className="flex flex-col items-center justify-center">
                    {type === "orders" ?  <p>¿Estas seguro de eliminar la Orden?</p> : <p>¿Estas seguro de eliminar este Usuario?</p> }
                      {type === "users" ? <p>{userData.id}</p> : null}

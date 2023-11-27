@@ -2,14 +2,14 @@ import React from "react";
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input} from "@nextui-org/react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { v4 as uuidv4 } from 'uuid';
+
 
 
 
 export default function AddNewProductionOrder() {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
-  const randomId = uuidv4();
+
   const [manufacturingCost, setManufacturingCost] = useState(0)
   const [orderState, setOrderState] = useState("")
   const [showAddProducts, setShowAddProducts] = useState(false)
@@ -55,7 +55,6 @@ export default function AddNewProductionOrder() {
     setProductsChoosen((prevProducts) => [...prevProducts, actualProduct]);
   
     const newOrderToBeSaved = {
-      id: randomId,
       manufacturingCost: manufacturingCost,
       state: orderState,
       orderDetail: [...productsChoosen, actualProduct],

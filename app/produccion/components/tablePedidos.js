@@ -19,6 +19,10 @@ export default function TablePedidos() {
   const [searchTerm, setSearchTerm] = useState("")
   const [load, setLoad] = useState(true)
 
+  const actualizarOrdenes = (newOrders) => {
+    setData(newOrders);
+  };
+
 
 
             useEffect(() => {
@@ -91,7 +95,7 @@ export default function TablePedidos() {
                           id: id
                           };
                           return (
-                            <DeleteOrderModal orderData={orderData} type={"orders"}/>
+                            <DeleteOrderModal orderData={orderData} type={"orders"} updateNow={actualizarOrdenes} allOrders={data}/>
                             );
                       },
                         }) 

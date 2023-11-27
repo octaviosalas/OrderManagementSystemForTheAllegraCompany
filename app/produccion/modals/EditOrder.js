@@ -70,7 +70,7 @@ export default function EditOrderModal({orderData, type, userData}) {
 
   return (
     <>
-      <small onClick={onOpen} className="text-sm cursor-pointer">Editar</small>
+      <Button onPress={onOpen} className="text-sm cursor-pointer" color={"primary"}>Editar</Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (

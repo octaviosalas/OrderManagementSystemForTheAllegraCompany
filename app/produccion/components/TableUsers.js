@@ -33,26 +33,7 @@ export default function TableUsers() {
                       label: propiedad.charAt(0).toUpperCase() + propiedad.slice(1)
                 }));
 
-                columnObjects.push({
-                  key: 'VerDetalle',
-                  label: 'Detalle',
-                  cellRenderer: (cell) => { 
-                    const filaActual = cell.row;
-                    const name = filaActual.original.name;
-                    const surname = filaActual.original.surname;
-                    const email = filaActual.original.email;
-                    const rol = filaActual.original.rol;
-                    const orderData = {
-                      name: name,
-                      surname: surname,
-                      email: email,
-                      rol: rol
-                    };
-                    return (
-                      <ProduccionDetailModal  orderData={orderData} /> 
-                      );
-                },
-                  }) 
+                
              
                       columnObjects.push({
                           key: 'Editar',
