@@ -5,12 +5,12 @@ import axios from "axios";
 export default function EditOrderModal({orderData, type, userData}) {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
-  const [newOrderCost, setNewOrderCost] = useState("")
-  const [newOrderState, setNewOrderState] = useState("")
-  const [newUserName, setNewUserName] = useState("")
-  const [newUserSurname, setNewUserSurname] = useState("")
-  const [newUserEmail, setNewUserEmail] = useState("")
-  const [newUserRol, setNewUserRol] = useState("")
+  const [newOrderCost, setNewOrderCost] = useState(type === "orders" ? orderData.manufacturingCost : "")
+  const [newOrderState, setNewOrderState] = useState(type === "orders" ? orderData.state  : "")
+  const [newUserName, setNewUserName] = useState(type === "users" ? userData.name : "")
+  const [newUserSurname, setNewUserSurname] = useState(type === "users" ? userData.surname : "")
+  const [newUserEmail, setNewUserEmail] = useState(type === "users" ? userData.email : "")
+  const [newUserRol, setNewUserRol] = useState(type === "users" ? userData.rol : "")
   const [orderId, setOrderId] = useState("")
   const [userId, setUserId] = useState("")
   const [succesMessage, setSuccesMessage] = useState(false)
@@ -75,7 +75,8 @@ export default function EditOrderModal({orderData, type, userData}) {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col items-center justify-center gap-1">Editar Orden</ModalHeader>
+            {type === "orders" ?   <ModalHeader className="flex flex-col items-center justify-center gap-1">Editar Orden</ModalHeader> : null}
+            {type === "users" ?   <ModalHeader className="flex flex-col items-center justify-center gap-1">Editar Usuario</ModalHeader> : null}
               <ModalBody>
             
                  <div className="flex flex-col items-center justify-center mt-6">
@@ -86,7 +87,7 @@ export default function EditOrderModal({orderData, type, userData}) {
                       label="Costo de Confeccion" 
                       type="text"
                       style={{border:"none"}}
-                      placeholder={orderData.manufacturingCost}
+                      value={newOrderCost}
                       onChange={(e) => setNewOrderCost(e.target.value)}/> 
 
                   <Input 
@@ -94,7 +95,7 @@ export default function EditOrderModal({orderData, type, userData}) {
                       type="text"
                       style={{border:"none"}}
                       className="mt-6"
-                      placeholder={orderData.state}
+                      value={newOrderState}
                       onChange={(e) => setNewOrderState(e.target.value)}/> 
                    </div>   
 
@@ -105,7 +106,7 @@ export default function EditOrderModal({orderData, type, userData}) {
                       label="Nombre" 
                       type="text"
                       style={{border:"none"}}
-                      placeholder={userData.name}
+                      value={newUserName}
                       onChange={(e) => setNewUserName(e.target.value)}/> 
 
                        <Input 
@@ -113,7 +114,7 @@ export default function EditOrderModal({orderData, type, userData}) {
                         type="text"
                         style={{border:"none"}}
                         className="mt-6"
-                        placeholder={userData.surname}
+                        value={newUserSurname}
                         onChange={(e) => setNewUserSurname(e.target.value)}/> 
 
                        <Input 
@@ -121,7 +122,7 @@ export default function EditOrderModal({orderData, type, userData}) {
                         type="text"
                         style={{border:"none"}}
                         className="mt-6"
-                        placeholder={userData.email}
+                        value={newUserEmail}
                         onChange={(e) => setNewUserEmail(e.target.value)}/>
 
                         <Input 
@@ -129,7 +130,7 @@ export default function EditOrderModal({orderData, type, userData}) {
                         type="text"
                         style={{border:"none"}}
                         className="mt-6"
-                        placeholder={userData.rol}
+                        value={newUserRol}
                         onChange={(e) => setNewUserRol(e.target.value)}/>  
                  </div>
                     }       

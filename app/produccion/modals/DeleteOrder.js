@@ -13,6 +13,8 @@ export default function DeleteOrderModal({orderData, type, userData, updateNow, 
   
 
   const deleteOrder = () => {
+    console.log("Deleting order with id:", orderId);
+
     axios.delete(`http://localhost:4000/deleteOrder/${orderId}`)
       .then((res) => {
         console.log(res.data);

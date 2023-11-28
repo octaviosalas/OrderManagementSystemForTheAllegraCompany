@@ -4,6 +4,9 @@ import {MailIcon} from '../icons/MailIcon.jsx';
 import {LockIcon} from '../icons/LockIcon.jsx';
 import { useState, useEffect } from "react";
 import axios from "axios";
+import {Select, SelectItem} from "@nextui-org/react";
+
+
 
 export default function AddNewUser() {
 
@@ -15,6 +18,16 @@ export default function AddNewUser() {
   const [password, setPassword] = useState("")
   const [rol, setRol] = useState(0)
   const [succesMessage, setSuccesMessage] = useState(false)
+
+
+ const userRols = [
+    {label: "Admin", value: "Admin"},
+    {label: "Confeccion", value: "Confeccion"},
+    {label: "Corte", value: "Corte"},
+    {label:  "Planchado / Control de Calidad", value:  "Planchado / Control de Calidad"},
+   
+  ];
+  
 
   const registerNewUser = () => { 
     const userData = ({ 
@@ -36,6 +49,10 @@ export default function AddNewUser() {
             console.log(err)
          })
   }
+
+  useEffect(() => { 
+    console.log(rol)
+  }, [rol])
 
   return (
     <>
@@ -77,11 +94,21 @@ export default function AddNewUser() {
                     style={{border:"none"}}
                     onChange={(e) => setPassword(e.target.value)}/>
 
-                   <Input 
-                    label="Rol" 
-                    type="text"
-                    style={{border:"none"}}
-                    onChange={(e) => setRol(e.target.value)}/> 
+                  <Select
+                        label="Rol de Usuario"
+                        placeholder="Seleciona un Rol"
+                        selectionMode="multiple"
+                        className="max-w-full"
+                        value={"Admin"}
+                        onChange={(e) => setRol(e.target.value)}>
+
+                          {userRols.map((rols) => (
+                            <SelectItem key={rols.value} value={rols.value}>
+                              {rols.label}
+                            </SelectItem>
+                          ))}
+
+                      </Select>
 
                 <div className="flex py-2 px-1 justify-between">
                 

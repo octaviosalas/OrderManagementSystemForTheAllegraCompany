@@ -97,7 +97,20 @@ export default function TableUsers() {
               );
           });
 
-
+          const transformedRol = (rol) => {
+  switch (rol) {
+    case "1":
+      return "Admin";
+    case "2":
+      return "Confeccion";
+    case "3":
+      return "Corte";
+    case "4":
+      return "Planchado / Control de Calidad";
+    default:
+      return "Otro Rol";
+  }
+};
 
   return (
     <>
@@ -124,7 +137,7 @@ export default function TableUsers() {
                   <TableRow key={item._id}>
                       {columns.map((column) => (
                   <TableCell key={column.key}>
-                    {column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]}
+                   {column.key === 'rol' ? transformedRol(item[column.key]) : (column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key])}
                   </TableCell>
                 ))}
                   </TableRow>
