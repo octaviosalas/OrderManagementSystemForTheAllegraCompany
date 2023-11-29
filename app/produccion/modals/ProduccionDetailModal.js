@@ -5,6 +5,7 @@ import TabsModal from "../components/tabs";
 import axios from "axios";
 
 
+
 const rowsFirstTable = [
     {
       key: "1",
@@ -143,11 +144,39 @@ const ProduccionDetailModal = ({orderData}) => {
      const [columns, setColumns] = useState([])
      const [load, setLoad] = useState(false)
      const [lastTable, setLastTable] = useState(false)
+     const [availableButton, setAvailableButton] = useState(false)
+
+     useEffect(() => { 
+      console.log("estado: ", availableButton)
+     }, [availableButton])
+     
 
 
     useEffect(() => { 
         console.log(orderData)
     }, [orderData])
+
+    useEffect(() => {
+      if (orderData && orderData.orderDetail && Array.isArray(orderData.orderDetail) && orderData.orderDetail.length > 0) {
+        const firstDetail = orderData.orderDetail[0];
+        const properties = Object.keys(firstDetail);
+        const filteredProperties = properties.filter(property => property !== 'orderState');
+    
+        const columnLabelsMap = {
+          productId: 'Codigo Producto',
+          name: 'Nombre Producto',
+          quantity: 'Cantidad',
+          observations: "Observaciones"
+        };
+    
+        const tableColumns = filteredProperties.map(property => ({
+          key: property,
+          label: columnLabelsMap[property] ? columnLabelsMap[property] : property.charAt(0).toUpperCase() + property.slice(1),
+        }));
+    
+        setColumns(tableColumns);
+      }
+    }, [orderData]);
 
      
   
@@ -194,52 +223,77 @@ const ProduccionDetailModal = ({orderData}) => {
 							<ModalHeader className="flex flex-col gap-1 items-center jusitify-start">
                                 <TabsModal showFirst={showingFirstTable} showSecond={showingSecondTable} showLastTable={showButtonFinally}/>
                             </ModalHeader>
-                                <p>Orden id:  {orderData.id} </p> 
-                                {orderData.orderDetail.map((ord) => ( 
-                                  <p>{ord.name}</p>
-                                ))}
-                                
-
-                                 {load ? 
-                                  <div>
-                                     {orderDetailData.map((o) => <p>{o.productId}</p>)}
-                                  </div>
-                                  : null
-                                 }
+                               
                                 <ModalBody className="w-100% flex flex-col">
 
                                            <div className="flex flex-col border w-[1034px]">
                                                {showFirstTable ?
-                                                    <Table className="text-black dark:text-white" aria-label="Selection behavior table example with dynamic content" selectionMode="multiple" selectionBehavior={selectionBehavior}>
-                                                            <TableHeader columns={columnsFirstTable}>
-                                                                {(columnsFirstTable) => <TableColumn className="text-black dark:text-white"  key={columnsFirstTable.key}>{columnsFirstTable.label}</TableColumn>}
-                                                                </TableHeader>
-                                                                <TableBody items={rowsFirstTable}>
-                                                                {(item) => (
-                                                                    <TableRow key={item.key}>
-                                                                     {(columnKey) => <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
-                                                                    </TableRow>                                                           
-                                                                )}
-                                                            </TableBody>     
-                                                    </Table>                                                  
+                                                     <Table  
+                                                     className="w-full flex items-center justify-center" 
+                                                     columnAutoWidth={true}
+                                                     columnSpacing={10}
+                                                     aria-label="Selection behavior table example with dynamic content"
+                                                     selectionMode="multiple"
+                                                     selectionBehavior={selectionBehavior}
+                                                     onSelectionChange={(event) => {
+                                                      console.log(event);
+                                                      if (event === "all") {
+                                                        setAvailableButton(true);
+                                                      } else if (event !== "all") { 
+                                                        setAvailableButton(false)
+                                                      }
+                                                    }}
+                                                     >
+                                                     <TableHeader columns={columns}>
+                                                       {(column) => (
+                                                         <TableColumn key={column.key} className="text-xs gap-6">
+                                                           {column.label}
+                                                         </TableColumn>
+                                                       )}
+                                                     </TableHeader>
+                                                     <TableBody items={orderData.orderDetail.filter(order => order.orderState === "corte")} >
+                                                     {(item) => (
+                                                       <TableRow key={item.productId} >
+                                                         {columns.map(column => (
+                                                           <TableCell key={column.key} className="text-start items-start">
+                                                             {item[column.key]}
+                                                           </TableCell>
+                                                         ))}
+                                                       </TableRow>
+                                                     )}
+                                                   </TableBody>
+                                               </Table>                                                 
                                                     : null}
 
                                                     {showSecondTable ?
-                                                    <Table className="text-black dark:text-white" aria-label="Selection behavior table example with dynamic content" selectionMode="multiple" selectionBehavior={selectionBehavior}>
-                                                            <TableHeader columns={columnsSecondTable}>
-                                                                {(columnsSecondTable) => <TableColumn className="text-black dark:text-white" key={columnsSecondTable.key}>{columnsSecondTable.label}</TableColumn>}
-                                                                </TableHeader>
-                                                                <TableBody items={rowsSecondTable}>
-                                                                {(item) => (
-                                                                    <TableRow key={item.key}>
-                                                                    {(columnKey) => <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
-                                                                    </TableRow>
-                                                                )}
-                                                            </TableBody>
-                                                    </Table> : null}
+                                                      <Table  className="w-full flex items-center justify-center" 
+                                                      columnAutoWidth={true}
+                                                      columnSpacing={10}
+                                                      aria-label="Selection behavior table example with dynamic content"
+                                                      selectionMode="multiple"
+                                                      selectionBehavior={selectionBehavior}>
+                                                      <TableHeader columns={columns}>
+                                                        {(column) => (
+                                                          <TableColumn key={column.key} className="text-xs gap-6">
+                                                            {column.label}
+                                                          </TableColumn>
+                                                        )}
+                                                      </TableHeader>
+                                                      <TableBody items={orderData.orderDetail.filter(order => order.orderState === "confeccion")}>
+                                                      {(item) => (
+                                                        <TableRow key={item.productId}>
+                                                          {columns.map(column => (
+                                                            <TableCell key={column.key} className="text-start items-start">
+                                                              {item[column.key]}
+                                                            </TableCell>
+                                                          ))}
+                                                        </TableRow>
+                                                      )}
+                                                    </TableBody>
+                                                </Table>  : null}
                                             </div>
                                             <div className=" w-full flex justify-end">
-                                               {showFirstTable ?  <Button className="mr-6 bg-gray-300 dark:bg-white text-black font-bold">Pasar a Confeccion</Button> : null}
+                                               {showFirstTable ?  <Button  isDisabled={availableButton ? false : true} color={"primary"} className="mr-6  dark:bg-white  font-bold"> Pasar a Confeccion</Button> : null}
                                                {showSecondTable && !lastTable ?  <Button className="mr-6 bg-gray-300 dark:bg-white text-black font-bold">Pasar a Planchado / Control de Calidad</Button> : null}
                                                {showSecondTable && lastTable ?  <Button className="mr-6 bg-gray-300 dark:bg-white text-black font-bold">Finalizar</Button> : null}
                                             </div>

@@ -50,7 +50,8 @@ export default function TablePedidos() {
                       productId: item.codigoProducto,
                       name: item.nombre,
                       quantity: item.cantidad,
-                      observations: item.observaciones
+                      observations: item.observaciones,
+                      orderState: item.orderState
                     }));
                 
                     const orderData = {
