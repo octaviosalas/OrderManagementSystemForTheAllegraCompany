@@ -24,6 +24,10 @@ export default function TablePedidos() {
     setData(newOrders);
   };
 
+  const settingLoad = () => { 
+    setLoad(true)
+  }
+
 
 
 
@@ -60,7 +64,7 @@ export default function TablePedidos() {
                     };
                 
                     return (
-                      <ProduccionDetailModal orderData={orderData} /> 
+                      <ProduccionDetailModal orderData={orderData} setLoadAgain={settingLoad}/> 
                     );
                   },
                 });
@@ -109,7 +113,7 @@ export default function TablePedidos() {
                           }
                           setTimeout(() => { 
                             setLoad(false)
-                        }, 1200)
+                        }, 1000)
                 })
                 .catch((err) => {
                 console.log(err);

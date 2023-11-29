@@ -20,7 +20,8 @@ export default function AddNewProductionOrder() {
     codigoProducto: "",
     nombre: "",
     cantidad: "",
-    observaciones:""
+    observaciones:"",
+    orderState: "corte"
   })
 
   const continueAdding = () => {
@@ -32,6 +33,7 @@ export default function AddNewProductionOrder() {
         nombre: productsOrders.nombre,
         cantidad: productsOrders.cantidad,
         observaciones: productsOrders.observaciones,
+        orderState:  productsOrders.orderState
        
       },
     ]);
@@ -39,7 +41,8 @@ export default function AddNewProductionOrder() {
       codigoProducto: "",
       nombre: "",
       cantidad: "",
-      observaciones:""
+      observaciones:"",
+      orderState: "corte"
     });
   };
 
@@ -49,6 +52,7 @@ export default function AddNewProductionOrder() {
       nombre: productsOrders.nombre,
       cantidad: productsOrders.cantidad,
       observaciones: productsOrders.observaciones,
+      orderState: productsOrders.orderState
     
     };
   

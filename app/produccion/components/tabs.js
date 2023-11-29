@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {Tabs, Tab, Card, CardBody, CardHeader} from "@nextui-org/react";
 
-export default function TabsModal({showFirst, showSecond, showLastTable}) {
+export default function TabsModal({showFirst, showSecond, showThird, showLastTable}) {
   const [selected, setSelected] = React.useState("photos");
 
   const handleFirstTab = () => { 
@@ -14,7 +14,7 @@ export default function TabsModal({showFirst, showSecond, showLastTable}) {
     } else if (selected === "Corte") { 
         showFirst()
     } else if (selected === "Planchado/Control de Calidad") { 
-        showSecond()
+        showThird()
         showLastTable()
     } 
   },[selected])
