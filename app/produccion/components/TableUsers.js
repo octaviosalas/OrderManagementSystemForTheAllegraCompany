@@ -98,19 +98,19 @@ export default function TableUsers() {
           });
 
           const transformedRol = (rol) => {
-  switch (rol) {
-    case "1":
-      return "Admin";
-    case "2":
-      return "Confeccion";
-    case "3":
-      return "Corte";
-    case "4":
-      return "Planchado / Control de Calidad";
-    default:
-      return "Otro Rol";
-  }
-};
+            switch (rol) {
+              case "1":
+                return "Admin";
+              case "2":
+                return "Confeccion";
+              case "3":
+                return "Corte";
+              case "4":
+                return "Planchado / Control de Calidad";
+              default:
+                return "Otro Rol";
+            }
+          };
 
   return (
     <>
