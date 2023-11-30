@@ -18,7 +18,7 @@ const page = () => {
         formData.append("excelFile", excelDocument);
   
         try {
-          const response = await axios.post('http://localhost:4000/newOrder', formData);
+          const response = await axios.post('http://localhost:4000/addOrderWithExcel', formData);
           if (response.status === 200) {
             console.log('Archivo subido exitosamente');
           } else {
