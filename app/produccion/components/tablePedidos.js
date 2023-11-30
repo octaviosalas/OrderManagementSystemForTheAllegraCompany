@@ -21,7 +21,7 @@ export default function TablePedidos() {
 
 
   const actualizarOrdenes = (newOrders) => {
-    setData(newOrders);
+    setData(newOrders)
   };
 
   const settingLoad = () => { 
@@ -31,17 +31,18 @@ export default function TablePedidos() {
 
 
 
+
             useEffect(() => {
-      axios.get("http://localhost:4000/allOrders") 
-           .then((res) => {
-                  console.log(res.data) 
-                  setData(res.data);
-                  console.log(res.data)
-                  const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'orderDetail');
-                  const columnObjects = propiedades.map(propiedad => ({
-                      key: propiedad,
-                      label: propiedad.charAt(0).toUpperCase() + propiedad.slice(1)
-                }));
+            axios.get("http://localhost:4000/allOrders") 
+                .then((res) => {
+                        console.log(res.data) 
+                        setData(res.data);
+                        console.log(res.data)
+                        const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'orderDetail');
+                        const columnObjects = propiedades.map(propiedad => ({
+                            key: propiedad,
+                            label: propiedad.charAt(0).toUpperCase() + propiedad.slice(1)
+                      }));
 
                 columnObjects.push({
                   key: 'VerDetalle',
