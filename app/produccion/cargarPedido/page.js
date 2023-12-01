@@ -48,8 +48,8 @@ const page = () => {
                     </p>
                 </div>
                 <div className='flex w-full justify-start items-start mt-6'>      
-                    <input class="block w-96 ml-12 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                     aria-describedby="file_input_help" id="file_input" type="file" onChange={(e) => setExcelDocument(e.target.value)}/>  
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="multiple_files">Upload multiple files</label>
+                <input className="block w-full text-sm text-white  bg-gray-800 border border-gray-300 rounded-lg cursor-pointer  dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="multiple_files" type="file" multiple/>
                 </div>
                 <div className='flex w-full justify-end items-end mt-16'>
                          <Button color="default" radius="none" className='mr-12 bg-gray-200 w-48' onClick={() => handleUpload()}>Subir</Button>

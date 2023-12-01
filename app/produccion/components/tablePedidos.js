@@ -33,7 +33,8 @@ export default function TablePedidos() {
 
 
             useEffect(() => {
-            axios.get("http://localhost:4000/allOrders") 
+              if(data.length === 0) { 
+                axios.get("http://localhost:4000/allOrders") 
                 .then((res) => {
                         console.log(res.data) 
                         setData(res.data);
@@ -115,11 +116,13 @@ export default function TablePedidos() {
                           setTimeout(() => { 
                             setLoad(false)
                         }, 1000)
-                })
-                .catch((err) => {
-                console.log(err);
-              });
-            }, [load]);
+                      })
+                      .catch((err) => {
+                      console.log(err);
+                    });
+                    }
+                  
+            }, [load, data]);
 
             const filteredData = data.filter((item) => {
               return Object.values(item).some((value) =>

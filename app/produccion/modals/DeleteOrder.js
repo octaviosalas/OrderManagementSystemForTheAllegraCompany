@@ -21,6 +21,7 @@ export default function DeleteOrderModal({orderData, type, userData, updateNow, 
         setSuccesMessage(true);
         console.log(res.data.deleted._id)
         const newOrderId = res.data.deleted._id;
+        console.log(allOrders)
         const newOrders = allOrders.filter((order) => order._id !== newOrderId);
         console.log(newOrders);
         updateNow(newOrders); 
