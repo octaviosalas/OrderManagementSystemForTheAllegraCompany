@@ -1,20 +1,20 @@
 "use client";
 
 export default function InputSelect({
-	inputName,
-	inputId,
-	itemList,
-	setValues = null,
-	values = null,
-	setCombinationAttribute = null,
+  inputName,
+  inputId,
+  itemList,
+  setValues = null,
+  values = null,
+  setCombinationAttribute = null,
 }) {
-	return (
-		<div key={inputName} className="group flex flex-col grow w-auto">
-			<select
-				// name="cars"
-				// id="cars"
-				// form="carform"
-				className="w-full
+  return (
+    <div key={inputName} className="group flex flex-col grow w-auto">
+      <select
+        // name="cars"
+        // id="cars"
+        // form="carform"
+        className="w-full
                         shadow-sm
                         bg-default-100
                         border-medium
@@ -35,32 +35,34 @@ export default function InputSelect({
                         py-1.5
                         px-3
                         group"
-				onChange={(e) => {
-					setCombinationAttribute({
-						attribute: {
-							id: e.target.options[e.target.selectedIndex].dataset.id,
-							label: e.target.value,
-						},
-						group: {
-							id: inputId,
-							label: inputName,
-						},
-					});
-				}}>
-				<option key={inputName} className="h-10" value="select">
-					Selecciona - {inputName}
-				</option>
-				{itemList.map(({ key, label }) => (
-					<option
-						key={key}
-						className="h-10"
-						data-id={key}
-						data-test="testtt"
-						value={label}>
-						{label} - {key}
-					</option>
-				))}
-			</select>
-		</div>
-	);
+        onChange={(e) => {
+          setCombinationAttribute({
+            attribute: {
+              id: e.target.options[e.target.selectedIndex].dataset.id,
+              label: e.target.value,
+            },
+            group: {
+              id: inputId,
+              label: inputName,
+            },
+          });
+        }}
+      >
+        <option key={inputName} className="h-10" value="select">
+          Selecciona - {inputName}
+        </option>
+        {itemList.map(({ key, label }) => (
+          <option
+            key={key}
+            className="h-10"
+            data-id={key}
+            data-test="testtt"
+            value={label}
+          >
+            {label} - {key}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
 }

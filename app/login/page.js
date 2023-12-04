@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import loginImage from "../images/log.jpg";
 import Link from "next/link";
@@ -67,13 +67,15 @@ const Login = () => {
               </div>
 
               <div>
-             
-              <Link href="/seccion">
-                <Button color="primary" type="submit" className="text-white w-full font-bold">
-                  Ingresar
-                </Button>
+                <Link href="/seccion">
+                  <Button
+                    color="primary"
+                    type="submit"
+                    className="text-white w-full font-bold"
+                  >
+                    Ingresar
+                  </Button>
                 </Link>
-            
               </div>
 
               <div className="text-sm mt-4 text-center">
