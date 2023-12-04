@@ -25,71 +25,74 @@ export default function TableUsers() {
 
 
             useEffect(() => {
-          axios.get("http://localhost:4000/allUsers") 
-           .then((res) => {
-                  console.log(res.data) 
-                  setData(res.data);
-                  console.log(res.data)
-                  setLoad(false);
-                  const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'password');
-                  const columnObjects = propiedades.map(propiedad => ({
-                      key: propiedad,
-                      label: propiedad.charAt(0).toUpperCase() + propiedad.slice(1)
-                }));
-
-                
-             
-                      columnObjects.push({
-                          key: 'Editar',
-                          label: 'Editar',
-                          cellRenderer: (cell) => {      
-
-                            const filaActual = cell.row;
-                            const name = filaActual.original.name;
-                            const surname = filaActual.original.surname;
-                            const email = filaActual.original.email;
-                            const rol = filaActual.original.rol;
-                            const id = filaActual.original._id;
-                            const userData = {
-                              name: name,
-                              surname: surname,
-                              email: email,
-                              rol: rol,
-                              id: id
-                            };
-                              return (
-                              <EditOrderModal userData={userData} type={"users"}/>
-                              );
-                          },
-                      }) 
-
-                      columnObjects.push({
-                        key: 'Eliminar',
-                        label: 'Eliminar',
-                        cellRenderer: (cell) => { 
-                          const filaActual = cell.row;
-                          const id = filaActual.original._id;
-                          const userData = {
-                          userId: id
-                          };
-                          return (
-                            <DeleteOrderModal userData={userData}  type={"users"} updateUsersNow={updateUsers} allUsers={data}/>
-                            );
-                      },
-                        }) 
-      
-                          
-                          setColumns(columnObjects);
-      
-                          if (tableRef.current) {
-                              tableRef.current.updateColumns(columnObjects);
-                          }
-                 
-                })
-                .catch((err) => {
-                console.log(err);
-              });
-            }, [load]);
+              if(data.length === 0) { 
+                axios.get("http://localhost:4000/allUsers") 
+                .then((res) => {
+                       console.log(res.data) 
+                       setData(res.data);
+                       console.log(res.data)
+                       setLoad(false);
+                       const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'password');
+                       const columnObjects = propiedades.map(propiedad => ({
+                           key: propiedad,
+                           label: propiedad.charAt(0).toUpperCase() + propiedad.slice(1)
+                     }));
+     
+                     
+                  
+                           columnObjects.push({
+                               key: 'Editar',
+                               label: 'Editar',
+                               cellRenderer: (cell) => {      
+     
+                                 const filaActual = cell.row;
+                                 const name = filaActual.original.name;
+                                 const surname = filaActual.original.surname;
+                                 const email = filaActual.original.email;
+                                 const rol = filaActual.original.rol;
+                                 const id = filaActual.original._id;
+                                 const userData = {
+                                   name: name,
+                                   surname: surname,
+                                   email: email,
+                                   rol: rol,
+                                   id: id
+                                 };
+                                   return (
+                                   <EditOrderModal userData={userData} type={"users"}/>
+                                   );
+                               },
+                           }) 
+     
+                           columnObjects.push({
+                             key: 'Eliminar',
+                             label: 'Eliminar',
+                             cellRenderer: (cell) => { 
+                               const filaActual = cell.row;
+                               const id = filaActual.original._id;
+                               const userData = {
+                               userId: id
+                               };
+                               return (
+                                 <DeleteOrderModal userData={userData}  type={"users"} updateUsersNow={updateUsers} allUsers={data}/>
+                                 );
+                           },
+                             }) 
+           
+                               
+                               setColumns(columnObjects);
+           
+                               if (tableRef.current) {
+                                   tableRef.current.updateColumns(columnObjects);
+                               }
+                      
+                     })
+                     .catch((err) => {
+                     console.log(err);
+                   });
+              }
+          
+            }, [load, data]);
 
             const filteredData = data.filter((item) => {
               return Object.values(item).some((value) =>

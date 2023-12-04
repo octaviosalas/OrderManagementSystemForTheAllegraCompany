@@ -32,6 +32,7 @@ export default function DeleteOrderModal({orderData, type, userData, updateNow, 
   };
 
   const deleteUser = () => { 
+    console.log("Deleting order with id:", userId);
     axios.delete(`http://localhost:4000/deleteUser/${userId}`)
          .then((res) => { 
           console.log(res.data)
