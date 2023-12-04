@@ -8,6 +8,7 @@ import {Table,TableHeader,TableColumn,TableBody,TableRow,TableCell, Button, Inpu
 import EditOrderModal from "../modals/EditOrder";
 import DeleteOrderModal from "../modals/DeleteOrder";
 import { useRef } from "react";
+import { Chip } from "@nextui-org/react";
 
 export default function TablePedidos() {
 
@@ -27,10 +28,6 @@ export default function TablePedidos() {
   const settingLoad = () => { 
     setLoad(true)
   }
-
-
-
-
 
             useEffect(() => {
               if(data.length === 0) { 
@@ -156,9 +153,14 @@ export default function TablePedidos() {
                   {(item) => (
                   <TableRow key={item._id}>
                       {columns.map((column) => (
-                  <TableCell key={column.key}>
-                    {column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]}
-                  </TableCell>
+                          <TableCell key={column.key}>
+                          {column.key === 'state' ? (
+                           <Chip color={item[column.key] === "Corte" ? "warning" : item[column.key] === "confeccion" ? "secondary" : "success" }>{item[column.key]}</Chip>                                              
+                          ) : (
+                            // Para otras columnas, renderizar el valor directo
+                            column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]
+                          )}
+                        </TableCell>
                 ))}
                   </TableRow>
                   )}

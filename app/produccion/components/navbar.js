@@ -54,7 +54,9 @@ export default function Navbar() {
                         <li><a>.............</a></li>
                     </ul>
                 </div>
-                <img src="/allegra-store-logo.png" className="h-11 w-11 ml-6 dark:text-white "/>
+                <div>
+                  <img src="/allegra-store-logo.png" className="h-11 w-11 ml-6 dark:text-white object-contain"/>
+                </div>
                  <div className="hidden lg:block">
                     <div className="flex ml-4 items-center gap-6 lg:gap-9 xl:gap-16 ">
                         <p className="text-black cursor-pointer hover:underline dark:text-white">Tienda Mayorista</p>
@@ -68,9 +70,26 @@ export default function Navbar() {
             </div>
             <div className="flex items-center gap-2 lg:gap-4 xl:gap-6 mr-0 lg:mr-2">
                  <p className="font-bold text-black text-md dark:text-white">Franco Jara</p>
+                 
+           
+
+
+                <div className="dropdown dropdown-end">
+                  <div tabIndex={0} role="button" className=" w-14">
+                    <div className="w-10 rounded-full flex">
+
                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-9 h-9 text-black dark:text-white">
                   <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
                 </svg>
+                    </div>
+                  </div>
+                  <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-gray-200 text-black rounded-box w-52">
+                        <li><a>Logout</a></li>
+                  </ul>
+                </div>
+
+         
+
 
             </div>
         </div>
