@@ -16,7 +16,7 @@ export default function AddNewProductionOrder({ updateList }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [manufacturingCost, setManufacturingCost] = useState(0);
-  const [orderState, setOrderState] = useState("");
+  const [orderState, setOrderState] = useState("Corte");
   const [showAddProducts, setShowAddProducts] = useState(false);
   const [productsChoosen, setProductsChoosen] = useState([]);
   const [showOrdersChoosen, setShowOrdersChoosen] = useState(false);
@@ -26,7 +26,7 @@ export default function AddNewProductionOrder({ updateList }) {
     nombre: "",
     cantidad: "",
     observaciones: "",
-    orderState: "corte",
+    orderState: "Corte",
   });
 
   const continueAdding = () => {
@@ -46,7 +46,7 @@ export default function AddNewProductionOrder({ updateList }) {
       nombre: "",
       cantidad: "",
       observaciones: "",
-      orderState: "corte",
+      orderState: "Corte",
     });
   };
 
@@ -74,6 +74,8 @@ export default function AddNewProductionOrder({ updateList }) {
         setSuccesMessage(true);
         setTimeout(() => {
           updateList();
+          setProductsChoosen([])
+          setProductsOrders([])
         }, 2500);
       })
       .catch((err) => {
@@ -118,6 +120,7 @@ export default function AddNewProductionOrder({ updateList }) {
                         type="text"
                         label="Estado"
                         className="mt-6"
+                        value={orderState}
                         onChange={(e) => setOrderState(e.target.value)}
                       />
 

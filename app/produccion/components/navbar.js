@@ -130,10 +130,10 @@ export default function Navbar() {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-gray-200 text-black rounded-box w-52"
+              className="menu menu-sm dropdown-content mt-4 z-[1] p-2 shadow bg-white text-black rounded-box w-52"
             >
               <li>
-                <a>Logout</a>
+                <a>Cerrar Sesion</a>
               </li>
             </ul>
           </div>

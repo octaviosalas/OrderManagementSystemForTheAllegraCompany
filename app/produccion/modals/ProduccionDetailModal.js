@@ -68,13 +68,16 @@ const ProduccionDetailModal = ({ orderData, setLoadAgain }) => {
 
   const passOrderToConfection = () => {
     const orderEdited = {
-      state: "confeccion",
+      state: "Confeccion",
     };
     axios
       .put(`http://localhost:4000/editOrderState/${orderData.id}`, orderEdited)
       .then((res) => {
         console.log(res.data);
         setLoadAgain();
+        setTimeout(() => { 
+          setModalIsOpenNow(false)
+        }, 1000)
       })
       .catch((err) => {
         console.log(err);
@@ -83,13 +86,16 @@ const ProduccionDetailModal = ({ orderData, setLoadAgain }) => {
 
   const passOrderToIroningAndQuality = () => {
     const orderEdited = {
-      state: "planchado / control de calidad",
+      state: "Planchado / Control de Calidad",
     };
     axios
       .put(`http://localhost:4000/editOrderState/${orderData.id}`, orderEdited)
       .then((res) => {
         console.log(res.data);
         setLoadAgain();
+        setTimeout(() => {  
+          setModalIsOpenNow(false)
+        }, 1000)
       })
       .catch((err) => {
         console.log(err);
@@ -191,7 +197,7 @@ const ProduccionDetailModal = ({ orderData, setLoadAgain }) => {
                       </TableHeader>
                       <TableBody
                         items={orderData.orderDetail.filter(
-                          (order) => order.orderState === "corte"
+                          (order) => order.orderState === "Corte"
                         )}
                       >
                         {(item) => (
@@ -239,7 +245,7 @@ const ProduccionDetailModal = ({ orderData, setLoadAgain }) => {
                       </TableHeader>
                       <TableBody
                         items={orderData.orderDetail.filter(
-                          (order) => order.orderState === "confeccion"
+                          (order) => order.orderState === "Confeccion"
                         )}
                       >
                         {(item) => (
@@ -281,7 +287,7 @@ const ProduccionDetailModal = ({ orderData, setLoadAgain }) => {
                         items={orderData.orderDetail.filter(
                           (order) =>
                             order.orderState ===
-                            "planchado / control de calidad"
+                            "Planchado / Control de Calidad"
                         )}
                       >
                         {(item) => (

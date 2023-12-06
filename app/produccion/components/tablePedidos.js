@@ -31,6 +31,8 @@ export default function TablePedidos() {
   const actualizarOrdenes = (newOrders) => {
     setData(newOrders);
   };
+  
+
 
   const showOrderUpdated = () => {
     axios
@@ -44,9 +46,7 @@ export default function TablePedidos() {
       });
   };
 
-  const settingLoad = () => {
-    setLoad(true);
-  };
+  
 
   useEffect(() => {
     if (data.length === 0) {
@@ -90,7 +90,7 @@ export default function TablePedidos() {
               return (
                 <ProduccionDetailModal
                   orderData={orderData}
-                  setLoadAgain={settingLoad}
+                  setLoadAgain={showOrderUpdated}
                 />
               );
             },
@@ -186,7 +186,7 @@ export default function TablePedidos() {
             aria-label="Selection behavior table example with dynamic content"
             selectionMode="multiple"
             selectionBehavior={selectionBehavior}
-            className="w-full"
+            className="w-full max-h-[600px] overflow-y-auto"
           >
             <TableHeader columns={columns}>
               {(column) => (
@@ -205,7 +205,7 @@ export default function TablePedidos() {
                           color={
                             item[column.key] === "Corte"
                               ? "warning"
-                              : item[column.key] === "confeccion"
+                              : item[column.key] === "Confeccion"
                               ? "secondary"
                               : "success"
                           }
@@ -229,3 +229,43 @@ export default function TablePedidos() {
     </>
   );
 }
+
+
+  
+ /* const formatManufacturingCost = (cost) => {
+    const numericCost = parseFloat(cost);
+  
+    if (!isNaN(numericCost) && typeof numericCost === 'number') {
+      const formattedCost = `${numericCost.toLocaleString("es-AR", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+        useGrouping: true,
+      })} ARS`;
+  
+      console.log("Formatted Cost:", formattedCost);
+  
+      return formattedCost;
+    } else {
+      console.log("Invalid manufacturingCost:", cost);
+      return cost;
+    }
+  };
+
+  useEffect(() => { 
+    console.log(data)
+  }, [data])
+
+  useEffect(() => {
+    if (data.length === 0) {
+      axios
+        .get("http://localhost:4000/allOrders")
+        .then((res) => {
+          console.log(res.data);
+          const formattedData = res.data.map((order) => ({
+            ...order,
+            manufacturingCost: formatManufacturingCost(order.manufacturingCost),
+          }));
+    
+          setData(formattedData);
+          console.log(res.data);
+          const propiedades = Object.keys(formattedData[0]).filter( */
